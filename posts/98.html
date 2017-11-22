@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="◆GoAgent是中国人开发的一个基于Google Appengine的开源代理工具。◆他永久免费，且速度快、运行稳定。◆兼容性方面IE，Firefpx，chrome都是可以正常使用的。◆goagent对用户是有流量限制的目前为每人每天1GB。  Goagent官网下载地址 : https://code.google.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GoAgent翻墙">
+<meta property="og:url" content="http://maniac.vip/posts/98.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="◆GoAgent是中国人开发的一个基于Google Appengine的开源代理工具。◆他永久免费，且速度快、运行稳定。◆兼容性方面IE，Firefpx，chrome都是可以正常使用的。◆goagent对用户是有流量限制的目前为每人每天1GB。  Goagent官网下载地址 : https://code.google.com/p/goagent/">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/5fc5f1e3465d15cfe7cbf6e5ee8bf32d20130205153320.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/7ecaafa43c74b89ecf678ec2bdf6ba5120130205153320.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/3dc65bd6d51f216b4ee1dbc9aa06bfad20130205153320.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/34b38c15295af4ae3cea149014f9a5af20130205153320.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/2e7d8eb2b61aedcae2cd77c1e69c344f20130205153321.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/e7bc01adfffa9972c86fb1d5631ee30a20130205153321.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/7826618a282e3200a8ce362cba9be8fb20130205153321.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/4968359e32a3ebb405aeeb1bcf864e2820130205153321.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/816f0e75328cb7cd9ee976e0d18c6f0320130205153321.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/0c4f6179c3c65ac02bf3af51b5a79bef20130205153321.jpg">
+<meta property="og:image" content="http://blog.4a8a.com/content/uploadfile/201302/067d2b3a141e39b252c0ca58a893b32b20130205153321.jpg">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GoAgent翻墙">
+<meta name="twitter:description" content="◆GoAgent是中国人开发的一个基于Google Appengine的开源代理工具。◆他永久免费，且速度快、运行稳定。◆兼容性方面IE，Firefpx，chrome都是可以正常使用的。◆goagent对用户是有流量限制的目前为每人每天1GB。  Goagent官网下载地址 : https://code.google.com/p/goagent/">
+<meta name="twitter:image" content="http://blog.4a8a.com/content/uploadfile/201302/5fc5f1e3465d15cfe7cbf6e5ee8bf32d20130205153320.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/98.html"/>
+
+
+
+
+
+  <title>GoAgent翻墙 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/98.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GoAgent翻墙</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-21T09:21:31+08:00">
+                2014-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/杂七杂八/" itemprop="url" rel="index">
+                    <span itemprop="name">杂七杂八</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/98.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/98.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">◆GoAgent是中国人开发的一个基于Google Appengine的开源代理工具。</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">◆他永久免费，且速度快、运行稳定。</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">◆兼容性方面IE，Firefpx，chrome都是可以正常使用的。</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">◆goagent对用户是有流量限制的目前为每人每天1GB。</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div>
+
+<p>Goagent官网下载地址 : <a href="https://code.google.com/p/goagent/" target="_blank" rel="noopener">https://code.google.com/p/goagent/</a></p>
+<div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><a id="more"></a><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">一.申请Google Appengine并创建appid</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">1、打开网址：<a href="https://appengine.google.com/。开始开始申请appid" target="_blank" rel="noopener">https://appengine.google.com/。开始开始申请appid</a></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/5fc5f1e3465d15cfe7cbf6e5ee8bf32d20130205153320.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">2、填写你的手机号码完成申请（免费的，仅是验证）</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/7ecaafa43c74b89ecf678ec2bdf6ba5120130205153320.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">3、填写你收到的验证码</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/3dc65bd6d51f216b4ee1dbc9aa06bfad20130205153320.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">4、完成appid资料填写</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/34b38c15295af4ae3cea149014f9a5af20130205153320.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">5、完成appid申请</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/2e7d8eb2b61aedcae2cd77c1e69c344f20130205153321.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">6、下载Goagent客户端，并解压到自己希望的位置后，用右键管理员权限运行goagentlocal下的goagent.exe程序，之后放着不要动，再运行goagentserver下的uploader.bat文件，提示你输入appid申请对应的Email和密码（这里的密码输入进去是看不到的，所以要注意不要输错了，特别是大小写）。输完密码后回车就耐心等待，成功后该界面会自动退出。</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/e7bc01adfffa9972c86fb1d5631ee30a20130205153321.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">注意：回车键不要使用键盘右边数字键区域那个的</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">7、回到你的appid列表（也就是<a href="https://appengine.google.com/）看是否上传成功" target="_blank" rel="noopener">https://appengine.google.com/）看是否上传成功</a></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/7826618a282e3200a8ce362cba9be8fb20130205153321.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">PS：一个gmail可以注册10个appid，一个appid一天有1G的流量，也就是说一个邮箱有10G的免费流量，日常使用足以。</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">二.部署goagent客户端</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">1、打开goagentlocal下的proxy.ini文件，编辑他如下：</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/4968359e32a3ebb405aeeb1bcf864e2820130205153321.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">2、现在退出并重新启动goagent.exe主程序可以看到你的appid（自此一直开着放一边不要动）</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/816f0e75328cb7cd9ee976e0d18c6f0320130205153321.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">3、在chrome下安装插件（<a href="https://chrome.google.com/webstore/detail/dpplabbmogkhghncfbfdeeokoefdjegm），安装完成后导入SwitchySharp配置文件，**" target="_blank" rel="noopener">https://chrome.google.com/webstore/detail/dpplabbmogkhghncfbfdeeokoefdjegm），安装完成后导入SwitchySharp配置文件，**</a><span style="font-size: 18px;">配置文件</span><strong><strong><span style="font-size: 18px;">下载地址：</span></strong></strong><span style="font-size: 18px;">【</span>**<a href="http://blog.4a8a.com/url/d.tv002.com/c/2604935/c38ed/aHR0cDovL3d3dy5iZWdvLmNjL2ZpbGUvMzEwMDg0NTM%3D" target="_blank" rel="noopener"><span style="font-size: 18px;">点击下载</span></a><span style="font-size: 18px;">】</span>（解压后按照压缩包内教程导入）</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"><img src="http://blog.4a8a.com/content/uploadfile/201302/0c4f6179c3c65ac02bf3af51b5a79bef20130205153321.jpg" alt=""></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;"></div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">三.开始翻墙</div><br><div style="margin: 0px; padding: 0px; color: #000000; font-family: 'Microsoft Yahei', 微软雅黑, 宋体, Arial, 'Lucida Grande', Tahoma, sans-serif; font-size: 13px; line-height: 26px;">打开www.facebook.com，可以看到goagent有批处理路径，右上角switchysharp也变成了蓝色，goagent正式起作用了。</div>
+
+<p><img src="http://blog.4a8a.com/content/uploadfile/201302/067d2b3a141e39b252c0ca58a893b32b20130205153321.jpg" alt=""></p>
+<p>PS：文章的最后要跟大家说一下，市面上所有的<span class="kl_auto_internal_links_tag">翻墙</span>工具包括所有的翻墙方法都没有goagent翻墙来的稳定高效！本文提供的方法看似复杂其实只要你按照教程一步一步的操作就可以一劳永逸的享受墙外的自由空间！如果你是一个懒人，你可以尝试采用另外的方法翻墙，本站还提供了一些其他的翻墙工具和<span class="kl_auto_internal_links_tag" style="color: #000000;"><a href="http://blog.4a8a.com/tag/%E7%BF%BB%E5%A2%99" title="查看标签为 翻墙 的文章" target="_blank" rel="noopener"><span style="color: #000000;">翻墙</span></a></span>方法，详情请看下面推荐</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/96.html?day=20171116" rel="next" title="利用metasploit进行提权（Php + Linux）Shell反弹">
+                <i class="fa fa-chevron-left"></i> 利用metasploit进行提权（Php + Linux）Shell反弹
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/103.html?day=20171116" rel="prev" title="msf常用命令">
+                msf常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

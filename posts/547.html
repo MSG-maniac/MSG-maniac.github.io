@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="安全,插件,漏洞披露,漏洞,openvpn,漏洞利用," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="以前有各种躲避运营商流量计费的方法，称之为“免流”，但是各大运营商也不是待宰的羔羊，也会通过技术手段进行过滤和屏蔽，这样就导致了极大一部分“免流”技术只是在某些情况下可以使用，比如QQ微信聊天可以，但是优酷视频就不行。然后最近又有了一种新的“免流”技术，称之为“云免流”。听起来很高大上，其实原理很简单。各大运营商为了方">
+<meta name="keywords" content="安全,插件,漏洞披露,漏洞,openvpn,漏洞利用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openvpn免流方法">
+<meta property="og:url" content="http://maniac.vip/posts/547.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="以前有各种躲避运营商流量计费的方法，称之为“免流”，但是各大运营商也不是待宰的羔羊，也会通过技术手段进行过滤和屏蔽，这样就导致了极大一部分“免流”技术只是在某些情况下可以使用，比如QQ微信聊天可以，但是优酷视频就不行。然后最近又有了一种新的“免流”技术，称之为“云免流”。听起来很高大上，其实原理很简单。各大运营商为了方便用户进行流量查询、缴费等操作，设置了当用户浏览一部分运营商自己的网站时不需要耗">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.219Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="openvpn免流方法">
+<meta name="twitter:description" content="以前有各种躲避运营商流量计费的方法，称之为“免流”，但是各大运营商也不是待宰的羔羊，也会通过技术手段进行过滤和屏蔽，这样就导致了极大一部分“免流”技术只是在某些情况下可以使用，比如QQ微信聊天可以，但是优酷视频就不行。然后最近又有了一种新的“免流”技术，称之为“云免流”。听起来很高大上，其实原理很简单。各大运营商为了方便用户进行流量查询、缴费等操作，设置了当用户浏览一部分运营商自己的网站时不需要耗">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/547.html"/>
+
+
+
+
+
+  <title>openvpn免流方法 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/547.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">openvpn免流方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-27T11:19:50+08:00">
+                2016-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/安全文章/" itemprop="url" rel="index">
+                    <span itemprop="name">安全文章</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/安全文章/杂七杂八/" itemprop="url" rel="index">
+                    <span itemprop="name">杂七杂八</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/547.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/547.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以前有各种躲避运营商流量计费的方法，称之为“免流”，但是各大运营商也不是待宰的羔羊，也会通过技术手段进行过滤和屏蔽，这样就导致了极大一部分“免流”技术只是在某些情况下可以使用，比如QQ微信聊天可以，但是优酷视频就不行。<br>然后最近又有了一种新的“免流”技术，称之为“云免流”。听起来很高大上，其实原理很简单。<br>各大运营商为了方便用户进行流量查询、缴费等操作，设置了当用户浏览一部分运营商自己的网站时不需要耗费流量，而各大运营商识别用户访问的网址是否为这部分网址时，出现了问题，导致识别错误，主要是这个X-Online-Host字段上的问题。<br>当用户通过OpenVPN免流时，在你的VPS和移动设备之间打通一个隧道，你的所有网络请求都先经过OpenVPN传给VPS，然后VPS把你请求的东西拿到之后又通过OpenVPN传回来。免流的关键就在于，每次利用OpenVPN发起网络请求之前，都要对请求头进行伪装，加上X-Online-Host字段，让运营商认为你请求的是运营商自己的免流量网站。<br>wooyun上有相关的讨论：中国联通移动电信三大运营商流量计费系统漏洞<br>了解了原理就很好办了，首先就是在VPS上搭建OpenVPN服务器端，鉴于速度需要，最好是国内的VPS。<br>安装OpenVPN<br>这里以Ubuntu 14.04为例。<br>首先安装OpenVPN和easy-rsa。<br>sudo apt-get -y install openvpn libssl-dev openssl easy-rsa<br>安装完成好查看OpenVPN版本。</p>
+<p>openvpn –version<br>官方源里的最高版本目前为2.3.2，这个版本号，建议记住。确认版本无误后，我们开始制作需要的证书文件。</p>
+<p>制作CA证书</p>
+<p>首先，在/etc/openvpn/目录下创建easy-rsa文件夹。</p>
+<p>sudo mkdir /etc/openvpn/easy-rsa/<br>然后把/usr/share/easy-rsa/目录下的所有文件全部复制到/etc/openvpn/easy-rsa/下。</p>
+<p>sudo cp -r /usr/share/easy-rsa/* /etc/openvpn/easy-rsa/<br>当然，我们也可以直接在/usr/share/easy-rsa/制作相关的证书，但是为了后续的管理证书的方便，我们还是把easy-rsa放在了openvpn的启动目录下。另外，由于我们现在使用的是ubuntu系统，所以我们必须切换到root用户下才能制作相关证书，否则easy-rsa会报错。如果是centos系统，则不存在此问题。</p>
+<p>sudo su<br>开始制作CA证书之前，我们还需要编辑vars文件。</p>
+<p>sudo vi /etc/openvpn/easy-rsa/vars<br>export KEY_COUNTRY=”国家CN”<br>export KEY_PROVINCE=”省份BJ”<br>export KEY_CITY=”城市Beijing”<br>export KEY_ORG=”机构Random”<br>export KEY_EMAIL=”你的邮箱abc@abc.com”<br>export KEY_OU=”姓名Tink”<br>export KEY_NAME=”vpntink”</p>
+<p>vars文件主要用于设置证书的相关组织信息，具体内容可以根据自己的实际情况自行修改。其中export KEY_NAME=”vpntink”这个要记住下，我们下面在制作Server端证书时，会使用到。</p>
+<p>然后使用source vars命令使其生效。</p>
+<p>source vars<br>开始制作CA证书。</p>
+<p>./clean-all  (执行clean-all命令会删除，当前目录下的keys文件夹。)<br>./build-ca<br>一路按回车键即可。制作完成后，我们可以查看keys目录。</p>
+<p>ll keys/<br>如果以上操作无误的话应该可以看到已经生成了ca.crt和ca.key两个文件，其中ca.crt就是我们所需要的CA证书。至此，CA证书制作完毕。现在把该CA证书的ca.crt文件复制到openvpn的启动目录/etc/openvpn下。</p>
+<p>cp keys/ca.crt /etc/openvpn/<br>制作Server端证书</p>
+<p>CA证书制作完成后，我们现在开始制作Server端证书。</p>
+<p>./build-key-server vpntink(这里的vpntink，就是我们前面vars文件中设置的KEY_NAME)<br>ll keys/<br>一路回车即可。可如果以上操作无误的话应该可以看到生成的vpntink.crt、vpntink.key和vpntink.csr三个文件。其中vpntink.crt和vpntink.key两个文件是我们所需要的。现在再为服务器生成加密交换时的Diffie-Hellman文件。</p>
+<p>./build-dh<br>ll keys/<br>一路回车。正常情况下应该可以看到已经生成的dh2048.pem文件。</p>
+<p>以上操作完毕后，把vpntink.crt、vpntink.key、dh2048.pem复制到/etc/openvpn/目录下。</p>
+<p>cp keys/vpntink.crt keys/vpntink.key keys/dh2048.pem /etc/openvpn/<br>至此，Server端证书就制作完毕。</p>
+<p>制作Client端证书</p>
+<p>Server端证书制作完成后，我们现在开始制作Client端证书。</p>
+<p>./build-key tinksvpn<br>ll keys/<br>还是一路回车。上述命令中的tinksvpn，是客户端证书的名称。这个是可以进行自定义的。<br>正常情况下应该可以看到已经生成的tinksvpn.csr、tinksvpn.crt和tinksvpn.key这个三个文件。其中tinksvpn.crt和tinksvpn.key两个文件是我们要使用的。</p>
+<p>至此，Client端证书就制作完毕。</p>
+<p>配置Server端</p>
+<p>所有证书制作完毕后，我们现在开始配置Server端。配置Server端所需的文件，可以从openvpn自带的模版中进行复制。</p>
+<p>cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn/<br>cd /etc/openvpn/<br>gzip -d server.conf.gz<br>现在我们来修改server.conf文件，下面是我的server端配置(只有关键行)。</p>
+<p>vi /etc/openvpn/server.conf<br>port 1194<br>proto tcp<br>dev tun<br>ca ca.crt<br>cert vpntink.crt<br>key vpntink.key<br>dh dh2048.pem<br>server 10.18.0.0 255.255.255.0<br>ifconfig-pool-persist ipp.txt<br>push “redirect-gateway def1 bypass-dhcp”<br>push “dhcp-option DNS 114.114.114.114”<br>push “dhcp-option DNS 114.114.115.115”<br>duplicate-cn<br>keepalive 10 120<br>comp-lzo<br>user nobody<br>group nogroup<br>persist-key<br>persist-tun<br>status openvpn-status.log<br>verb 3</p>
+<p>接下来配置流量转发。</p>
+<p>iptables -t nat -A POSTROUTING -s 10.18.0.0/24 -o eth0 -j MASQUERADE  (eth0根据你的网卡修改)<br>echo net.ipv4.ip_forward = 1 &gt;&gt; /etc/sysctl.conf<br>配置文件修改完毕后，我们可以尝试启动OpenVPN。</p>
+<p>/etc/init.d/openvpn start<br>如果没有报错，那么服务端已经ok了。</p>
+<p>配置Client端</p>
+<p>利用各种方法复制这三个文件到本地电脑中，比如利用python起一个临时的web服务，或者用scp传回来。</p>
+<p>/etc/openvpn/easy-rsa/keys/ca.crt<br>/etc/openvpn/easy-rsa/keys/tinksvpn.crt<br>/etc/openvpn/easy-rsa/keys/tinksvpn.key<br>用记事本分别打开这三个文件，同时新建一个client.ovpn，内容如下。</p>
+<p>client<br>dev tun<br>proto tcp<br>resolv-retry infinite<br>nobind<br>persist-key<br>persist-tun<br>ns-cert-type server<br>comp-lzo<br>verb 3</p>
+<p>remote 服务器IP 1194</p>
+<p><ca><br>ca.crt的内容复制到这里<br></ca></p>
+<p><cert><br>tinksvpn.crt的内容复制到这里<br></cert></p>
+<key><br>tinksvpn.key的内容复制到这里<br></key>
+
+<p>########免流代码########<br>http-proxy-option EXT1 “POST <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “GET <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “X-Online-Host: rd.go.10086.cn”<br>http-proxy-option EXT1 “POST <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “X-Online-Host: rd.go.10086.cn”<br>http-proxy-option EXT1 “POST <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “Host: rd.go.10086.cn”<br>http-proxy-option EXT1 “GET <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “Host: rd.go.10086.cn”<br>http-proxy 10.0.0.172 80</p>
+<p>########免流代码########</p>
+<p>其中需要修改服务器IP为自己的服务器IP，ca、cert、key的内容需要按上面那三个文件的内容完整的复制进去。免流代码每个地区每个运营商都不尽相同，需要自己不断尝试，找到最适合自己地区的那个。<br>下面是一些常用的免流代码。</p>
+<p>#联通<br>http-proxy-retry<br>http-proxy 10.0.0.172 80<br>http-proxy-option EXT1 “X-Online-Host: wap.10010.com”<br>http-proxy-option EXT2 “Host: wap.10010.com”</p>
+<p>#电信<br>http-proxy-retry<br>http-proxy 10.0.0.200 80<br>http-proxy-option EXT1 “X-Online-Host: ltetp.tv189.com”<br>http-proxy-option EXT2 “Host: ltetp.tv189.com”</p>
+<p>#移动-默认<br>http-proxy-retry<br>http-proxy 10.0.0.172 80<br>http-proxy-option EXT1 “POST <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “GET <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “X-Online-Host: rd.go.10086.cn”<br>http-proxy-option EXT1 “POST <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “X-Online-Host: rd.go.10086.cn”<br>http-proxy-option EXT1 “POST <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “Host: rd.go.10086.cn”<br>http-proxy-option EXT1 “GET <a href="http://rd.go.10086.cn" target="_blank" rel="noopener">http://rd.go.10086.cn</a>“<br>http-proxy-option EXT1 “Host: rd.go.10086.cn”</p>
+<p>#移动-彩信<br>http-proxy-retry<br>http-proxy 10.0.0.172 80<br>http-proxy-option EXT1 “POST <a href="http://mmsc.monternet.com" target="_blank" rel="noopener">http://mmsc.monternet.com</a>“<br>http-proxy-option EXT1 “GET <a href="http://mmsc.monternet.com" target="_blank" rel="noopener">http://mmsc.monternet.com</a>“<br>http-proxy-option EXT1 “X-Online-Host: mmsc.monternet.com”<br>http-proxy-option EXT1 “CMCC: mmsc.monternet.com”</p>
+<p>至此，Client端的配置文件制作完成。</p>
+<p>最后，你需要在你的手机上下载安装OpenVPN的Android版或者iOS版(需要美区AppleID)，然后将这个client.ovpn导入到手机中，并用OpenVPN打开，然后连接就OK了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安全/" rel="tag"># 安全</a>
+          
+            <a href="/tags/插件/" rel="tag"># 插件</a>
+          
+            <a href="/tags/漏洞披露/" rel="tag"># 漏洞披露</a>
+          
+            <a href="/tags/漏洞/" rel="tag"># 漏洞</a>
+          
+            <a href="/tags/openvpn/" rel="tag"># openvpn</a>
+          
+            <a href="/tags/漏洞利用/" rel="tag"># 漏洞利用</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/544.html?day=20171116" rel="next" title="google Hacking 搜索注入点">
+                <i class="fa fa-chevron-left"></i> google Hacking 搜索注入点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/552.html?day=20171116" rel="prev" title="Swagger曝远程代码执行漏洞，影响Java、PHP、NodeJS等众多开发语言">
+                Swagger曝远程代码执行漏洞，影响Java、PHP、NodeJS等众多开发语言 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

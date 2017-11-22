@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="最近公司要搞一波EDM营销，但是买邮件太贵了，五百万封邮件得好几千块钱，所以，我就撸胳膊网袖子亲自上阵，下面是配置教程，只适合发大批量邮件，双核2GB内存的VPS，每秒100并发无压力，只要网络扛得住，就说这么写，下面是教程 一，安装postfix，cyrus-sasl，cyrus-imapd 如果yum提示找不到软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="营销邮件服务器搭建">
+<meta property="og:url" content="http://maniac.vip/posts/538.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="最近公司要搞一波EDM营销，但是买邮件太贵了，五百万封邮件得好几千块钱，所以，我就撸胳膊网袖子亲自上阵，下面是配置教程，只适合发大批量邮件，双核2GB内存的VPS，每秒100并发无压力，只要网络扛得住，就说这么写，下面是教程 一，安装postfix，cyrus-sasl，cyrus-imapd 如果yum提示找不到软件包，请换一下源，请参考centos 6推荐使用epel源 [root@local">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="营销邮件服务器搭建">
+<meta name="twitter:description" content="最近公司要搞一波EDM营销，但是买邮件太贵了，五百万封邮件得好几千块钱，所以，我就撸胳膊网袖子亲自上阵，下面是配置教程，只适合发大批量邮件，双核2GB内存的VPS，每秒100并发无压力，只要网络扛得住，就说这么写，下面是教程 一，安装postfix，cyrus-sasl，cyrus-imapd 如果yum提示找不到软件包，请换一下源，请参考centos 6推荐使用epel源 [root@local">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/538.html"/>
+
+
+
+
+
+  <title>营销邮件服务器搭建 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/538.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">营销邮件服务器搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-22T10:15:12+08:00">
+                2016-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/杂七杂八/" itemprop="url" rel="index">
+                    <span itemprop="name">杂七杂八</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/538.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/538.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近公司要搞一波EDM营销，但是买邮件太贵了，五百万封邮件得好几千块钱，所以，我就撸胳膊网袖子亲自上阵，下面是配置教程，只适合发大批量邮件，双核2GB内存的VPS，每秒100并发无压力，只要网络扛得住，就说这么写，下面是教程</p>
+<p>一，安装postfix，cyrus-sasl，cyrus-imapd</p>
+<p>如果yum提示找不到软件包，请换一下源，请参考centos 6推荐使用epel源</p>
+<p>[root@localhost ~]# yum install postfix<br>[root@localhost ~]# yum install cyrus*<br>二，删除了sendmail</p>
+<p>[root@localhost ~]# rpm -e sendmail<br>或者<br>[root@localhost ~]# yum remove sendmail<br>三，更改默认邮件传输代理（MTA）</p>
+<p>[root@localhost sasl2]# alternatives –config mta</p>
+<p>共有 1 个程序提供“mta”。</p>
+<h2 id="选择-命令"><a href="#选择-命令" class="headerlink" title="选择 命令"></a>选择 命令</h2><p>*+ 1 /usr/sbin/sendmail.postfix</p>
+<p>按 Enter 来保存当前选择[+]，或键入选择号码：1<br>上面的只有一个postfix，sendmail已经被我删了。可以通过下面命令来查看。</p>
+<p>[root@localhost ~]# alternatives –display mta<br>四，postfix，cyrus-sasl，cyrus-imapd相关配置</p>
+<p>1,postfix主配置文件main.cf</p>
+<p>[root@localhost postfix]# vim /etc/postfix/main.cf<br>myhostname = localhost //76行，将等号后面的部分改写为本机主机名<br>mydomain = 51yip.com //82行，设置域名<br>myorigin = $mydomain //97行，把$myhostname改为$mydomain<br>inet_interfaces = all //112行，把后面的localhost改成all<br>mydestination = $myhostname, localhost.$mydomain, localhost,$mydomain //163行，把前面的注释拿掉，并加一下$mydomain<br>mynetworks = 192.168.0.0/24, 127.0.0.0/8 //263行，设置内网和本地IP<br>local_recipient_maps = //209行，把前面的注释拿掉。<br>smtpd_banner = $myhostname ESMTP unknow //568行，把前面的注释拿掉，然后把$mail_name ($mail_version)改成unknow</p>
+<p>//在main.cf文件的底部加上以下内容<br>smtpd_sasl_auth_enable = yes //使用SMTP认证<br>broken_sasl_auth_clients = yes //让不支持RFC2554的smtpclient也可以跟postfix做交互。<br>smtpd_sasl_local_domain = $myhostname // 指定SMTP认证的本地域名<br>smtpd_sasl_security_options = noanonymous //取消匿名登陆方式<br>smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination //设定邮件中有关收件人部分的限制<br>smtpd_sasl_security_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination //设置允许范围<br>message_size_limit = 15728640 //邮件大小<br>mailbox_transport=lmtp:unix:/var/lib/imap/socket/lmtp //设置连接cyrus-imapd的路径<br>如果不加local_recipient_maps这个配置，收邮件收不到，下面是qq的退信。</p>
+<p>收件人邮件地址（tank@51yip.com）不存在，邮件无法送达。host mail.51yip.com[122.225.<strong><em>.</em></strong>] said: 550 5.1.1: Recipient address rejected: User unknown in local recipient table (in reply to RCPT TO command)</p>
+<p>2,cyrus-sasl配置</p>
+<p>[root@localhost postfix]# vim /etc/sasl2/smtpd.conf //在文件尾部加上以下内容<br>log_level: 3 //记录log的模式<br>saslauthd_path:/var/run/saslauthd/mux //设置一下smtp寻找cyrus-sasl的路径<br>在这里要提一下的32位的机器和64位的机器smtpd.conf的路径是不一样的。</p>
+<p>//这是centos 5.5 32位机器上smtpd的配置文件<br>[root@linux sasl2]# ls |grep conf<br>Sendmail.conf<br>smtpd.conf<br>[root@linux sasl2]# pwd<br>/usr/lib/sasl2</p>
+<p>//这是centos 6.0 64位机器上smtpd的配置文件,其他地方没有smtpd的配置文件<br>[root@localhost postfix]# ls /etc/sasl2/ |grep smtpd<br>smtpd.conf<br>网上有不少关于postfix安装文章，配置的时候并没有明确提出是32位机器，还是64位机器。所以在这里标明一下。</p>
+<p>3,配置cyrus-imapd</p>
+<p>cyrus-imapd的主要配置文件有下面三个</p>
+<p>/etc/sysconfig/cyrus-imapd</p>
+<p>/etc/cyrus.conf</p>
+<p>/etc/imapd.conf</p>
+<p>这里是默认的配置，也就是说上面三个文件我是没有动过的。在这里提醒一下imapd.conf在这个文件里面，你可以设置管理账号</p>
+<p>，设置邮件存放目录，设置密码连接方式等。</p>
+<p>五，启动postfix，cyrus-sasl，cyrus-imapd</p>
+<p>启动cyrus-imapd服务，就可以同时提供pop和imap服务，如果你已安装了dovecot服务就可以删除掉，cyrus-imapd和dovecot二者选其一就行了，二都可以提供pop和imap服务，不过cyrus-imapd可以为每个用户创建一个信息，而且信箱具有层次结构,比较好管理。建议用cyrus-imapd。</p>
+<p>[root@linux sasl2]# /etc/init.d/postfix start<br>[root@linux sasl2]# /etc/init.d/saslauthd start<br>[root@linux sasl2]# /etc/init.d/cyrus-imapd start</p>
+<p>查看一下进程，<br>//smtp监听是25端口<br>[root@linux u]# netstat -tpnl |grep smtpd<br>tcp 0 0 127.0.0.1:25 0.0.0.0:* LISTEN 6319/smtpd</p>
+<p>//110(POP3)和143(IMAP)端口,下面都已经有了<br>[root@linux u]# netstat -tpnl |grep cyrus<br>tcp 0 0 0.0.0.0:993 0.0.0.0:<em> LISTEN 23593/cyrus-master<br>tcp 0 0 0.0.0.0:995 0.0.0.0:</em> LISTEN 23593/cyrus-master<br>tcp 0 0 0.0.0.0:110 0.0.0.0:<em> LISTEN 23593/cyrus-master<br>tcp 0 0 0.0.0.0:2000 0.0.0.0:</em> LISTEN 23593/cyrus-master<br>tcp 0 0 :::993 :::<em> LISTEN 23593/cyrus-master<br>tcp 0 0 :::995 :::</em> LISTEN 23593/cyrus-master<br>tcp 0 0 :::110 :::<em> LISTEN 23593/cyrus-master<br>tcp 0 0 :::143 :::</em> LISTEN 23593/cyrus-master<br>tcp 0 0 :::2000 :::* LISTEN 23593/cyrus-master</p>
+<p>启动是没有问题的。<br>六，测试cyrus-sasl</p>
+<p>[root@linux t]# passwd cyrus //设置cyrus的密码<br>[root@linux sasl2]# testsaslauthd -u cyrus -p ‘<strong>**</strong>‘ //系统用户和密码<br>0: OK “Success.”<br>如果显示是上面的内容说是smtp是没有什么问题</p>
+<p>七，cyrus-imapd生产邮件管理员账号,并添加测试账号</p>
+<p>安装完cyrus-imapd后会产生一个管理账号是cyrus，所属用户组是mail</p>
+<p>[root@linux sasl2]# id cyrus //imapd.conf里面默认的管理员账号就是cyrus<br>uid=76(cyrus) gid=12(mail) groups=12(mail),76(saslauth)<br>在认证admin账号时，我发现32位系统和64位系统有一点不同，二种系统我都配置过，配置都是一样的，<br>但是出现的结果不一样，看下图</p>
+<p>32位机器cyrus管理员用户认证<br>32位机器cyrus管理员用户认证</p>
+<p>64位机器cyrus管理员用户认证<br>64位机器cyrus管理员用户认证</p>
+<p>从上图可以看出，32位的系统是不用加上–auth plain,64位的要，如果不加的话，根本进不去。</p>
+<p>进去后，我们来添加一下测试账号</p>
+<p>[root@linux sasl2]# cyradm -u cyrus localhost<br>IMAP Password:<br>localhost&gt; cm tank<br>localhost&gt; lm<br>tank (HasNoChildren)<br>localhost&gt; quit<br>这样我们可以在/var/spool/imap中看到，生成的目录，32位机器和64位机器生成的目录是不一样的</p>
+<p>//这是64位系统生成的目录<br>[root@localhost u]# ls<br>user^tank<br>[root@localhost u]# pwd<br>/var/spool/imap/u</p>
+<p>//这是32位系统生成的目录<br>[root@linux t]# ls<br>tank<br>[root@linux t]# pwd<br>/var/spool/imap/t<br>八，测试收发邮件</p>
+<p>测试前添加一下DNS，<br>1，mail.51yip.com A 默认 122.225.<strong><em>.</em></strong><br>2，mail.51yip.com A 联通 60.12.<strong><em>.</em></strong><br>3，@ MX 默认 mail.51yip.com<br>第1和第2，是添加二条A记录，第三行，设置了一下MX记录，这个千万不要忘了，不然你的域名是不通的。</p>
+<p>方法有很多，我们可以利用telnet来测试，不过用telnet来测试收发邮件比较麻烦，用linux自带的<br>mail命令就方便多了</p>
+<p>[root@localhost u]# mail -s ‘看一下’ 95219454@qq.com &lt; /etc/imapd.conf<br>以前有朋友问我，他配置的邮件服务器，发出去的邮件都在垃圾箱里面，我配过几次都没有发现这种情况看下图</p>
+<p>发邮件已成功<br>发邮件已成功</p>
+<p>从QQ发的邮件已成功<br>从QQ发的邮件又成功</p>
+<p>我们还可以通过maillog日志来查看邮件是否收发成功，看下图</p>
+<p>日志查看，收发邮件<br>日志查看，收发邮件</p>
+<p>到这儿，简单的邮件服务器就搭好了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/507.html?day=20171116" rel="next" title="linux&docker安全加固需要检查项v0.1版本">
+                <i class="fa fa-chevron-left"></i> linux&docker安全加固需要检查项v0.1版本
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/539.html?day=20171116" rel="prev" title="office2016_VOL激活方法">
+                office2016_VOL激活方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择-命令"><span class="nav-number">1.</span> <span class="nav-text">选择 命令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

